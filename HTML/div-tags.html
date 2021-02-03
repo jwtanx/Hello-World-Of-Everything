@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Div Tags</title>
+
+    <!-- <style>
+        div {
+            background-color: grey;
+            width: 100px;
+            height: 100px;
+        }
+
+        /* CLASS */
+        .box1 {
+            background-color: gold;
+            width: 600px;
+            height: 400px;
+        }
+
+        /* CLASS 2 */
+        .box2 {
+            background-color: teal;
+            width: 200px;
+            height: 400px;
+        }
+
+        .highlight-text {
+            color: red;
+            font-size: 20px;
+            word-wrap: normal;
+        }
+
+        /* DIV IN A DIV */
+        .box3 {
+            background-color: grey;
+            width: 100px;
+            height: 300px;
+        }
+
+        .box4 {
+            background-color: pink;
+            width: 450px;
+            height: 200px;
+        }
+        
+    </style> -->
+    
+    <!-- Lesson 04 - Transfer all the file to css file -->
+    <!-- TYPE: link:css THEN TAB -->
+    <link rel="stylesheet" href="04style.css">
+
+</head>
+
+<body>
+    <div>
+        <p>Normal div</p>
+    </div>
+
+    <!-- /* DIV with classes */ -->
+    <div class="box1">
+        <p class="highlight-text">The first box</p>
+    </div>
+
+    <div class="box2">
+        <p>The second box</p>
+    </div>
+
+    <!-- DIV IN A DIV -->
+    <div class="box1">
+        <div class="box3">
+            <p class="highlight-text"> HELLO WORLD </p>
+            <div class="box4">
+                <h2>This is the second horizontal boxes</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHALLENGE -->
+    <div class="box1">
+        <div class="box4">
+            <h2>This is a heading</h2>
+        </div>
+        <h3>this text is below the box 1</h3>
+    </div>
+
+</body>
+
+
+</html>
