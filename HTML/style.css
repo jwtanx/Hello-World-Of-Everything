@@ -1,0 +1,35 @@
+div {
+    background-color: grey;
+    width: 100px;
+    height: 100px;
+}
+
+.box1 {
+    background-color: gold;
+    width: 600px;
+    height: 400px;
+}
+
+.box2 {
+    background-color: teal;
+    width: 200px;
+    height: 400px;
+}
+
+.highlight-text {
+    color: red;
+    font-size: 20px;
+    word-wrap: normal;
+}
+
+.box3 {
+    background-color: grey;
+    width: 100px;
+    height: 300px;
+}
+
+.box4 {
+    background-color: pink;
+    width: 450px;
+    height: 200px;
+}
