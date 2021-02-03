@@ -4,6 +4,8 @@ $ python -m pydoc
 
 $ python -m pydoc -k <keyword>
     Search for a keyword in the synopsis lines of all available modules.
+    NOTE:   To view page by page - press SPACE
+            To quit the documentation - press q
 
 $ python -m pydoc -n <hostname>
     Start an HTTP server with the given hostname (default: localhost).
@@ -23,9 +25,16 @@ $ python -m pydoc -w <name> ...
     it names a directory, documentation is written for all the contents.
 """
 
+############################################################
 # Reference: https://realpython.com/documenting-python-code/
 # This is a basic comment
 # PEP8: comments should have a maximum length of 72 characters
+
+# Tagging: to label specific sections of code (improvement or issue)
+# Example: BUG, FIXME, and TODO.
+"""
+# TODO: Add condition for when val is None
+"""
 
 # This line here is the brief function of the function below.
 def say_hello(name):
@@ -38,13 +47,15 @@ def say_hello(name):
 print(say_hello('World'))
 
 # Another way of documenting it
-# say_hello.__doc__ = "This is a function of..."
+say_hello.__doc__ = "This is a function of..."
 
 # In python console, this is how you get the documentation
 """
 >>> help(say_hello)
+NOTE: Above code only available in python console
 """
 
+############################################################
 # Reference: https://www.journaldev.com/22892/python-help-function
 # This is how you can go through the entire python file doc
 """
@@ -58,3 +69,6 @@ print(say_hello('World'))
 # Step 3:
 >>> help('HelloWorld.say_hello')
 """
+
+############################################################
+# Last updated: 030221 15:30
