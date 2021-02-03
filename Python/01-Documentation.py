@@ -1,3 +1,5 @@
+# Last updated: Wed, February 03, 2021 - 15:30
+
 # Referece: https://www.youtube.com/watch?v=URBSvqib0xw
 """
 $ python -m pydoc
@@ -69,6 +71,3 @@ NOTE: Above code only available in python console
 # Step 3:
 >>> help('HelloWorld.say_hello')
 """
-
-############################################################
-# Last updated: 030221 15:30
