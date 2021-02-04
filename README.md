@@ -16,4 +16,4 @@ When in doubt,
 To the present me: <br />
 "Be **bold** and keep moving *forward* in your life."  
 When in doubt, 
-[Google it!] (https://www.google.com)
+[Google it!] (http://google.com)
