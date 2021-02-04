@@ -1,4 +1,4 @@
-# Last updated: Wed, February 04, 2021 - 15:50
+# Last updated: Thu, February 04, 2021 - 11:14
 
 ############################################################
 # Reference: Coursera - Google Python Crash Course Week 1 Cheat Sheet
@@ -65,6 +65,14 @@ def diff(num1, num2):
         return num1 - num2
     else:
         return num2 - num1
+print(diff(5, 10))  # Output: 5
+
+# What makes python special when comparing between numbers
+x = 1; y = 2; z = 3
+print(x < y < z)    # Output: True
+
+x = 1; y = 3; z = 3
+print(x > y == z)   # Output: False
 
 ############################################################
 # Logical Operators
@@ -180,3 +188,110 @@ a = 9
 print(bin(a)) # Output: 0b1001
 b = ~a
 print(bin(b)) # Output: -0b1010 
+
+############################################################
+# Assignment Operators
+"""
+x = 1   : x = 1
+x += 2  : x = x + 2
+x -= 3  : x = x - 3
+x *= 4  : x = x * 4
+x /= 5  : x = x / 5
+x %= 6  : x = x % 6
+x //= 7 : x = x // 7
+x **= 8 : x = x ** 8
+
+BITWISE
+x &= 9  : x = x & 9
+x |= 8  : x = x | 8
+x ^= 7  : x = x ^ 7
+x >>= 2 : x = x >> 2
+x <<= 3 : x = x << 3 
+"""
+print('\nAssignment Operators')
+
+# Initialize x first
+x = 3
+
+# Adding it
+x += 2
+print(x) # Output: 5
+
+# Power
+x **= 2
+print(x) # Output: 25 
+
+# Division: Getting the Numerator
+x //= 10
+print(x) # Output: 2
+
+# Multiplication
+x *= 8
+print(x) # Output: 16
+
+# Complete division
+x /= 10
+print(x) # Output: 1.6
+
+# Assigment operator with bitwise
+# XOR Example
+x = 1
+x ^= 0
+print(x) # Output: 1
+
+############################################################
+# Identity Operators
+"""
+Reference: https://www.programiz.com/python-programming/operators
+is      : True if the operands are identical (refer to the same object)
+is not  : True if the operands are not identical (do not refer to the same object)
+
+"""
+x1 = 5
+y1 = 5
+x2 = 'Hello'
+y2 = "Hello"
+x3 = [1,2,3]
+y3 = [1,2,3]
+tmp = x3
+
+print(x1 is not y1) # Output: False
+print(x2 is y2)     # Output: True
+print(x3 is y3)     # Output: False
+# Reason: They are equal but not identical. It is because the interpreter locates them separately in memory although they are equal.
+print(tmp is x3)    # Output: True
+print(x3 is tmp)    # Output: True
+
+import random
+random.shuffle(tmp) # When tmp is called to be shuffled, the list object that x3 and tmp are referenced to will be shuffled.
+print(tmp)          # Say [1, 3, 2]
+print(x3)           # Same as tmp
+print(x3 is tmp)    # Output: True. Although it is shuffled the reference remained the same
+# NOTE: Variable names in python are only references to objects, x3 and tmp are referenced to the same list object.
+
+############################################################
+# Memebership Operators
+"""
+Reference: https://www.programiz.com/python-programming/operators
+Used for string, list, tuple, set and dictionary
+
+in      : True if value/variable is found in the sequence
+not in  : True if value/variable is not found in the sequence
+"""
+
+x = 'Hello World'
+y = {1: 'a', 'b': 2}
+z = (1, 2, 'Foo')
+w = [1,'Bar',3]
+
+print('H' in x)         # Output: True
+print('world' not in x) # Output: True
+print(1 in y)           # Output: True
+print('a' in y)         # Output: False
+print('b' in y)         # Output: True
+print(2 in z)           # Output: True
+print('Bar' in w)       # Output: True
+
+############################################################
+# Last updated: Thu, February 04, 2021 - 11:14
+############################################################
