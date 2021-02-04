@@ -3,14 +3,17 @@ This repo is my journey in the realm of Computer Science.
 Note for the future me: Why are you keep forgetting things :p
 
 ## Hello World of Markdown
-Reference: https://guides.github.com/features/mastering-markdown/
+Tutorial Reference: https://guides.github.com/features/mastering-markdown/
+MD Priview Chrome Extension: https://chrome.google.com/webstore/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk?hl=en
 
 ### TEXT
 ```
-To the present me: \ 
+To the present me: <br />
 "Be **bold** and keep moving *forward* in your life." [Double space here to skip a line]  
-When in doubt, [Google it!] (https://www.google.com)
+When in doubt, 
+[Google it!] (https://www.google.com)
 ```
-To the present me: \ 
+To the present me: <br />
 "Be **bold** and keep moving *forward* in your life."  
-When in doubt, [Google it!] (https://www.google.com)
+When in doubt, 
+[Google it!] (https://www.google.com)
