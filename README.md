@@ -1,9 +1,9 @@
 # <center><b>Hello World Of Everything</b></center>
-This repo is my journey in the realm of Computer Science.  
-> Note for the future me: "Haiyaa... Why do you keep forgetting how to code?"
+**_<center>Journey to the realm of Computer Science</center>_**  
+> <center>Note for the future me: "Haiyaa... Why do you keep forgetting how to code?"</center>
 
-Table of Contents
-
+---
+### Table of Contents
 - [x] [Python](../Python)
 - [ ] [HTML](../HTML)
 - [ ] [Brainfuck](../Brainfuck)
@@ -16,7 +16,12 @@ List of references
 - [Markdown Chrome Extension](https://chrome.google.com/webstore/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk?hl=en)
 
 ---
-### 1. Text
+### Table of Contents
+- [x] [Text Formatting](../README.md#1-text-formatting)
+- [ ] [List](../#2-lists)
+
+---
+### 1. Text Formatting
 
 ```
 To myself: <br />
@@ -53,3 +58,15 @@ To myself: <br />
 ---
 ### 2. Lists
 
+#### <b>Unordered</b>
+
+
+* Item 1
+* Item 2
+  * Item 2.1
+    * Item 2.1.1
+  * Item 2.2
+    * Item 2.2.1
+    * Item 2.2.2
+        * Item 2.2.2.1
+* Item 3
