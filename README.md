@@ -2,8 +2,13 @@
 This repo is my journey in the realm of Computer Science.  
 > Note for the future me: "Haiyaa... Why do you keep forgetting how to code?"
 
----
+Table of Contents
 
+- [x] [Python](../Python)
+- [ ] [HTML](../HTML)
+- [ ] [Brainfuck](../Brainfuck)
+
+---
 ## Hello World of Markdown
 List of references  
 - [Tutorial](https://guides.github.com/features/mastering-markdown/)
