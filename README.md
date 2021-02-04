@@ -18,7 +18,7 @@ List of references
 ---
 ### Table of Contents
 - [x] [Text Formatting](../README.md#1-text-formatting)
-- [ ] [List](../#2-lists)
+- [x] [List](../#2-lists)
 
 ---
 ### 1. Text Formatting
@@ -59,8 +59,18 @@ To myself: <br />
 ### 2. Lists
 
 #### <b>Unordered</b>
-
-
+`*` OR `-` : The bullet
+```
+* Item 1
+* Item 2
+  * Item 2.1 <-- Make sure you tap space thrice first before typing * Item 2.1
+    * Item 2.1.1
+  * Item 2.2
+    * Item 2.2.1
+    * Item 2.2.2
+        * Item 2.2.2.1 <-- No more other bulleting style
+* Item 3
+```
 * Item 1
 * Item 2
   * Item 2.1
@@ -70,3 +80,39 @@ To myself: <br />
     * Item 2.2.2
         * Item 2.2.2.1
 * Item 3
+
+#### <b>Ordered</b>
+```
+1. Item 1
+1. Item 2
+   1. Item 2.1 <-- Make sure you tap space thrice first before typing 1. Item 2.1
+   1. Item 2.2
+      1. Item 2.2.1
+         1. Item 2.2.1.1 <-- No more other bulleting style
+1. Item 3
+   1. Item 3.1
+```
+1. Item 1
+1. Item 2
+   1. Item 2.1
+   1. Item 2.2
+      1. Item 2.2.1
+         1. Item 2.2.1.1
+1. Item 3
+   1. Item 3.1
+
+#### <b>Ordered (with a starting numbering)</b>
+```
+4. Item 1
+1. Item 2
+   3. Item 2.1
+   1. Item 2.2
+      2. Item 2.2.1
+1. Item 3
+```
+4. Item 1
+1. Item 2
+   3. Item 2.1
+   1. Item 2.2
+      2. Item 2.2.1
+1. Item 3
