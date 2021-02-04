@@ -28,6 +28,8 @@ To myself: <br />
 
 | Types of Formatting    | Examples
 | :--------------------- | --------
+| Heading 1              | `# Text`
+| Heading 2              | `## Text`<br>Note: `# Text`(h1: Biggest) to `###### Text`(h6: Smallest)
 | **Bold**               | `**Text**`<br>`__Text__`<br>`<b>Text</b>`<br>`<strong>Text</strong>`
 | _Italic_               | `*Text*`<br>`_Text_`<br>`<i>Text</i>`<br>`<em>Text</em>`
 | <u>Underline</u>       | `<u>Text</u>`<br>`<ins>Text</ins>`
