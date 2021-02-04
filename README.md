@@ -12,7 +12,7 @@ List of references
 
 ---
 ### 1. Text
-<mark>moving</mark>
+<mark style="background-color: lightblue">Marked text</mark>
 
 ```
 To myself: <br />
