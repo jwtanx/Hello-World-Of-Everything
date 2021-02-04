@@ -12,7 +12,6 @@ List of references
 
 ---
 ### 1. Text
-<mark style="background-color: lightblue">Marked text</mark>
 
 ```
 To myself: <br />
@@ -36,7 +35,7 @@ To myself: <br />
 | _Italic_               | `*Text*`<br>`_Text_`<br>`<i>Text</i>`<br>`<em>Text</em>`
 | <u>Underline</u>       | `<u>Text</u>`<br>`<ins>Text</ins>`
 | ~~Strikethrough~~      | `~~Text~~`<br>`<s>Text</s>`<br>`<del>Text</del>`
-| <mark>Highlight</mark> | `<mark>Highlight</mark>`
+| <mark>Highlight</mark> | `<mark>Highlight</mark>` [Not supported]
 | Blockquotes            | `> Text`
 | `Inline code`          | ``` `Text` ```
 | Web link               | `[Google](https://www.google.com)`<br>`<a href=https://www.github.com>Github</a>`
