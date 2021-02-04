@@ -4,10 +4,11 @@
 
 ---
 ### Table of Contents
-- [x] [Python](../Python)
+- [x] [Python]([home]/Python)
 - [ ] [HTML](../HTML)
 - [ ] [Brainfuck](../Brainfuck)
 
+[home]: https://github.com/junwheih/Hello-World-Of-Everything/tree/main/
 ---
 ## Hello World of Markdown
 List of references  
