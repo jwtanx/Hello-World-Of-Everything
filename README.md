@@ -17,3 +17,6 @@ To the present me: <br />
 "Be **bold** and keep moving *forward* in your life."  
 When in doubt, 
 [Google it!] (http://google.com)
+
+TEST
+It's very easy to make some words **bold** and other words *italic* with Markdown. You can even [link to Google!](http://google.com)
