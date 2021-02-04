@@ -17,8 +17,13 @@ List of references
 
 ---
 ### Table of Contents
-- [x] [Text Formatting](../README.md#1-text-formatting)
-- [x] [List](../#2-lists)
+https://github.com/junwheih/Hello-World-Of-Everything/blob/main/README.md#1-text-formatting
+- [x] [Text Formatting](../main/README.md#1-text-formatting)
+- [x] [List](../main/README.md#2-lists)
+- [ ] [Code & Syntax](../main/README.md#3-code-&-syntax)
+- [ ] [Image](../main/README.md#4-image)
+- [ ] [Special Features](../main/README.md#5-special-features)
+Special features include advanced links, checklist, horizontal line, tables
 
 ---
 ### 1. Text Formatting
@@ -116,3 +121,6 @@ To myself: <br />
    1. Item 2.2
       2. Item 2.2.1
 1. Item 3
+
+---
+### 3. Code & Syntax
