@@ -1,0 +1,27 @@
+C++ & C Programming | Setting Up System Variable
+
+1) Windows Key + Pause|Break to go to the System Properties
+2) Advance Tab; Environment Variable;
+3) Choose System variable or user variable tab also can. (Recommend using System Variable)
+4) **Add 'PATH' to one of them by clicking the 'NEW' if you do not find any of them.
+5) Before editing if you ald have the path, make sure you type ';', means not stick together.
+	eg. %System Root% ; <--- Add right here. And then add the bin directory.
+	eg. %System Root% ; C:/Mingw32/bin <--- depends on your installation directory.
+6) Click ok, then go to cmd.
+7) Type either one, g++ -v, or gcc -v
+8) If a bunch of words pop out which mean you have the variable ald;
+
+How to compile the *.c or *.cpp files?
+1) Go to cmd
+2) g++ -o <application name> <file that you want to compile>
+	note: -o means compile. '<>' <--- The arrows do not include
+	note: application name does not need *.exe behind. For example, you created a MINECRAFT, then just type
+			g++ -o Minecraft minecraft.cpp  <---BOTH WORK!
+			g++ -o Minecraft minecraft.c    <---BOTH WORK!
+Wonder whether this work? ---> gcc -o Minecraft minecraft.cpp (Work for C Programming Only!!! :d)
+			g++ <application name> -o <files name> (NOT WORKING!!! :d)
+
+3) Running the application, after you compiled it, simply type <application name>.exe <--- must have .exe behind.
+	note: <application name> can be any thing, '<>' do not include! 
+	
+SUCESS! :)
