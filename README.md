@@ -235,19 +235,20 @@ Samantha | McKen | Samantha McKen
 
 ```
 | Item   | Amount | Price (BTC) |
-| ------ | :----: | ----------: |
+| :----- | :----: | ----------: |
 | Laptop | 1      | 0.0542      |
 | iPod   | 4      | 0.1922      |
 | Robot  | 232    | 1532.2311   | 
 
 Note:
-Align-left      = :- OR ---
-Align-right     = -:
-Align-center    = :-:
+default        = --- [Heading is cenrtalized but the attributes are aligned left]
+Align-left     = :-
+Align-right    = -:
+Align-center   = :-:
 ```
 
 | Item   | Amount | Price (BTC) |
-| ------ | :----: | ----------: |
+| :----- | :----: | ----------: |
 | Laptop | 1      | 0.0542      |
 | iPod   | 4      | 0.1922      |
 | Robot  | 232    | 1532.2311   | 
