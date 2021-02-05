@@ -1,3 +1,5 @@
+// Last updated: Fri, February 05, 2021 - 17:52
+
 How to make Java file executable
 
 1) Create a *.java file. Example: MC.java
