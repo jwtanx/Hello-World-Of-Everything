@@ -1,0 +1,41 @@
+How to make Java file executable
+
+1) Create a *.java file. Example: MC.java
+2) Go to CMD and compile it. Make sure you are at the right directory.
+3) Type javac MC.java ---> Know that MC is just an example.
+4) After compiled it, you will now have a *.class ---> the * is your class name.
+5) Create a new text file named: manifest.txt  ---> MUST BE manifest.txt
+6) In the text file, TYPE: Main-Class: MC ---> MC is your class name.
+7) Go to CMD, Type: jar cfm MC.jar manifest.txt MC.class ---> Only manifest is the same, 'MC' must be changed accordingly
+	---> cvmf, cmvf as the cfm also can.
+	
+	// cvmf = <create a new jar file> <manifest.txt> <YourClass File>
+	// cmvf = <manifest.txt> <create a new jar file> <YourClass File>
+	// jar cfm <create a new jar file> <manifest.txt> <YourClass File>
+
+	// c = compile
+	// v = variable || new jar file
+	// m = manifest.txt
+	// f = class file 
+8) Success.
+
+How to compile multiple classes.
+I)   javac *.java  
+II)  java <the main class name>   
+III) In manifest.txt ---> Still the main class name.
+
+NOTE: For multiple class compilation together, you need to use CMD.
+
+Notepad++ can too. COMMAND: cmd /K javac "$(CURRENT_DIRECTORY)"\*.java && cd $(CURRENT_DIRECTORY) && java $(NAME_PART) ---> It should be the main class. When you compile, your page should be on the main class.
+
+TYPE: java -cp <file>.jar <Main Class name>
+TYPE: java -jar <file>.jar
+
+** The MC actually stands for Minecraft. You have to change according to your file name.
+
+You can run it with double clicks or run with command which is...
+1) Enter CMD and go to your directory
+2) TYPE: java -jar MC.jar
+3) TYPE: java -cp MC.jar MC <--- MC is the Class name
+
+

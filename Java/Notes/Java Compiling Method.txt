@@ -1,0 +1,22 @@
+Java Compiling Method.
+
+1) Download JDK from Java Official Site.
+2) Install.
+3) Go to C:/Program Files/Java/Jdk 1.8/bin <--- Copy as path. 
+	Note: The version of JDK might be varied.
+4) Windows Key + Pause | Break <--- to get into System Properties.
+5) Advanced Tab > System Environment
+6) Choose the user variable and click 'new' if you do not have 'PATH'as the variable.
+7) Paste the copied path into the space.
+8) Go to the CMD and type 'javac' to check whether the compiler is installed.
+9) If a bunch of words pop up which means SUCCESS!
+
+How to compile multiple classes.
+I)   javac *.java  
+II)  java <the main class name>   
+III) In manifest.txt ---> Still the main class name.
+
+NOTE: For multiple class compilation together, you need to use CMD.
+
+TYPE: java -cp <file>.jar <Main Class name>
+TYPE: java -jar <file>.jar
