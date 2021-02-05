@@ -163,7 +163,7 @@ def say_hello(name):
 ### 4. Images
 **Overview:**
 ``` 
-![<Text to be shown if the image is unable to be loaded>](<Image URL> <"Title to be shown when cursor is hovered above the image">) 
+![<IMAGE ALT TEXT HERE>](<IMAGE URL> <"Title to be shown when cursor is hovered above the image">) 
 ```
 
 **Example 1: PNG**
@@ -273,26 +273,33 @@ Or leave it empty and use the [link text itself].
 [1]: https://www.discord.com "Pop-up Discord"
 [link text itself]: https://www.reddit.com "Pop-up Title for Reddit"
 
-**Video**  
-For YouTube video  
+**e. YouTube Video**  
 Replace all the `YOUTUBE_VIDEO_ID_HERE`
 
 ```
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
 " target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="80%" height="300" border="10" /></a>
+alt="IMAGE ALT TEXT HERE" width="800" height="600" border="10" /></a>
 ```
 OR
 ```
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 ```
+**_Click the video below_**
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=dQw4w9WgXcQ
-" target="_blank"><img src="http://img.youtube.com/vi/N9ilt1OvI3A/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="80%" height="300" border="10" /></a>
+" target="_blank"><img src="http://img.youtube.com/vi/tOttqIZuPvQ/0.jpg" 
+alt="I WANNA WORK AT GOOGLE" width="800" height="600" border="10" /></a>
 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/N9ilt1OvI3A/0.jpg)](http://www.youtube.com/watch?v=)
+>_Sorry for the rick rolling, below is the real one..._
 
+[![JOB @ GOOGLE?](http://img.youtube.com/vi/N9ilt1OvI3A/0.jpg)](http://www.youtube.com/watch?v=dQw4w9WgXcQ "Get your job at Google")
 
+> One and the only one tip: Don't wait for **OPPORTUNITY**. _CREATE_ it!
+
+**_REAL References_**
+- [How to get into Google](https://www.youtube.com/watch?v=S96r4jdYtqM)
+- [How I got a job at Google](https://www.youtube.com/watch?v=N9ilt1OvI3A)
 
 ---
 ### 6. Embedding
