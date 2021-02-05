@@ -279,7 +279,7 @@ Or leave it empty and use the [link text itself].
 [1]: https://www.discord.com "Pop-up Discord"
 [link text itself]: https://www.reddit.com "Pop-up Title for Reddit"
 
-**_REAL References_**
+**_References_**
 - [Link Tips](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links)
 
 **e. YouTube Video**  
