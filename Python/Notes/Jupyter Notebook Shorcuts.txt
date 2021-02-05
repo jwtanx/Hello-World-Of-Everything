@@ -1,3 +1,5 @@
+# Last updated: Fri, February 05, 2021 - 17:57
+
 First, we need to know that they are 2 modes in the Jupyter Notebook App: command mode and edit mode. I’ll start with the shortcuts shared between the two modes.
 
 Shortcuts in both modes:
