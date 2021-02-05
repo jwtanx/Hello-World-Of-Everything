@@ -5,6 +5,8 @@
 ---
 ### Table of Contents
 - [ ] [Python](https://github.com/junwheih/Hello-World-Of-Everything/tree/main/Python)
+- [ ] [C++](https://github.com/junwheih/Hello-World-Of-Everything/tree/main/C%2B%2B)
+- [ ] [Java](https://github.com/junwheih/Hello-World-Of-Everything/tree/main/Java)
 - [ ] [HTML](https://github.com/junwheih/Hello-World-Of-Everything/tree/main//HTML)
 - [ ] [Brainfuck](https://github.com/junwheih/Hello-World-Of-Everything/tree/main//Brainfuck)
 
