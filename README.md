@@ -20,8 +20,8 @@
 - [x] [List](../main/README.md#2-lists)
 - [x] [Code & Syntax](../main/README.md#3-code-and-syntax)
 - [x] [Image](../main/README.md#4-image)
-- [ ] [Special Features](../main/README.md#5-special-features) [advanced links, checklist, horizontal line, tables, inserting video]
-- [x] [Embedding](../main/README.md#6-embedding) [Unsupported, for Wiki only]
+- [x] [Special Features](../main/README.md#5-special-features) [Horizontal Line, Checklist, Table, Link, YouTube Video]
+- [x] [Embedding](../main/README.md#6-embedding) [Unsupported: Only for Wiki]
 
 ---
 ### 1. Text Formatting
@@ -177,7 +177,13 @@ def say_hello(name):
 ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif")
 ```
 
-![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") ![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif")
+![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif") 
+![codingParrot](https://cultofthepartyparrot.com/parrots/hd/laptop_parrot.gif "Coding Parrot") 
+![openSourceParrot](https://cultofthepartyparrot.com/parrots/hd/opensourceparrot.gif "Open Source Parrot") 
+![githubParrot](https://cultofthepartyparrot.com/parrots/hd/githubparrot.gif "Github Parrot") 
+![nodeJSParrot](https://cultofthepartyparrot.com/parrots/hd/nodeparrot.gif "node.JS Parrot") 
+![phpParrot](https://cultofthepartyparrot.com/parrots/hd/phparrot.gif "PHP Parrot") 
+![Google](https://raw.githubusercontent.com/junwheih/Hello-World-Of-Everything/main/.src/Markdown%20Images/Google.gif "Google Gif")
 
 ---
 ### 5. Special Features
@@ -246,7 +252,7 @@ Align-center    = :-:
 | iPod   | 4      | 0.1922      |
 | Robot  | 232    | 1532.2311   | 
 
-**d. Advanced Link**
+**d. Link**
 ```
 [Inline-style link](https://www.google.com)  
 [Inline-style link with title](https://www.google.com "Google's Homepage")  
@@ -272,6 +278,9 @@ Or leave it empty and use the [link text itself].
 [arbitrary case-insensitive reference text]: https://www.github.com "Github 4 life"
 [1]: https://www.discord.com "Pop-up Discord"
 [link text itself]: https://www.reddit.com "Pop-up Title for Reddit"
+
+**_REAL References_**
+- [Link Tips](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links)
 
 **e. YouTube Video**  
 Replace all the `YOUTUBE_VIDEO_ID_HERE`
@@ -327,3 +336,8 @@ alt="I WANNA WORK AT GOOGLE" width="800" height="600" border="10" /></a>
 
 **_References_**
 - [Video Tutorial](https://www.youtube.com/watch?v=S96r4jdYtqM)
+
+---
+```That's all for now, all the best! =]```
+
+---
