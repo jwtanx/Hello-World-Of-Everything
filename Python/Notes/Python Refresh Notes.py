@@ -54,9 +54,13 @@ EXPRESSIONS
 ORDER/PRECEDENCE:
 ()
 **
-* / %
-+ -
-left TO right
+*, /, //, %
++, -
+==, !=, <=, >=, >, <
+not
+and
+or
+# left TO right
 
 LOGICAL OPERATORS
 =====
@@ -84,6 +88,11 @@ print(tmp is x) # Ouput: True
 y = [1,2,3]
 print(tmp is y) # Output: False
 print(tmp == y) # Output: True
+
+COMPARING AMONG VARIABLES
+=====
+x = 5; y = 3; z = 8
+print(x > y < z) # True
 
 student_names = ['alpha','beta','gama','delta']
 # using the is keyword:
@@ -414,6 +423,29 @@ print(b)
 b = a + " " + "There"
 print(b)
 >> Hello There
+
+REVERSING A STRING
+=====
+# Reference: https://www.geeksforgeeks.org/reverse-string-python-5-different-ways/
+
+# 1
+def reverse(string): 
+    string = string[::-1] 
+    return string 
+'''Explanation : Extended slice offers to put a “step” field as [start,stop,step], and giving no field as start and stop indicates default to 0 and string length respectively and “-1” denotes starting from end and stop at the start, hence reversing string.'''
+
+# 2
+def reverse(string): 
+    string = "".join(reversed(string)) 
+    return string
+
+# 3 Fastest way if the string is not a palindrome
+def isPalindrome(x):
+	for i in range(len(x)):
+		if x[i] != x[-1-i]:
+			return False
+
+print(isPalindrome('kayik')) # False
 
 USING in AS A LOGICAL OPERATOR
 =====
@@ -808,6 +840,11 @@ emp = []
 for data in mix:
 	print(data)
 
+CREATE A LIST OF NUMBER ASCENDING WIHOUT LOOP
+=====
+num_list = list(range(100))
+print(num_list) # [0, 1, 2, ..., 99]
+
 LOOKING INSIDE THE LISTS
 =====
 friends = ['Ali', 'Ah Kau', 'Muthu']
@@ -835,6 +872,15 @@ players
 
 len(players)
 >> 5
+
+LIST CONCATENATION
+=====
+ls = [1,2,3]
+ls *= 2
+print(ls) # [1,2,3,1,2,3]
+
+ls1 = [4,5,6]
+print(ls + ls1) # [1, 2, 3, 1, 2, 3, 4, 5, 6]
 
 RANGE
 =====
@@ -1191,6 +1237,23 @@ print(count_letters(input('> ')))
 {'T': 1, 'h': 1, 'i': 3, 's': 2, ' ': 3, 'a': 1, 'S': 1, 't': 1, 'r': 1, 'n': 1, 'g': 1}
 '''
 
+USING DICT TO ACT LIKE A SWITCH CASE
+=====
+# Ref: https://stackoverflow.com/questions/60208/replacements-for-switch-statement-in-python
+# 1: Problem occurs when the `x` is not found
+def f(x):
+    return {
+        'a': 1,
+        'b': 2
+    }[x]
+
+# 2
+def f(x):
+    return {
+        'a': 1,
+        'b': 2
+    }.get(x, 9)    # 9 is default if x not found
+
 COUNTING PATTERN
 =====
 counts = dict()
@@ -1236,6 +1299,12 @@ TUPLE
 print(hashmap.items())
 >> dict_items([('Ali', 3), ('Abu', 1), ('Sarah', 1), ('Ah Kau', 1)])
 
+TUPLE CONCATENATION
+=====
+a = (1,2,3)
+b = a*2
+print(b)
+
 USING TUPLE TO DISPLAY THE KEY AND VALUES
 =====
 hashmap = {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
@@ -1280,7 +1349,7 @@ TUPLES
 =====
 # More efficient version of list that you cant modify
 # We can say the position inside the tuple has its meaning
-# immutable
+# immutable, cannot be sorted like list
 
 x = ('Ali', 'Sarah', 'Abu')
 x[1]
