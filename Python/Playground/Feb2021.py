@@ -1,6 +1,29 @@
-# Last updated: Sat, February 06, 2021 - 16:20
+# Last updated: Sat, February 06, 2021 - 22:03
 
 quit()
+
+# 11 List: Create a list of numbers ascendingly without the use of for loop
+ls = list(range(100))
+print(ls) # Output: [0, 1, 2, ..., 99]
+
+#10 String: Write a function replace(s, old, new) that replaces all occurences of old with new in a string s [Note: Do not use the Python str.replace(old, new) function]
+
+def replace(s, old, new):
+    # You can do a for loop if you are replacing letter but what if we are replacing term in a word?
+    ls = s.split(old)
+    return new.join(ls)
+
+print(replace('Supercar is the best car', 'car', 'man')) # Superman is the best man
+
+#9 String: Remove all selected letter without using str.replace(old, new) function
+def replaceLetter(text, itemToBeReplaced):
+    re = ''
+    for i in text:
+        if i != itemToBeReplaced:
+            re += i
+    return re
+
+print(replaceLetter('Replace the e or get yeet', 'e')) # Output: Rplac th  or gt yt
 
 #8 String: Put a word repeatedly in each of the slit between the letters
 # Eg: ABC would output `AABCBABCC`
