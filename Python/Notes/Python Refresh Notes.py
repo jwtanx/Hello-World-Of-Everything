@@ -28,6 +28,14 @@ name = 'John'
 print('Hello', name, end('!'))
 >> Hello John!
 
+print("Hello", end=" ")
+print("there!")
+# Output: Hello there!
+
+# SEP function
+print(30, 11, 2020, sep="-")
+# Output: 30-11-2020
+
 # To escapee "'"
 print('I don\'t think so...')
 
@@ -64,6 +72,18 @@ or
 not
 is [Use this in some ooccasion, == is normally for Mathematics]
 is not
+
+# To be more specified
+# is 	: literraly equal
+# `=` 	: holding the same value
+
+x = [1,2,3]
+tmp = x
+print(tmp is x) # Ouput: True
+
+y = [1,2,3]
+print(tmp is y) # Output: False
+print(tmp == y) # Output: True
 
 student_names = ['alpha','beta','gama','delta']
 # using the is keyword:
@@ -159,6 +179,11 @@ print(HRS, MINS, SECS)
 # >> (1, 23, 20)
 # >> 1 23 20
 
+# Default value in the fuction
+def welcome(name='user'):
+    print('hello', name)
+welcome() # Output: hello user
+
 WHILE LOOP WITH BREAK & CONTINUE
 =====
 # Indefinite loop
@@ -224,6 +249,11 @@ friends = ['John', 'Sarah', 'Albert']
 for friend in friends:
 	print('Hello', friend)
 
+Example 4:
+for i in range(2, 10, 2):
+	print(i, end=" ")
+# Output: 2 4 6 8
+
 # Factorial using For Loop
 factorial(n):
     result = 1
@@ -233,6 +263,27 @@ factorial(n):
 
 print(factorial(4)) # should return 24
 print(factorial(5)) # should return 120
+"""
+Other way #1:
+n = 1
+fib = 1
+for i in range(2, n+1): # Without looping the 1
+    fib *= i
+print(fib)
+
+Other way #2:
+def factorial(n):
+    result = 1
+    for i in range(n, 0, -1):
+        result *= i
+    return result
+"""
+
+# Using recursive method
+def fac(n, total=1):
+    if n == 1: return total
+    else: return fac(n-1, total*n)
+print(fac(5)) # Output: 120
 
 BOOLEAN
 =====
@@ -396,6 +447,14 @@ print(foo)
 
 type(tmp)
 #>> <class 'str'>
+
+MATH LIBRARY
+=====
+import math
+
+math.sqrt(4) # Output: 2
+math.sin(0)	 # Output: 0.0
+math.cos(0)	 # Output: 1.0
 
 DISPLAY ALL THE METHODS AVAILABLE FOR VARIABLE
 =====
