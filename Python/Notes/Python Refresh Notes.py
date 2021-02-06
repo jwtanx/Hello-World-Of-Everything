@@ -1,4 +1,4 @@
-# Last updated: Fri, February 05, 2021 - 17:57
+# Last updated: Sat, February 06, 2021 - 23:50
 
 PROGRAM
 #########################################################################################
@@ -192,6 +192,23 @@ print(HRS, MINS, SECS)
 def welcome(name='user'):
     print('hello', name)
 welcome() # Output: hello user
+
+FUNCTION WITH UNSPECIFIED NUMBER OF ARGUMENT
+=====
+def checklist(*items):
+    # print tuple
+    print(items) # ('milk', 'rice', 'bread', 'jam')
+    
+    for index, item in enumerate(items, 1):
+        print("Item", str(index) , ":", item.capitalize())
+        '''
+        Item 1 : Milk
+        Item 2 : Rice
+        Item 3 : Bread
+        Item 4 : Jam
+        '''
+
+checklist('milk', 'rice', 'bread', 'jam')
 
 WHILE LOOP WITH BREAK & CONTINUE
 =====
@@ -480,6 +497,9 @@ print(foo)
 type(tmp)
 #>> <class 'str'>
 
+print(tmp.count('l'))
+>> 3
+
 MATH LIBRARY
 =====
 import math
@@ -653,8 +673,16 @@ ISALNUM()
 "abc 123".isalnum()
 >> False
 
+SPLIT
+=====
+a = "This is a delicious ice-cream that no one can eat"
+ls = a.split(sep=None, maxsplit=3)
+print(ls)
+>> ['This', 'is', 'a', 'delicious ice-cream that no one can eat']
+
 JOIN
 =====
+# Note: str.join(iterable)
 lst = "The string is splitted into a list".split(" ")
 lst
 >> ['The', 'string', 'is', 'splitted', 'into', 'a', 'list']
@@ -882,6 +910,11 @@ print(ls) # [1,2,3,1,2,3]
 ls1 = [4,5,6]
 print(ls + ls1) # [1, 2, 3, 1, 2, 3, 4, 5, 6]
 
+LIST COUNTING
+=====
+print(ls.count(3))
+>> 2
+
 RANGE
 =====
 print(range(4))
@@ -897,13 +930,6 @@ for f in friends:
 
 for i in range(len(friends)):
 	print(friend[i])
-
-CONCATENATION LISTS
-=====
-a = [1,2,3]
-b = [4,5,6]
-c = a + b
->> [1,2,3,4,5,6]
 
 SLICING LISTS
 =====
@@ -1522,12 +1548,46 @@ ENUMERATE WITH TUPLE
 # The enumerate() function takes a list as a parameter and returns a tuple for each element in the list. The first value of the tuple is the index and the second value is the element itself.
 players = ["Ali", "Sarah", "Ah Meng"]
 for index, person in enumerate(players):
-	print("{} # {}".format(index+1, person))
+	print("{} - {}".format(index+1, person))
 
 '''
-1 # Ali
-2 # Sarah
-3 # Ah Meng
+1 - Ali
+2 - Sarah
+3 - Ah Meng
+'''
+
+# Return the tuple (index, character) for the "Hello"
+for character in enumerate("Hello"):
+    print(character)
+'''
+(0, 'H')
+(1, 'e')
+(2, 'l')
+(3, 'l')
+(4, 'o')
+'''
+
+# Indexing each character for the "Hello" starting from 0
+for index, character in enumerate("Hello"):
+    print(str(index) + " " + character)
+'''
+0 H
+1 e
+2 l
+3 l
+4 o
+'''
+
+#Indexing each character for the "Hello" starting from 100
+# enumerate(iterable, start=0)
+for index, character in enumerate("Hello", 100):
+    print(str(index) + " " + character)
+'''
+100 H
+101 e
+102 l
+103 l
+104 o
 '''
 
 #########################################################################################
