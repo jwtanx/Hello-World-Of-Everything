@@ -36,7 +36,31 @@ print("there!")
 print(30, 11, 2020, sep="-")
 # Output: 30-11-2020
 
-# To escapee "'"
+for i in range(5):
+	print(i, end=" ")
+>> 0 1 2 3 4
+
+ESCAPE CHARACTER
+=====
+# To insert illegal character by using backslash \
+
+'''
+\' - Single Quote
+\\ - Backslash
+\n - New line
+\t - tab
+\r - Carriage return
+\b - backspace
+\f - form feed
+\ooo - Octal value
+\xhh - Hex value
+'''
+
+ANOTHER WAY TO INSERT ILLEGAL CHAR WITHOUT ESCAPE KEY
+=====
+# USING print(r'bla bla bla')
+
+# To escape "'"
 print('I don\'t think so...')
 
 # Next line
@@ -44,10 +68,6 @@ print("\nThis is next line")
 
 # Raw String
 print(r'C:\Desktop\nutellaFolder')
-
-for i in range(5):
-	print(i, end=" ")
->> 0 1 2 3 4
 
 EXPRESSIONS
 =====
@@ -65,6 +85,7 @@ or
 LOGICAL OPERATORS
 =====
 COMPARISON:
+'''
 >
 >=
 <
@@ -76,7 +97,7 @@ or
 not
 is [Use this in some ooccasion, == is normally for Mathematics]
 is not
-
+'''
 # To be more specified
 # is 	: literraly equal
 # `=` 	: holding the same value
@@ -193,13 +214,23 @@ def welcome(name='user'):
     print('hello', name)
 welcome() # Output: hello user
 
-FUNCTION WITH UNSPECIFIED NUMBER OF ARGUMENT
+FUNCTION WITH DIFFERENT POSITION OF THE KEYWORD PARAMETER
 =====
-def checklist(*items):
+def welcome(name, age, gender):
+	print(f'Welcome {name} ({age} - {gender})')
+
+welcome(gender='M', name='Steve', age=23)
+
+FUNCTION WITH UNSPECIFIED NUMBER OF ARGUMENT [*args]
+=====
+# Reference: https://www.programiz.com/python-programming/args-and-kwargs
+# *args = non keyword argument, no dictionary like parameter
+# However, you can enum it
+def checklist(*items): # Receiving a tuple of arguments
     # print tuple
     print(items) # ('milk', 'rice', 'bread', 'jam')
     
-    for index, item in enumerate(items, 1):
+    for index, item in enumerate(items, 1): # 1 = starting with, it is optional, wihout it the number would start at 0
         print("Item", str(index) , ":", item.capitalize())
         '''
         Item 1 : Milk
@@ -208,7 +239,54 @@ def checklist(*items):
         Item 4 : Jam
         '''
 
-checklist('milk', 'rice', 'bread', 'jam')
+checklist('milk', 'rice', 'bread', 'jam') # Sending a tuple of arguments
+
+# Example 2: without the use of list
+def adder(*num):
+    sum = 0
+    for n in num:
+        sum = sum + n
+    print("Sum:",sum)
+
+adder(3,5)			# 8
+adder(4,5,6,7)		# 22
+adder(1,2,3,5,6)	# 17
+
+FUNCTION WITH UNSPECIFIED NUMBER OF KEYWORD ARGUMENT [**kwargs]
+=====
+# Reference: https://www.programiz.com/python-programming/args-and-kwargs
+# **kwargs = keyword argument, like it has dictionary
+
+def intro(**data):
+    print("\nData type of argument:",type(data))
+
+    for key, value in data.items():
+        print("{} is {}".format(key,value))
+
+intro(Firstname="Sita", Lastname="Sharma", Age=22, Phone=1234567890)
+intro(Firstname="John", Lastname="Wood", Email="johnwood@nomail.com", Country="Wakanda", Age=25, Phone=9876543210)
+
+# Example 2
+def message(**orderProd_amt):
+    # Print out the dictionary
+    print(orderProd_amt.items()) # dict_items([('orderProduct', 'Cookie'), ('amt', 13)])
+    print(orderProd_amt)         # {'orderProduct': 'Cookie', 'amt': 13}
+
+    for k, v in orderProd_amt.items():
+        print(k,v)
+    '''
+    orderProduct Cookie
+    amt 13
+    '''
+    # ERROR: ValueError: too many values to unpack (expected 2)
+    # for k, v in orderProd_amt:
+    #     print(k,v)
+
+    print('I am buying', orderProd_amt["amt"], orderProd_amt["orderProduct"] + "(s) for you.")
+	# I am buying 13 Cookie(s) for you.
+
+message(orderProduct = "Cookie", amt = 13)
+message(orderProduct = "Bread", amt = 5)
 
 WHILE LOOP WITH BREAK & CONTINUE
 =====
@@ -411,6 +489,18 @@ while index < len(name):
 	letter = name[index]
 	print(letter)
 	index += 1
+
+MULTIPLE LINE STRING
+=====
+longString = '''This is the first line
+This is the second one
+Last one
+'''
+
+longString = """This is the first line
+This is the second one
+Last one
+"""
 
 SLICING STRINGS
 =====
@@ -1127,6 +1217,9 @@ DICTIONARIES
 # KEY-VALUE PAIR LIKE HASHMAP
 # Not in order
 purse = {'RM50': 1, 'RM20': 5, 'RM5': 3}
+purse['RM5'] # 3
+purse.get('RM5') # 3
+purse.get('RM1', 0) # 0 because default value = 0 when the key 'RM1' is not found
 
 wallet = dict()
 wallet['RM50'] = 3
@@ -1393,8 +1486,8 @@ FUNCTION RETURNING 1 OR MORE VALUES
 # Returning more than 1 value from a function
 def convert(seconds):
 	h = seconds // 3600
-	m = (seconds # h*3600) // 60
-	s = seconds # h*3600 # m*60
+	m = (seconds - h*3600) // 60
+	s = seconds - h*3600 - m*60
 	return h, m, s
 
 result = convert(5000)
@@ -1404,7 +1497,6 @@ type(result)
 hrs, mins, secs = result
 print(hrs, mins, secs)
 >> 1 23 20
-
 
 FOR LOOP
 =====
@@ -1677,15 +1769,15 @@ s.clear()
 Object-Oriented Programming (OOP)
 =====
 type("x")
->> <class 'str'>
+# >> <class 'str'>
 
 dir(int)
->> displays list of methods for int
+# >> displays list of methods for int
 
 help(int)
->> displays list of documentation for int
+# >> displays list of documentation for int
 
-q to quit or quit to leave help session
+# q to quit or quit to leave help session
 
 CLASS
 =====
@@ -1702,7 +1794,7 @@ RedApple.color = "Red"
 RedApple.flavor = "Sweet & Sour"
 
 print('This apple is {} and it is {}.'.format(RedApple.color, RedApple.flavor))
->> This apple is Red and it is Sweet & Sour.
+# >> This apple is Red and it is Sweet & Sour.
 
 # Another class
 class Flower:
