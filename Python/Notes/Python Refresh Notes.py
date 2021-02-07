@@ -69,6 +69,16 @@ print("\nThis is next line")
 # Raw String
 print(r'C:\Desktop\nutellaFolder')
 
+BASIC ARGUMENT SPECIFIERS
+=====
+%s - String (or any object with a String representation, like numbers)
+%d - Integers
+%0<number of digits>d - Floating point numbers with a fixed amount of 0 to the left of the number.
+%f - Floating point numbers
+%.<number of digits>f - Floating point numbers with a fixed amount of digits to the right of the dot.
+%x/%X - Integers in hex representation (lowercase/uppercase)
+
+#########################################################################################
 EXPRESSIONS
 =====
 ORDER/PRECEDENCE:
@@ -2018,6 +2028,64 @@ print(now) # This is accessing the __str__ method
 
 now.year
 >> 2020
+
+ADVANCE TIME
+=====
+from datetime import datetime, date
+
+today = datetime.today()
+now = datetime.now()
+cal = date.today() # datetime.date.today() works the same
+
+print(today) # 2021-02-07 16:51:59.073516
+print(now)   # 2021-02-07 16:51:59.073515
+print(cal)   # 2021-02-07
+# Both have the same but datetime.now() provides an optional timezone, and can give more precision.
+
+print('\nTimetuple')
+print(today.timetuple())  # time.struct_time(tm_year=2021, tm_mon=2, tm_mday=7, tm_hour=16, tm_min=51, tm_sec=59, tm_wday=6, tm_yday=38, tm_isdst=-1)
+print(now.timetuple())    # time.struct_time(tm_year=2021, tm_mon=2, tm_mday=7, tm_hour=16, tm_min=51, tm_sec=59, tm_wday=6, tm_yday=38, tm_isdst=-1)
+print(cal.timetuple())    # time.struct_time(tm_year=2021, tm_mon=2, tm_mday=7, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=6, tm_yday=38, tm_isdst=-1)
+print(cal.timetuple()[0]) # Year: 2021
+print(cal.timetuple()[1]) # Month: 2
+print(cal.timetuple()[2]) # Day: 7
+print(cal.timetuple()[3]) # 24-Hour: 0
+print(cal.timetuple()[4]) # Minute: 0
+print(cal.timetuple()[5]) # Second: 0
+print(cal.timetuple()[6]) # Weekday: 6
+print(cal.timetuple()[7]) # Day of year: 38
+print(cal.timetuple()[8]) # Daylight saving flag: -1
+# A value of 1 indicates that the daylight savings is in effect, 0 if daylight savings is not in effect and -1 if the information is not available.
+
+print('\nFormats')
+print('{0:%c}'.format(now)) # Locale’s date and time representation: Sun Feb  7 16:51:59 2021
+print('{0:%a}'.format(now)) # Weekday Name (Abbr): Sun
+print('{0:%A}'.format(now)) # Weekday Name (Full name): Sunday
+print('{0:%w}'.format(now)) # Weekday Decimal: 0
+print('{0:%d}'.format(now)) # Day of month (Zero-padded): 07
+print('{0:%b}'.format(now)) # Month (Abbr): Feb
+print('{0:%B}'.format(now)) # Month (Full name): February
+print('{0:%m}'.format(now)) # Month (Zero-padded): 02
+print('{0:%y}'.format(now)) # Year without century (Zero-padded): 21
+print('{0:%Y}'.format(now)) # Year (Full): 2021
+print('{0:%H}'.format(now)) # 24-Hour: 16
+print('{0:%I}'.format(now)) # 12-Hour: 04
+print('{0:%M}'.format(now)) # Minute (Zero-padded): 51
+print('{0:%S}'.format(now)) # Second (Zero-padded): 59
+print('{0:%f}'.format(now)) # Microsecond (Zero-padded): 073515
+print('{0:%p}'.format(now)) # AM/PM: PM
+print('{0:%z}'.format(now)) # UTC offset: None
+print('{0:%j}'.format(now)) # Day of the year (Zero-padded): 038
+print('{0:%U}'.format(now)) # Week of the year (Zero-padded); Sunday as the first day of the week: 06
+print('{0:%W}'.format(now)) # Week of the year (Zero-padded); Monday as the first day of the week: 05
+print('{0:%x}'.format(now)) # Locale’s appropriate date representation: 02/07/21
+print('{0:%X}'.format(now)) # Locale’s appropriate time representation: 16:51:59
+
+print('\nPrinting it')
+print('The {1} is {0:%d}, the {2} is {0:%B}, the {3} is {0:%I:%M%p}.'.format(now, "day", "month", "time"))
+# The day is 07, the month is February, the time is 04:51PM.
+print(now.strftime('%a')) # Sun
+
 
 TIMEDELTA
 =====
