@@ -692,6 +692,15 @@ re.sub(r'[^\w\S]', ' ', s)
 re.sub(r'[^\w\s]', '', s)
 >> 'how much for the maple syrup 2099 Thats ridiculous'
 
+# Changing a list to a string then replace them, we can avoid using for loop
+test_str = ['123', '456']
+b = (str) (test_str) # "['123', '456']"
+a = re.sub(r'[\[\]\,]', '', b)
+
+print(a) # '123' '456'
+a.replace("'", ':') # :123: :456:
+
+
 def a(text):
     chars = "&#"
     for c in chars:
@@ -2029,8 +2038,20 @@ print(now) # This is accessing the __str__ method
 now.year
 >> 2020
 
+INSERT YOUR OWN TIME
+=====
+a = datetime.datetime(100,1,1,11,34,59)
+print(a) # 0100-01-01 11:34:59
+
 ADVANCE TIME
 =====
+# Two types of import
+
+#1: import datetime only
+import datetime
+now = datetime.datetime.now()
+
+#2: From the library datetime, import the class datetime
 from datetime import datetime, date
 
 today = datetime.today()
@@ -2058,6 +2079,7 @@ print(cal.timetuple()[8]) # Daylight saving flag: -1
 # A value of 1 indicates that the daylight savings is in effect, 0 if daylight savings is not in effect and -1 if the information is not available.
 
 print('\nFormats')
+print(f'{now:%c}') # Sun Feb  7 16:51:59 2021
 print('{0:%c}'.format(now)) # Locale’s date and time representation: Sun Feb  7 16:51:59 2021
 print('{0:%a}'.format(now)) # Weekday Name (Abbr): Sun
 print('{0:%A}'.format(now)) # Weekday Name (Full name): Sunday
@@ -2084,14 +2106,25 @@ print('{0:%X}'.format(now)) # Locale’s appropriate time representation: 16:51:
 print('\nPrinting it')
 print('The {1} is {0:%d}, the {2} is {0:%B}, the {3} is {0:%I:%M%p}.'.format(now, "day", "month", "time"))
 # The day is 07, the month is February, the time is 04:51PM.
+print('{0:%A %Y-%m-%d %H:%M:%S}'.format(now)) # Sunday 2021-02-07 17:54:19
+print(f'{now:%A %Y-%m-%d %H:%M:%S}') # Same result as above
 print(now.strftime('%a')) # Sun
 
+# Reference:
+# https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
+# https://stackoverflow.com/questions/15509617/how-to-obtain-the-day-of-the-week-in-a-3-letter-format-from-a-datetime-object-in
+# https://docs.python.org/3.6/library/datetime.html#datetime.datetime.now
+# https://overiq.com/python-3-time-module/
 
 TIMEDELTA
 =====
 # days can be replaced by hours, minutes and seconds
 print(now + datetime.timedelta(days = 5))
 >> 2020-07-24 17:41:12.923716
+
+ADVANCE TIMEDELTA
+=====
+timedelta(days: float=..., seconds: float=..., microseconds: float=..., milliseconds: float=..., minutes: float=..., hours: float=..., weeks: float=..., *, fold: int=...)
 
 #############################################
 PSUTIL: GET CPU LOAD
