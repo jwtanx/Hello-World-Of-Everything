@@ -2,6 +2,44 @@
 
 quit()
 
+#15 Function: Print the following without initize a counter variable, without using list, **kwargs or dictionary and the parameter passed into the fuction must be *args only
+'''
+Age of the children
+Abu - 10
+Aman - 15
+Muthu - 20
+'''
+# Tip: Enum, different starting index
+
+def displayAge(*names):
+    print('Age of the children')
+    for index, name in enumerate(names, 2):
+        print(f'{name} - {index*5}')
+
+displayAge('Abu', 'Aman', 'Muthu')
+
+#14 Function: Adding all the numbers using *args without using list
+def adder(*num):
+    sum = 0
+    for n in num:
+        sum = sum + n
+    print("Sum:",sum)
+
+adder(3,5)			# 8
+adder(4,5,6,7)		# 22
+adder(1,2,3,5,6)	# 17
+
+#13: Enum: Indexing each character for the "Hello" starting from 100
+for index, character in enumerate("Hello", 100):
+    print(str(index) + " " + character)
+ 
+#12 List: Sort the list below without using the ls.sort() function
+# Note: Advanced level: use `-` when slicing for 6,7,0,1
+
+ls = [4,5,2,3,6,7,0,1]
+ls = ls[-2:] + ls[2:4] + ls[:2] + ls[-4:-2]
+print(ls) # Output: [0, 1, 2, 3, 4, 5, 6, 7]
+
 # 11 List: Create a list of numbers ascendingly without the use of for loop
 ls = list(range(100))
 print(ls) # Output: [0, 1, 2, ..., 99]
@@ -83,7 +121,9 @@ end = (start + length) % 24
 print("You will end your study at:", end)
 
 #1 String: Horizontal message to vertical message
-string = "Don't chase money.\nChase Problems,\nThen solve it."
+string = '''Don't chase money.
+Chase Problems,
+Then solve it.'''
 strList = string.split('\n')
 length = 0
 
