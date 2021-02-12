@@ -112,6 +112,10 @@ is not
 # is 	: literraly equal
 # `=` 	: holding the same value
 
+a = 6
+if a == 5 or 6:
+	print('hello') # hello
+
 x = [1,2,3]
 tmp = x
 print(tmp is x) # Ouput: True
@@ -161,7 +165,7 @@ COMMENT
 Here lies comment or documentary
 '''
 
-TYPE CONVERSION
+TYPE CONVERSION / TYPE CASTING
 =====
 x = float(1)
 >> x 
@@ -184,6 +188,18 @@ y = raw_input('> ')
 
 TRY, EXCEPTION, FINALLY
 =====
+'''
+try:
+	# Try running some code
+except:
+	# Run this block of error occurs
+	raise
+else:
+	# Run if no error in the block
+finally:
+	# This block will always be executed no matter what
+'''
+
 x = 'John'
 
 try:
@@ -297,6 +313,27 @@ def message(**orderProd_amt):
 
 message(orderProduct = "Cookie", amt = 13)
 message(orderProduct = "Bread", amt = 5)
+
+REPLACE A FUNCTION WITH ANOTHER FUNCTION
+=====
+def test(name):
+    print(name) # Steve
+
+def test2(name):
+    print("".join(reversed(name))) # evetS
+
+test = test2
+test(name='Steve') # evetS
+
+FUNCTION CAN BE USED AS AN ARGUMENT IN A FUNCTION
+=====
+def add(x,y):
+	return x + y
+
+def combine(func, x, y):
+	return(func(x,y), func(x, y))
+
+print(combine(add, 5, 10))
 
 WHILE LOOP WITH BREAK & CONTINUE
 =====
@@ -442,8 +479,32 @@ import random
 random.randint(1, 100)
 >> 5
 
-random.randrange(1, 100):
+random.uniform(1,100)
+>> 5.890128243620637
+
+random.randrange(1, 100)
 >> 23
+
+SHUFFLE
+=====
+a = [1,2,3,4,5]
+random.shuffle(a)
+print(a) # [5,3,2,1,4]
+
+CHOICE
+=====
+ls = [343,15,23,8]
+print(random.choice(ls)) # 8 <-- Always random
+
+SAMPLE
+=====
+'''
+sample(['red', 'blue'], counts=[4, 2], k=5)  
+	=
+sample(['red', 'red', 'red', 'red', 'blue', 'blue'], k=5)
+'''
+a = random.sample(['red', 'blue', 'yellow'], counts=[3, 2, 10], k=5)
+print(a) # ['yellow', 'blue', 'yellow', 'yellow', 'yellow'] <-- Always random
 
 #########################################################################################
 CHARACTER # ASCII
@@ -607,6 +668,19 @@ import math
 math.sqrt(4) # Output: 2
 math.sin(0)	 # Output: 0.0
 math.cos(0)	 # Output: 1.0
+
+WEBSITE
+=====
+import webbrowser
+webbrowser.open('https://www.google.com', new=0, autoraise=True)
+# new = 0 : Open in the same browser window
+# new = 1 : Open in a new tab
+# new = 2 : Not much diff with the new = 1
+# autoraise = True and False have not much diff
+
+url = 'https://www.github.com'
+webbrowser.open_new(url)
+webbrowser.open_new_tab(url)
 
 DISPLAY ALL THE METHODS AVAILABLE FOR VARIABLE
 =====
@@ -789,6 +863,11 @@ ls = a.split(sep=None, maxsplit=3)
 print(ls)
 >> ['This', 'is', 'a', 'delicious ice-cream that no one can eat']
 
+time = '18:42'
+hr, mins = time.split(':')
+print(hr)   # 18
+print(mins) # 42
+
 JOIN
 =====
 # Note: str.join(iterable)
@@ -893,6 +972,23 @@ read()
 write()
 close()
 
+USING WITH OPEN TO READ
+=====
+with open('files.txt') as datafile:
+	data = datafile.read()
+print(data)
+
+USING WITH OPEN TO WRITE DATA TO A FILE
+=====
+string = 'This is a sentence'
+with open(r"C:\Users\Files\data.txt", "w") as writer:
+	writer.write(string)
+
+OR
+
+writer = open(r'C:\Users\Files\Lol.txt', "w")
+writer.write(string)
+
 NEWLINE CHARACTER
 =====
 # Non#printing character that move to the next line
@@ -970,9 +1066,10 @@ mix = ['Ali', 29, 175.5, 89.2, 'Sarah']
 
 # List in a list
 ll = [1, [23,2], 55]
+print(ll[1][1]) # 2
 
 # Empty list
-emp = []
+emp = [] # or emp = list()
 
 for data in mix:
 	print(data)
@@ -982,6 +1079,12 @@ CREATE A LIST OF NUMBER ASCENDING WIHOUT LOOP
 num_list = list(range(100))
 print(num_list) # [0, 1, 2, ..., 99]
 
+ls = list(range(3,8))
+print(ls) # [3,4,5,6,7]
+
+ls = list(range(0, 10, 2))
+print(ls) # [0, 2, 4, 6, 8]
+
 LOOKING INSIDE THE LISTS
 =====
 friends = ['Ali', 'Ah Kau', 'Muthu']
@@ -990,6 +1093,14 @@ print(friends[2])
 
 print(friends[:2])
 >> ['Ali', 'Ah Kau']
+
+GET THE INDEX OF THE ELEMENT
+=====
+grocery = ['cookie', 'bacon', 'vege']
+print(grocery.index('bacon')) # 1
+
+letter = ['a', 'b', 'a']
+print(letter.index('a')) # 0
 
 LISTS ARE MUTABLE/CHANGEABLE
 =====
@@ -1019,8 +1130,9 @@ print(ls) # [1,2,3,1,2,3]
 ls1 = [4,5,6]
 print(ls + ls1) # [1, 2, 3, 1, 2, 3, 4, 5, 6]
 
-LIST COUNTING
+COUNTING ELEMENT IN A LIST
 =====
+ls = [1, 2, 3, 1, 2, 3, 4, 5, 6]
 print(ls.count(3))
 >> 2
 
@@ -1096,6 +1208,9 @@ fruits.remove('Possible Fruit')
 fruits.remove('Pear')
 >> TRACEBACK: ValueError list.remove(x): x not in list
 
+ls = [1,5,1,2,3,4,1]
+ls.remove(1) # [5, 1, 2, 3, 4, 1]
+
 POP
 =====
 fruits.pop()
@@ -1148,7 +1263,7 @@ newList = sorted(names, key=len)
 newList
 >> ['Ali', 'Carlos', 'Pewdiepie']
 
-BUILD-IN FUNCTION FOR LIST
+BUILD-IN FUNCTION FOR LIST: FIND THE MAX, MIN, SUM, *
 =====
 nums = [12,25,38,49,53,6]
 len(nums)
@@ -2196,6 +2311,12 @@ def main():
 	sys.exit(0)
 
 main()
+
+RUN A COMMAND ON THE OS
+=====
+# os.popen("INSERT_YOUR_COMMAND")
+os.popen(calc) # Open calculator app
+
 
 #########################################################################################
 REGULAR EXPRESSIOB - REGEX
