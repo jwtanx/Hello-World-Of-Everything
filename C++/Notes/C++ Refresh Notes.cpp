@@ -1,6 +1,6 @@
 /* BASICS OF C++
 ========================================
-Last updated: Sat, February 13, 2021 - 23:13
+Last updated: Mon, February 15, 2021 - 15:02
 
 NOTE: This file is not compilable, I use the #define to highlight the syntax while writing the notes
 */
@@ -346,6 +346,62 @@ cout << "Output: " << sentence;
 Enter your sentence: Testing this is a test.
 Output: Testing
 */
+
+/* Function
+========================================*/
+#include <iostream>
+
+using namespace std;
+
+void welcome(string name, int age){
+    cout << "Hello " << name << " --- Age: " << age;
+}
+
+int main() {
+
+    string name;
+    int age;
+    cout << "Enter your name: ";
+    getline(cin, name); // John Smith
+    cout << "Enter your age: ";
+    cin >> age; // 55
+    welcome(name, age); // Hello John Smith --- Age: 55
+
+    return 0;
+}
+
+// NOTE: It will not work if you put the function welcome() below the main()
+// UNLESS you initialize it above the main() liek this below
+#include <iostream>
+
+using namespace std;
+
+void welcome(string name);
+
+int main(){
+	string user = "Steve";
+	welcome(user);
+}
+
+void welcome(string name){
+	cout << "Welcome " << name; // Welcome Steve
+}
+
+=======
+#define Funciton "Returning the value"
+// void function is not returning any value
+
+double cube(double n){
+    return n * n * n;
+    cout << "hello"; // <-- This line right here will not be executed because there is a return statement above
+}
+
+int main() {
+    double n;
+    cout << "Enter n: ";
+    cin >> n; // 3
+    cout << "The cube for " << n << " = " << cube(n); // The cube for 3 = 27
+}
 
 /* Getting the file size
 ========================================*/
