@@ -210,6 +210,43 @@ int main() {
     return 0;
 }
 
+/* 2D ARRAYS
+========================================*/
+#define Two_D_Array "Knowing X and Y"
+// x = row; y = column; mat[x][y] = { {}, {}, {} };
+
+// Make sure to assign the number of rows and columns during initialization
+int matrix[3][2] = {
+					{1, 2},
+					{3, 4},
+					{5, 6}
+				};
+
+// NOTE: At least put the value for y			
+int matrix[][2] = {
+					{1, 2},
+					{3, 4},
+					{5, 6}
+				};			
+
+=======
+#define Two_D_Array "Printing the 2-d Array"
+int rowLen = sizeof(matrix) / sizeof(matrix[0]);
+int colLen = sizeof(matrix[0]) / sizeof(matrix[0][0]);
+
+for(int i = 0; i < rowLen; i++){
+    for(int j = 0; j < colLen; j++){
+        cout << matrix[i][j] << " ";
+    }
+    cout << endl;
+}
+
+/*
+1 2
+3 4
+5 6
+*/
+
 /* OPERATORS
 ========================================*/
 #define Arithmetic_Operators "Maths"
@@ -635,6 +672,68 @@ for(int i = 0; i < numLength; i++){
 for (auto i: num){
 	cout << i << " "; // 99 88 77 66 55
 }
+
+=======
+#define For_Loop "Power without using cmath.pow()"
+int power(int base, int powNum){
+    int result = 1;
+    for(int i = 0; i < powNum; i++){
+        result *= base;
+    }
+    return result;
+}
+
+int main(){
+	cout << power(2, 3); // 8
+	pow(2, 3); // 8 <-- This one using #include <cmath>
+	return 0;
+}
+
+/* RECURSIVE
+========================================*/
+#define Recursive "Power without using cmath.pow() and for loop"
+int power(int base, int powNum){
+	if(powNum == 1) return base;
+	return base * power(base, powNum--);
+}
+
+int main(){
+	cout << power(2, 3); // 8
+}
+
+/* POINTERS
+========================================*/
+#define Pointers "Printing out the memory address by using &var"
+int age = 19;
+
+cout << &age; // 0x61fdec
+
+#define Pointers "Storing the memory address"
+int age = 19;
+int *pAge = &age; // Make sure that the variable type is the same as its variable type
+double price = 15.99;
+double *pPrice = &price;
+string name = "John";
+int *pName = &name; // This will not work as it is using int instead of string
+string *pName = &name; // This will work
+
+#define Pointers "Dereferencing of pointer"
+// Getting the value of the memory location
+double price = 15.99;
+double *pPrice = &price; // 0x61fdec
+
+cout << *pPrice; // 15.99
+
+#define Pointer "Referencing and Dereferencing at the same time"
+int age = 19;
+cout << *&age; // 19
+cout << &*&age; // 0x61fdec [Getting the memory address again]
+// NOTE: Fun leh, haiyaa~
+
+/* CLASSES AND OBJECTS
+========================================*/
+
+
 
 /* GETTING THE FILE SIZE
 ========================================*/
