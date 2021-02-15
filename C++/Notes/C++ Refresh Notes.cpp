@@ -5,7 +5,7 @@ Last updated: Mon, February 15, 2021 - 15:02
 NOTE: This file is not compilable, I use the #define to highlight the syntax while writing the notes
 */
 
-/* Hello World
+/* HELLO WORLD
 ========================================*/
 #include <iostream>
 
@@ -16,7 +16,7 @@ int main() {
     return 0;
 }
 
-/* Printing
+/* PRINTING
 ========================================*/
 #define cout "Normal_Printing"
 cout << "1";
@@ -37,7 +37,7 @@ cout << "3" << endl;
 memer = "Jeff";
 cout << "My name is " << memer << "! POG!" << endl;
 
-/* Variables & Data types
+/* VARIABLES & DATA TYPES
 ========================================*/
 #define String "Assigning"
 string text = "This is a sentence"; // Make sure it is double quote
@@ -96,7 +96,7 @@ bool ate = false;
 int a = 5, b = 6;
 float a, b;
 
-/* Arrays
+/* ARRAYS
 ========================================*/
 #define Arrays "Assigning"
 int nums[] = {2, 1234, 542, 312, 12};
@@ -159,7 +159,7 @@ for (const auto& i: num) {
     cout << i << ' '; // 1 2 3 4 5
 }
 
-// SIMPLEST
+// Simplest way to print an array
 for (auto i: num){
 	cout << i; // 12345
 }
@@ -209,7 +209,7 @@ int main() {
     return 0;
 }
 
-/* Operators
+/* OPERATORS
 ========================================*/
 #define Arithmetic_Operators "Maths"
 /*
@@ -245,6 +245,7 @@ cout << ++a << endl; // 11
 cout << a << endl;   // 11
 // NOTE: for ++a, the 'a' is incresed by 1 before being printed
 
+=======
 #define Assignment_Operators "Direct Assigning"
 /*
 x = 1   : x = 1
@@ -255,7 +256,50 @@ x /= 5  : x = x / 5
 x %= 6  : x = x % 6
 */
 
-/* Library
+=======
+#define Logical_Operators "Boolean"
+bool x = true, y = false;
+// NOTE: C++ make the true value to 1 while the false value to 0
+
+cout << x; // 1
+cout << y; // 0
+
+/*
+and : True when both operands are True
+or  : True when one of the operands is True
+not : True when the operand is False [Negation/Opposite of the operand]
+Precedence: not > and > or
+*/
+
+cout << x and y; // 0
+cout << x or y; // 1
+cout << not x; // 0
+
+// Same thing below
+cout << x && y; // 0
+cout << x || y; // 0
+cout << !x; // 0
+// NOTE: The &&, ||, ! is noramlly use for if-else
+
+=======
+#define Comparison_Operators "Comparing between/among variables"
+int x = 5, y = 2;
+cout << (x == y); // Output: 0
+cout << (x != y); // Output: 1
+cout << (x < y);  // Output: 0
+cout << (x > y);  // Output: 1
+cout << (x <= y); // Output: 0
+cout << (x >= y); // Output: 1
+// NOTE: 1 == true; 0 = false;
+
+// Special feature like python
+int x = 1, y = 2, z = 3;
+cout << (x < y < z);    // Output: 1
+
+int x = 1, y = 3, z = 3;
+cout << (x > y == z);   // Output: 0
+
+/* LIBRARIES
 ========================================*/
 #define <cmath> "Mathematics Library"
 
@@ -289,7 +333,7 @@ int main() {
 	return 0;
 }
 
-/* Getting user input
+/* GETTING USER INPUTS
 ========================================*/
 #define Input "Getting int, float, double, char"
 
@@ -347,7 +391,7 @@ Enter your sentence: Testing this is a test.
 Output: Testing
 */
 
-/* Function
+/* FUNCTION
 ========================================*/
 #include <iostream>
 
@@ -403,7 +447,97 @@ int main() {
     cout << "The cube for " << n << " = " << cube(n); // The cube for 3 = 27
 }
 
-/* Getting the file size
+/* IF-ELSE STATEMENT
+========================================*/
+int main(){
+	bool paid = true;
+
+	if(paid){
+		cout << "You have paid the bill."; // This will be printed if paid == true
+	} else {
+		cout << "Please pay as soon as possible!"; // This will be printed if paid == false
+	}
+}
+
+#Boolean_Opearators "&& , || , !"
+bool x = true, y = false;
+if(x && y) {
+	cout << "Both true";
+} else if (x || y) {
+	cout << "At least one is true"; // This will be printed in this case
+} else {
+	cout << "Both false";
+}
+
+#Boolean_Operator "=="
+if(x){
+	cout << "x is true";
+}
+// OR
+if(x == true){
+	cout << "x is true";
+}
+
+#Boolean_Operator "!="
+if(!x){
+	cout << "x is false";
+}
+// OR
+if(x != true){
+	cout << "x is false";
+}
+
+=======
+#define If_Else "Comparing 3 numbers"
+int getMax(int x, int y, int z){
+    if(x >= y && x >= z) return x;
+    else if (y >= x && y >= z) return y;
+    else return z;
+}
+
+int main(){
+	cout << getMax(5,5,2); // 5
+}
+
+/* SWITCH STATEMENT
+========================================*/
+int dayNum;
+cout << "Enter a number from 0 - 6: ";
+cin >> dayNum;
+
+string day;
+
+switch (dayNum) {
+    case 0:
+        day = "Sunday";
+        break;
+    case 1:
+        day = "Monday";
+        break;
+    case 2:
+        day = "Tuesday";
+        break;
+    case 3:
+        day = "Wednesday";
+        break;
+    case 4:
+        day = "Thursday";
+        break;
+    case 5:
+        day = "Friday";
+        break;
+    case 6:
+        day = "Saturday";
+        break;
+    default:
+        cout << "Invalid number";
+        exit(0);
+        break;
+}
+
+cout << "The day is " << day;
+
+/* GETTING THE FILE SIZE
 ========================================*/
 /* Reference
 File seeker: https://www.youtube.com/watch?v=xBoMVv8uXG0
@@ -421,7 +555,7 @@ int main(){
     return 0;
 }
 
-/* Input & Output with files
+/* INPUT & OUTPUT WITH FILES
 ========================================*/
 /* Reference
 https://www.cplusplus.com/doc/tutorial/files/
