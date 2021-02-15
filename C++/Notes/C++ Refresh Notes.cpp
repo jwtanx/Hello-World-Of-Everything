@@ -1,6 +1,6 @@
 /* BASICS OF C++
 ========================================
-Last updated: Mon, February 15, 2021 - 16:58
+Last updated: Mon, February 15, 2021 - 21:57
 
 NOTE: This file is not compilable, I use the #define to highlight the syntax while writing the notes
 */
@@ -82,6 +82,23 @@ float price = 12.99;
 =======
 #define Double "Can store more decimal point than float"
 double pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286;
+
+=======
+#define Number "Converting numbers to string"
+// Reference: https://www.javatpoint.com/cpp-int-to-string
+
+// Below is the easiest way, take a look in the reference to know the other two methods
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main(){
+	int age = 15;
+	cout << "My age is " + age; // Error
+	cout << "My age is " << age; // Work
+	cout << "My age is " + to_string(age); // Work
+}
 
 =======
 #define Character
@@ -209,6 +226,15 @@ int main() {
  
     return 0;
 }
+
+#Array_Find "Finding if the element is in an array WOUT USING THE FOR LOOP"
+// Reference: https://stackoverflow.com/questions/19215027/check-if-element-found-in-array-c
+#include <algorithm>
+
+int my_list[] = {1,2,3,4,5};
+int my_var = 5;
+bool found = std::find(std::begin(my_list), std::end(my_list), my_var);
+std::cout << found; // 1
 
 /* 2D ARRAYS
 ========================================*/
@@ -712,7 +738,7 @@ cout << &age; // 0x61fdec
 int age = 19;
 int *pAge = &age; // Make sure that the variable type is the same as its variable type
 double price = 15.99;
-double *pPrice = &price;
+double *pPrice = &price; // NOTE: Not neccessarily put the 'p', you can put *Price
 string name = "John";
 int *pName = &name; // This will not work as it is using int instead of string
 string *pName = &name; // This will work
@@ -732,7 +758,269 @@ cout << &*&age; // 0x61fdec [Getting the memory address again]
 
 /* CLASSES AND OBJECTS
 ========================================*/
+#include <iostream>
 
+using namespace std;
+
+// Creating a class
+class Customer {
+	// Adding the attributes
+	public:
+		string name;
+		char gender;
+		int age;
+};
+
+int main(){
+	// Creating an object from the Class Customer
+	Customer customer1;
+	customer1.name = "John";
+	customer1.gender = 'M';
+	customer1.age = 30;
+
+	cout << customer1.name; // John
+}
+
+=======
+#define Class "In array"
+// Reference - https://stackoverflow.com/questions/25838551/c-storing-an-object-into-an-array-of-objects-within-the-constructor-of-that-ob
+class Customer {
+	// Adding the attributes
+	public:
+		string name;
+		char gender;
+		int age;
+};
+
+int main() {
+    cout << "\nThis is a test file only.\n=========================\n";
+
+    int n;
+    string temp;
+
+    cout << "Enter the number of customer: ";
+    cin >> n;
+    getline(cin, temp); // To skip the line when 'Enter' is pressed
+
+    Customer customerList[n];
+
+    for (int i = 0; i < n; i++){
+        cout << "\nEnter customer " << i+1 << " name: ";
+        getline(cin, customerList[i].name);
+        cout << "Enter customer " << i+1 << " gender: ";
+        cin >> customerList[i].gender;
+        cout << "Enter customer " << i+1 << " age: ";
+        cin >> customerList[i].age;
+        getline(cin, temp);
+    }
+
+    int customerLen = sizeof(customerList) / sizeof(customerList[0]);
+
+    for(int i = 0; i < customerLen; i++){
+        cout << "\nCustomer " << i+1 << "'s info\n";
+        cout << customerList[i].name << " ";
+        cout << customerList[i].gender << " ";
+        cout << customerList[i].age << "\n";
+    }
+    // NOTE: The above method can be converted into a method called toString()
+}
+
+/*
+Enter customer 1 name: John
+Enter customer 1 gender: M
+Enter customer 1 age: 22
+
+Enter customer 2 name: Cathy
+Enter customer 2 gender: F
+Enter customer 2 age: 50
+
+Enter customer 3 name: Cena
+Enter customer 3 gender: M
+Enter customer 3 age: 99
+
+Customer 1's info
+John M 22
+
+Customer 2's info
+Cathy F 50
+
+Customer 3's info
+Cena M 99
+*/
+
+=======
+#define Classes "Consrtuctor & Encapsulation"
+// Reference: https://www.w3schools.com/cpp/cpp_encapsulation.asp
+#include <iostream>
+#include <string> // Make sure to include this to use the to_string(int)
+
+using namespace std;
+
+class Customer {
+	// Adding the attributes
+    private: // When the attributes are in private, we cannot retrieve it via object.name
+		string name;
+		char gender;
+		int age;
+
+	public: // Any code below can be accessed outside from the class [Not safe]
+        // Constructor with default values
+        Customer(){
+            name = "";
+            gender = 'M';
+            age = 0;
+        }
+
+        // Constructor with attributes
+        // 'this' pointer refernce: https://www.geeksforgeeks.org/this-pointer-in-c/
+        Customer(string name, char gender, int age){
+            this->name = name;
+            this->gender = gender;
+            this->age = age;
+        }
+
+        // Setters / Mutators
+        void setName(string name){
+            this->name = name;
+        }
+        void setGender(char gender){
+            this->gender = gender;
+        }
+        void setAge(int age){
+            this->age = age;
+        }
+
+        // Getters
+        string getName(){
+            return name;
+        }
+        char getGender(){
+            return gender;
+        }
+        int getAge(){
+            return age;
+        }
+
+        // Object function: toString method
+        string toString(){
+            return name + " " + gender + " " + to_string(age) + "\n";
+        }
+};
+
+int main() {
+    int n;
+    string temp;
+
+    cout << "Enter the number of customer: ";
+    cin >> n;
+    getline(cin, temp); // To skip the line when 'Enter' is pressed
+
+    Customer customerList[n]; // Use arraylist, will update in the future. Array list is better as you can append it
+
+    for (int i = 0; i < n; i++){
+        string name; char gender; int age;
+        cout << "\nEnter customer " << i+1 << " name: "; getline(cin, name);
+        customerList[i].setName(name);
+        cout << "Enter customer " << i+1 << " gender: "; cin >> gender;
+        customerList[i].setGender(gender);
+        cout << "Enter customer " << i+1 << " age: "; cin >> age;
+        getline(cin, temp);
+        customerList[i].setAge(age);
+    }
+
+    int customerLen = sizeof(customerList) / sizeof(customerList[0]); // Will find a better way to get the length of the customerList
+
+    // Using toString() method
+    for(int i = 0; i < customerLen; i++){
+        cout << "\nCustomer " << i+1 << "'s info\n";
+        cout << customerList[i].toString();
+    }
+
+    /* Another way to enter the detail using the constructor
+    Customer boss = Customer("Boss", 'F', 24);
+    cout << boss.toString();
+	*/
+}
+
+/* INHERITANCE
+========================================*/
+// Let's take a look at a simple version
+
+// Superclass, Base Class
+class Animal {
+    private:
+        string sound;
+
+    public:
+        string name;
+        // Object function
+
+        // UPDATE: Still looking how to create an constructor in the Animal Class
+        void eat(){
+            cout << "Yum yum, eating!\n";
+        }
+
+        void sleep(){
+            cout << "Zzz...\n";
+        }
+
+        void setSound(string sound){
+            this->sound = sound;
+        }
+
+        void makeSound(){
+            cout << name + " is " + sound + "ing!";
+        }
+};
+
+// Inherit from the class Animal
+// Subclass, Derived Class
+class Dog : public Animal{
+    public:
+        Dog(string name){
+            cout << "\nNew dog!\n";
+            setSound("woof");
+            this->name = name; // Only work when the string name is public in the Animal Class
+        }
+};
+
+// Subclass, Derived Class
+class Cat : public Animal{
+    public:
+        Cat(string name){
+            cout << "\nNew cat!\n";
+            setSound("meow");
+            this->name = name; // Only work when the string name is public in the Animal Class
+        }
+
+        // Override the function of eat() in the Animal Class
+        void eat(){
+            cout << "Huzzah ooga! Yum Yum Yum!\n";
+        }
+};
+
+int main() {
+    Dog dog1 = Dog("Max");
+    dog1.eat();
+    dog1.sleep();
+    dog1.makeSound();
+
+    Cat cat1 = Cat("Kittie");
+    cat1.eat();
+    cat1.sleep();
+    cat1.makeSound();
+}
+
+/*
+New dog!
+Yum yum, eating!
+Zzz...
+Max is woofing!
+New cat!
+Huzzah ooga! Yum Yum Yum!
+Zzz...
+Kittie is meowing!
+*/
 
 
 /* GETTING THE FILE SIZE
