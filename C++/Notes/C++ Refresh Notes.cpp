@@ -96,6 +96,119 @@ bool ate = false;
 int a = 5, b = 6;
 float a, b;
 
+/* Arrays
+========================================*/
+#define Arrays "Assigning"
+int nums[] = {2, 1234, 542, 312, 12};
+double price[] = {2.99, 1.12, 542.22, 2.23, 5.9};
+string name[] = {"Abu", "John", "Mendy", "Jeff"};
+
+// NOTE: All index starts from 0
+cout << nums[0]; // 2
+cout << nums[99]; // 0
+cout << price[3]; // 2.23
+cout << name[4]; // Nothing will be printed
+
+=======
+#define Arrays "Setting the arary size"
+int num[10] = {5, 2, 1, 2, 3}; // <-- Setting an array of integers that store 10 elements
+cout << num[10]; // 0
+cout << num[9]; // 0
+
+=======
+#define Arrays "Changing the data in the array"
+int num[] = {5, 3, 2, 1};
+num[0] = 4;
+cout << num[0]; // 4
+cout << num; // 0x61fde0 <- The location of the address that store the array
+
+=======
+#define Arrays "Printing the elements of the array"
+// Reference: https://www.techiedelight.com/print-contents-array-cpp/
+
+#Array_Printing "For Loop: Using array indices"
+int num[] = {1,2,3,4,5};
+
+cout << sizeof(num); // 20
+
+for(int i = 0; i < sizeof(num) / sizeof(num[0]); i++){ 
+	// NOTE: The reason why need to divide by the size of num[0] is because in an array, every element has a equal size
+	// Take a look at Computer System and Architecture
+	cout << i; // 12345
+}
+
+// Using size_t: size_t is the type returned by the sizeof operator and is widely used in the standard library to represent sizes and counts.
+// Reference: http://www.cplusplus.com/reference/cstring/size_t/
+int input[] = { 1, 2, 3, 4, 5 };
+size_t n = sizeof(input)/sizeof(input[0]);
+
+// loop through the elements of the array
+for (size_t i = 0; i < n; i++) {
+    cout << input[i] << ' ';
+}
+
+#Array_Printing "Using copy & experimental::ostream_joiner"
+int input[] = { 1, 2, 3, 4, 5 }; 
+std::copy(std::begin(input), std::end(input), std::experimental::make_ostream_joiner(std::cout, " "));
+// NOTE: Only applicable for C++ 17
+
+#Array_Printing "Range based for loop"
+int num[] = { 1, 2, 3, 4, 5 };
+ 
+for (const auto& i: num) {
+    cout << i << ' '; // 1 2 3 4 5
+}
+
+// SIMPLEST
+for (auto i: num){
+	cout << i; // 12345
+}
+
+#Array_Printing "Iterators"
+int num[] = { 1, 2, 3, 4, 5 };
+
+for(auto i = cbegin(num); i != cend(num); i++){
+	cout << *i << endl;
+}
+// NOTE: If without the * in the '*i', the output would be the address for each element in the array
+
+#Array_Printing "For_each"
+#include <iostream>
+// #include <vector> // This is not needed also can run
+#include <algorithm> // This is a must
+ 
+using namespace std;
+ 
+void print(const int &i) {
+    cout << i << ' ';
+}
+ 
+// Print contents of an array in C++ using for_each
+int main()
+{
+    int input[] = { 1, 2, 3, 4, 5 };
+    for_each(begin(input), end(input), print);
+    return 0;
+}
+
+#Array_Printing "For_each: Better using lamdba as compared to the above"
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+// Print contents of an array in C++ using std::for_each
+int main() {
+    int input[] = { 1, 2, 3, 4, 5 };
+ 
+    for_each(begin(input), end(input), [](const int &e) {
+    	cout << e << " ";
+    });
+ 
+    return 0;
+}
+
 /* Operators
 ========================================*/
 #define Arithmetic_Operators "Maths"
