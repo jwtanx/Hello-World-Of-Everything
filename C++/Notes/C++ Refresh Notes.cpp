@@ -92,6 +92,10 @@ char grade = 'F'; // Make sure it is single quote
 bool paid = true;
 bool ate = false;
 
+// NOTE: You can initialize both variable at the same time
+int a = 5, b = 6;
+float a, b;
+
 /* Operators
 ========================================*/
 #define Arithmetic_Operators "Maths"
@@ -100,8 +104,6 @@ a + b   : Adds a and b
 a - b   : Subtracts b from a
 a * b   : Multiplies a and b
 a / b   : Divides a by b
-a ** b  : Elevates a to the power of b. For non integer values of b, this becomes a root (i.e. a**(1/2) is the
-        square root of a)
 a % b   : The remainder part of the integer division of a by b
 a++		: Adding 1 to 'a'
 a--		: Substract 1 from 'a'
@@ -113,6 +115,9 @@ cout << a * b << endl; // 30
 cout << a / b << endl; // 3
 cout << (float) (a / b) << endl; // 3
 cout << ((float) (a) / (float)(b)) << endl; // 3.33333
+cout << 10.0 / 3 << endl; // 3.33333
+cout << 10 / 3.0 << endl; // 3.33333
+cout << 10.0 / 3.0 << endl; // 3.33333
 cout << a % b << endl; // 1
 
 a = 10;
@@ -135,17 +140,99 @@ x -= 3  : x = x - 3
 x *= 4  : x = x * 4
 x /= 5  : x = x / 5
 x %= 6  : x = x % 6
-x //= 7 : x = x // 7
-x **= 8 : x = x ** 8
 */
 
 /* Library
 ========================================*/
 #define <cmath> "Mathematics Library"
 
+#include <iostream>
 #include <cmath>
 
+using namespace std;
 
+int main() {
+
+	cout << pow(2, 5) << endl; // 2 to the power of 5 = 32
+	cout << sqrt(36) << endl; // squaroot of 36 = 6
+	cout << round(4.35) << endl; // 4
+	cout << round(4.45) << endl; // 4
+	cout << round(4.55) << endl; // 5
+	cout << ceil(4.1) << endl; // 5
+	cout << floor(4.9) << endl; // 4
+	cout << fmax(3, 10) << endl; // 10 <- Return the largest number
+	cout << fmin(3, 10) << endl; // 3 <- Return the smallest number
+
+	// NOTE: More functions like sin(rad), cos(rad), tan(rad), exponential
+	// NOTE: Make sure that the sine, cos, tan parameter are in radian
+	// Convert degree to radian first, M_PI is given in the C++
+	double degree = 90;
+	double rad = (degree / 180) * M_PI;
+	cout << sin(rad) << endl; // 1.22461e-16 == 0
+	cout << cos(rad) << endl; // -1
+    cout << tan(rad) << endl; // -1.22465e-16 == 0
+    cout << exp(2) << endl; // e^2 = 7.38906
+
+	return 0;
+}
+
+/* Getting user input
+========================================*/
+#define Input "Getting int, float, double, char"
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+
+	int age;
+	cout << "Enter your age: ";
+
+	// Getting the user input
+	cin >> age;
+	// NOTE: Make sure the double arrows are pointing to the age
+
+	cout << "You are " << age << " years old.";
+
+}
+
+=======
+#define Input "Getting two or more variables at the same time"
+int a, b;
+cout << "Enter two numbers separated by a space: ";
+cin >> a >> b;
+cout << "The answer is " << a + b;
+
+/*
+Enter two numbers separated by a space: 5 7
+The answer is 12
+*/
+
+=======
+#define Input "Getting string"
+// getline(cin,  STR_VARIABLE);
+
+string address;
+cout << "Enter your address: ";
+getline(cin, address);
+cout << "Output: " << address;
+
+/*
+Enter your address: 1, Meme Street CO 10521.
+Output: 1, Meme Street CO 10521.
+*/
+
+// NOTE: If you are not using getline(cin, STR_VARIABLE);
+string sentence;
+cout << "Enter your sentence: ";
+cin >> sentence;
+cout << "Output: " << sentence;
+
+/*
+Enter your sentence: Testing this is a test.
+Output: Testing
+*/
 
 /* Getting the file size
 ========================================*/
