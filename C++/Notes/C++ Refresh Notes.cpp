@@ -1,6 +1,6 @@
 /* BASICS OF C++
 ========================================
-Last updated: Mon, February 15, 2021 - 15:02
+Last updated: Mon, February 15, 2021 - 16:58
 
 NOTE: This file is not compilable, I use the #define to highlight the syntax while writing the notes
 */
@@ -100,6 +100,7 @@ float a, b;
 ========================================*/
 #define Arrays "Assigning"
 int nums[] = {2, 1234, 542, 312, 12};
+int[] nums = {2, 1234, 542, 312, 12}; // int[] - This will not work in C++ but will work in Java
 double price[] = {2.99, 1.12, 542.22, 2.23, 5.9};
 string name[] = {"Abu", "John", "Mendy", "Jeff"};
 
@@ -536,6 +537,104 @@ switch (dayNum) {
 }
 
 cout << "The day is " << day;
+
+/* WHILE LOOP
+========================================*/
+int countdown = 10;
+
+while(countdown > 0){
+	cout << countdown << ' ';
+	coundown--; // This is a MUST to avoid INFINITY LOOPING that may crash your system [CTRL + C to break the loop]
+}
+cout << "- Blast off!";
+// 10 9 8 7 6 5 4 3 2 1 - Blast off!
+
+while(countdown > 0){
+	cout << countdown-- << ' ';
+}
+cout << "- Blast off!";
+// NOTE: Refer to OPERATOR's #define Arithmetic_Operators "Maths"
+
+int x = 6;
+
+while(x <= 5) {
+	cout << x; // This will not be executed since they check x is not <= 5
+}
+
+=======
+#define do_while_loop "The code block in the do block will be executed no matter what"
+
+int x = 6;
+
+do {
+	cout << x << endl; // It will print 6 then done
+	x++;
+} while (x <= 5);	
+
+=======
+#define While_Loop "Guessing number"
+int secretNum = 5;
+int guess;
+int chance = 3;
+int tried = 0;
+bool gameOver = false;
+
+while(secretNum != guess && !gameOver){
+    if(tried != chance) {
+        cout << "Enter guess: ";
+        cin >> guess;
+        if(guess == secretNum) {
+            cout << "You win!";
+            break;
+        }
+        tried++;
+    } else {
+        gameOver = true;
+        cout << "You lose!";
+    }
+}
+
+// Simpler version
+int secretNum = 5, guess, chance = 3;
+
+while(chance > 0){
+    cout << "Enter guess: ";
+    cin >> guess;
+    if(guess == secretNum) {
+        cout << "You win!";
+        break;
+    } else {
+        chance--;
+        if (chance == 0) cout << "You lose!";
+    }
+}
+
+/* FOR LOOP
+========================================*/
+#define For_Loop "Increment"
+for (int i = 0; i < 10; i++){
+	cout << i << " "; // 0 1 2 3 4 5 6 7 8 9 NOTE: 10 is not included as the i < 10
+}
+
+=======
+#define For_Loop "Decrement"
+for (int i = 10; i > 0; i--){
+	cout << i << " "; // 10 9 8 7 6 5 4 3 2 1 NOTE: 0 is not included as the i > 0
+}
+
+=======
+#define For_Loop "Array"
+int num[] = {99, 88, 77, 66, 55};
+int numLength = sizeof(num) / sizeof(num[0]);
+
+for(int i = 0; i < numLength; i++){
+	cout << num[i] << " "; // 99 88 77 66 55
+}
+
+// Simpler version
+for (auto i: num){
+	cout << i << " "; // 99 88 77 66 55
+}
 
 /* GETTING THE FILE SIZE
 ========================================*/
