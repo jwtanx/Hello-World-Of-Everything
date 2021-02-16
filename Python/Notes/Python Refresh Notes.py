@@ -92,9 +92,9 @@ and
 or
 # left TO right
 
-LOGICAL OPERATORS
+LOGICAL OPERATORS # For more detailed explanation, take a look at the `02-Operators.py` in this repo/Python
 =====
-COMPARISON:
+COMPARISON: 
 '''
 >
 >=
@@ -120,9 +120,17 @@ x = [1,2,3]
 tmp = x
 print(tmp is x) # Ouput: True
 
+print(id(x))   # 2561080621696 <-- Memory address of the list pointing to
+print(id(tmp)) # 2561080621696
+
+# Let's see if we create another list and compare their address and values
 y = [1,2,3]
-print(tmp is y) # Output: False
-print(tmp == y) # Output: True
+print(tmp is y) # Output: False | Why? Because the 'is'keyword is used for literal meaning, in this case the address of the 'y' and the address of the 'tmp'
+
+print(id(tmp))   # 2561080621696
+print(id(y))     # 2561080612352
+
+print(tmp == y) # Output: True  | Why? Because it just checked the values of the both list
 
 COMPARING AMONG VARIABLES
 =====
@@ -149,13 +157,29 @@ IF, ELIF, ELSE
 =====
 if x == 5:
 	print('It\'s a five')
-elif x > 6:
+elif x > 6: # NOTE: THERE IS NO 'else if' IN PYTHON
 	print(' More than 6')
 else:
 	print('Something else')
 
 print("even" if x % 2 == 0 else "odd")
 >> odd
+
+# Special features: To check if there is any value in the sequence
+"""
+# FALSE VALUES: 
+    # False
+    # None
+    # Zero of any numeric type: 0, 0.00 (Other Negative or positive number will return True)
+    # Empty sequence : '' [] ()
+    # Empty mapping: {}
+"""
+x = None
+if x:
+    print(True)
+else:
+    print(False)
+# False
 
 COMMENT
 =====
@@ -172,7 +196,7 @@ x = float(1)
 >> 1.0
 
 x = str(x)
-x = int(x)
+x = int(x) # Converting a string into a int
 x = float(x)
 
 ttl = int("2") + int("5")
@@ -211,6 +235,7 @@ finally:
 	print('Goodbye')
 	quit() # <## completely exit the program
 
+#########################################################################################
 FUNCTION
 =====
 def add(x, y):
@@ -219,6 +244,13 @@ def add(x, y):
 sum = add(2, 5)
 print(sum)
 >> 7
+
+# Default value when the variable is not passed into
+def welcome(name="user"):
+    print(f"Hello {name}")
+
+welcome("Steve") # Hello Steve
+welcome() # Hello user
 
 # Returning more than 1 value from a function
 def convert(seconds):
@@ -239,6 +271,12 @@ print(HRS, MINS, SECS)
 def welcome(name='user'):
     print('hello', name)
 welcome() # Output: hello user
+
+LEAP YEAR
+=====
+def isLeap(year):
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
 
 FUNCTION WITH DIFFERENT POSITION OF THE KEYWORD PARAMETER
 =====
@@ -314,6 +352,21 @@ def message(**orderProd_amt):
 message(orderProduct = "Cookie", amt = 13)
 message(orderProduct = "Bread", amt = 5)
 
+# MORE EXAMPLE
+# Reference: https://youtu.be/9Os0o3wzS_I?list=PL-osiE80TeTskrapNbzXhwoFUiLCjGgY7&t=881
+def student_info(*args, **kwargs):
+    print(args)
+    print(kwargs)
+
+courses = ['History', 'CS']
+info = {'name':'Jane', 'age':29}
+student_info(courses, info)
+
+"""
+('History', 'CS')
+{'name':'Jane', 'age':29}
+"""
+
 REPLACE A FUNCTION WITH ANOTHER FUNCTION
 =====
 def test(name):
@@ -335,13 +388,17 @@ def combine(func, x, y):
 
 print(combine(add, 5, 10))
 
+#########################################################################################
 WHILE LOOP WITH BREAK & CONTINUE
 =====
+# NOTE: MAKE SURE YOU HAVE A CONDITION THAT CAN CEASE THE LOOPING 
+# IF STUCK IN A INFINITY LOOPING, PRESS `CTRL + C` TO STOP THE PROGRAM
+
 # Indefinite loop
 while True:
 	line = raw_input("> ") # For python 3 change to input()
 	if(line[0] == '#'):
-		continue
+		continue # Skip the below code and continue the next loop
 	if line == 'done':
 		break
 	print(line)
@@ -404,6 +461,47 @@ Example 4:
 for i in range(2, 10, 2):
 	print(i, end=" ")
 # Output: 2 4 6 8
+
+Example 5: Looping through each of the letter in a string
+for letter in "abc":
+    print(letter)
+"""
+a
+b
+c
+"""
+
+# BREAK in FOR LOOP: Stop the for loop immediately
+num = [1,2,3,4,5]
+find = 3
+for i in num:
+    if i == find:
+        print("found!")
+        break;
+    print(i)
+
+"""
+1
+2
+found!
+"""
+
+# CONTINUE in FOR LOOP: Skipping the rest of the code below the continue statement and continue the next loop
+num = [1,2,3,4,5]
+find = 3
+for i in num:
+    if i == find:
+        print("found!")
+        continue;
+    print(i)
+
+"""
+1
+2
+found!
+4
+5
+"""
 
 # Factorial using For Loop
 factorial(n):
@@ -527,6 +625,7 @@ int(x), float(x)
 
 ROUNDING OFF
 =====
+# round(FLOAT, NUMBER_OF_DECIMAL)
 total = 12.259
 round(total, 2)
 >> 12.26
@@ -535,6 +634,12 @@ total
 total = round(total, 2)
 total
 >> 12.26
+
+ABSOLUTE VALUE
+=====
+abs(-3) = 3     # Return absolute value of -3: Always a positive number will be returned
+abs(3)  = 3
+abs(-123.42123) = 123.42123
 
 #########################################################################################
 STRINGS
@@ -658,8 +763,12 @@ print(foo)
 type(tmp)
 #>> <class 'str'>
 
+# .count() - Count and return the amount of occurance of the word/letter asked to count
 print(tmp.count('l'))
 >> 3
+
+# .find() - Find and return the index position of the parameter in a str
+# CTRL + F = "FIND THE INDEX"
 
 MATH LIBRARY
 =====
@@ -695,7 +804,7 @@ pos = fruit.find('na')
 >> 2
 
 aa = fruit.find('z')
->> #1
+>> -1
 
 info = 'From geniusGoogle@gmail.com GeniusUser'
 pos = info.find('@')
@@ -874,9 +983,9 @@ JOIN
 lst = "The string is splitted into a list".split(" ")
 lst
 >> ['The', 'string', 'is', 'splitted', 'into', 'a', 'list']
-finalString = "#".join(lst)
+finalString = " - ".join(lst)
 finalString
->> 'The#string#is#splitted#into#a#list'
+>> 'The - string - is - splitted - into - a - list'
 
 Formatting String
 =====
@@ -889,6 +998,10 @@ print("Hello {}, your lucky number is {}". format(name, number))
 # More systematic way
 # Note that name & name are identified separately
 print("Your lucky number is {num}, {name}.".format(name = name, num = len(name)*3))
+>> Your lucky number is 12, John.
+
+# Easiest way
+print(f"Your lucky number is {number}, {name}.") # Make sure the variable in the curly braces is same as the initialized variables
 >> Your lucky number is 12, John.
 
 # Example
@@ -1058,21 +1171,36 @@ except:
 #########################################################################################
 LISTS
 =====
+# Creating a list
+A = list()
+A = []
+
 # A COLLECTION
 friends = ['Ali', 'Ah Kau', 'Muthu']
 
 # A list can be included with diff type of data
 mix = ['Ali', 29, 175.5, 89.2, 'Sarah']
+print(mix[1]) # 29
+print(mix[5]) # 'Sarah'
+print(mix[-1]) # 'Sarah'
+print(mix[0]) # 'Ali'
+print(mix[-5]) # 'Ali'
+print(mix[-6]) # IndexError: list index out of range
+print(mix[6]) # IndexError: list index out of range
 
 # List in a list
 ll = [1, [23,2], 55]
 print(ll[1][1]) # 2
 
-# Empty list
+# Clear the list
 emp = [] # or emp = list()
 
+# Printing the elements of the list using for loop
 for data in mix:
-	print(data)
+	print(data, end = " ") # 'Ali' 29 175.5 89.2 'Sarah'
+
+# Print the list at once
+print(mix) # ['Ali', 29, 175.5, 89.2, 'Sarah']
 
 CREATE A LIST OF NUMBER ASCENDING WIHOUT LOOP
 =====
@@ -1094,13 +1222,19 @@ print(friends[2])
 print(friends[:2])
 >> ['Ali', 'Ah Kau']
 
-GET THE INDEX OF THE ELEMENT
+n = [5,4,3,2,1]
+print(n[2:4]) # [3,2] NOTE: the [x:y] --> x is inclusive while y is not inclusive
+
+GET THE INDEX OF THE ELEMENT IN A LIST
 =====
 grocery = ['cookie', 'bacon', 'vege']
 print(grocery.index('bacon')) # 1
 
 letter = ['a', 'b', 'a']
 print(letter.index('a')) # 0
+
+num = [1,2,3]
+print(num.index(1)) # 0
 
 LISTS ARE MUTABLE/CHANGEABLE
 =====
@@ -1245,6 +1379,16 @@ print(name)
 name[1]
 >> 'John'
 
+# NOTE: Works for the numbers too
+x = [3,1,2]
+x.sort()
+print(x) [1,2,3]
+
+# SORTING IN REVERSE ORDER
+n = [1,2,3]
+n.sort(reverse=True)
+print(n) # [3,2,1]
+
 SORTED
 =====
 # This function return you a new sorted list without modifying the original list
@@ -1340,20 +1484,45 @@ print([x for x in range(0, 40) if x % 3 == 0])
 
 # MORE LIST METHODS
 list.reverse() # Reverses the order of items of the list
+x = [1,2,3]
+x.reverse()
+print(x) # [3,2,1]
+
 list.clear() # Removes all the items of the list
 list.copy() # Creates a copy of the list
 list.extend(other_list) # Appends all the elements of other_list at the end of list
 
+x = [1,2,3]
+y = [4,5]
+x.extend(y)
+print(x) # [1,2,3,4,5]
+
+# NOTE: If you use append, it will cause list in a list
+# Example
+x = [1,2,3]
+y = [4,5]
+x.append(y)
+print(x) # [1,2,3,[4,5]]
+
 #########################################################################################
 DICTIONARIES
 =====
+# Creating a dictionary
+A = dict()
+A = {}
+
 # IT HAS LABEL TO IT
 # KEY-VALUE PAIR LIKE HASHMAP
 # Not in order
 purse = {'RM50': 1, 'RM20': 5, 'RM5': 3}
 purse['RM5'] # 3
 purse.get('RM5') # 3
-purse.get('RM1', 0) # 0 because default value = 0 when the key 'RM1' is not found
+purse['RM1'] # ERROR: KeyError: 'RM1'
+purse.get('RM1', 0) # 0 because default value is set to 0 when the key 'RM1' is not found
+purse.get('RM1', 'Not found!') # Not found!
+
+# NOTE: Without the 0 parameter added, it will return None if the key is not found
+purse.get('RM1') # None
 
 wallet = dict()
 wallet['RM50'] = 3
@@ -1379,11 +1548,23 @@ wallet['RM50'] = 0
 print(wallet)
 >> {'RM50': 0, 'RM20': 10, 'RM5': 7, 'RM1': 12}
 
+ADDING KEY AND UPDATING FEW KEYS AND THEIR RESPECIVE VALUE AT THE SAMETIME
+=====
+student1 = {'name':'John', 'age':19, 'courses':['CS', 'ALGO']}
+student1.update({'name':'Jane', 'age':29, 'phone':'213-1234'})
+print(student1)
+# {'name': 'Jane', 'age': 29, 'courses': ['CS', 'ALGO'], 'phone': '213-1234'}
+
 DELETING KEY WITH ITS VALUE
 =====
 del wallet['RM50']
 print(wallet)
 >> {'RM20': 10, 'RM5': 7, 'RM1': 12}
+
+# NOTE: Another way to delete
+student1 = {'name':'John', 'age':19, 'courses':['CS', 'ALGO']}
+s1courseList = student1.pop('courses') # ['CS', 'ALGO']
+print('student1') # {'name': 'John', 'age': 19}
 
 FINDING KEYS THAT DONT EXIST
 =====
@@ -1406,6 +1587,42 @@ for name in names:
 print(hashmap)
 >> {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
 # Simplified version below
+
+LENGTH OF THE KEYS IN A DICT
+=====
+student1 = {'name':'John', 'age':19, 'courses':['CS', 'ALGO']}
+print(len(student1)) # 3
+
+GETTING THE KEYS
+=====
+print(student1.keys()) # dict_keys(['name', 'age', 'courses'])
+
+GETTING THE VALUES
+=====
+print(student1.values()) # dict_values(['John', 19, ['CS', 'ALGO']])
+
+GETTING THE KEYS AND VALUE USING .items()
+=====
+print(student1.items()) # dict_items([('name', 'John'), ('age', 19), ('courses', ['CS', 'ALGO'])])
+print(student1) # {'name': 'John', 'age': 19, 'courses': ['CS', 'ALGO']}
+
+PRINTING THE KEYS AND VALUES USING FOR LOOP
+=====
+>>> for k, v in student1: # NOTE: Make sure to have .items() to get the keys and values
+...     print(k, v)
+...
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: too many values to unpack (expected 2)
+
+# Correct method
+>>> for k, v in student1.items():
+...     print(k, v)
+...
+name John
+age 19
+courses ['CS', 'ALGO']
+
 
 ITERATING THE CONTENTS OF DICTIONARY
 =====
@@ -1604,9 +1821,17 @@ TUPLES
 # We can say the position inside the tuple has its meaning
 # immutable, cannot be sorted like list
 
+# Creating a tuple
+A = tuple()
+A = ()
+
 x = ('Ali', 'Sarah', 'Abu')
 x[1]
 >> 'Sarah'
+
+# Tuples not allow assignment, cannot be appended   
+x[1] = 'Muthu'
+>> ERROR: TypeError: 'tuple' object does not support item assignment
 
 num = (55,2,45,122,98)
 print(num)
@@ -1773,8 +1998,8 @@ ENUMERATE WITH TUPLE
 =====
 # The enumerate() function takes a list as a parameter and returns a tuple for each element in the list. The first value of the tuple is the index and the second value is the element itself.
 players = ["Ali", "Sarah", "Ah Meng"]
-for index, person in enumerate(players):
-	print("{} - {}".format(index+1, person))
+for index, person in enumerate(players, start=1):
+	print("{} - {}".format(index, person))
 
 '''
 1 - Ali
@@ -1818,10 +2043,21 @@ for index, character in enumerate("Hello", 100):
 
 #########################################################################################
 SETS
+=====
+# Creating a set
+A = set()
+A = {} # WRONG, this is a dictionary
+
 setA = {123, 23, 65}
+setB = {23, 2, 65}
+print(setA.intersection(setB)) # {23, 65} 
 
 set('abc').intersection('cbs').
 >> {'b', 'c'}
+
+# No duplicated element will be stored
+A = {1,2,3,4,1}
+print(A) # {1,2,3,4}
 
 Instances of Set and ImmutableSet both provide the following operations:
 =====
@@ -1845,21 +2081,38 @@ s >= t
 # new set with elements from both s and t
 s.union(t)
 s | t
+setA = {1,2,3}
+setB = {4,5,6}
+print(setA.union(setB)) # {1,2,3,4,5,6}
 
 # new set with elements common to s and t
 s.intersection(t)
 s & t
+setA = {123, 23, 65}
+setB = {23, 2, 65}
+print(setA.intersection(setB)) # {23, 65} 
 
 # new set with elements in s but not in t
 s.difference(t)
 s - t
+setA = {123, 23, 65, 10}
+setB = {23, 2, 65, 3}
+print(setA.difference(setB)) # {10, 123} 
+print(setB.difference(setA)) # {2, 3} 
 
-# new set with elements in either s or t but not both
+# new set with elements in either s or t but not both == [a.intersection(b)]'
 s.symmetric_difference(t)
 s ^ t
 
 # new set with a shallow copy of s
 s.copy()
+setA = {1,2,3}
+setC = setA.copy()
+
+print(setC) # {1,2,3}
+setC.add(10000)
+print(setC) # {1,2,3,10000}
+print(setA) # {1,2,3}
 
 The following table lists operations available in ImmutableSet but not found in Set:
 =====
@@ -1910,6 +2163,9 @@ dir(int)
 
 help(int)
 # >> displays list of documentation for int
+
+print(help(str.lower))
+# >> displays list of documentation for str.lower() method
 
 # q to quit or quit to leave help session
 
@@ -3335,3 +3591,9 @@ while True:
         print('  ', s[:50])
 
 #########################################################################################
+MODULES & LIBRARY
+=====
+
+Importing Modules
+=====
+https://youtu.be/CqvZ3vGoGs0?t=161
