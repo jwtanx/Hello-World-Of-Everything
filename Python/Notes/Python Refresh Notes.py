@@ -1,4 +1,4 @@
-# Last updated: Sat, February 06, 2021 - 23:50
+# Last updated: Wed, February 17, 2021 - 14:10
 
 PROGRAM
 #########################################################################################
@@ -583,6 +583,10 @@ random.uniform(1,100)
 random.randrange(1, 100)
 >> 23
 
+names = ['John', 'Alice', 'James']
+classMonitor = random.choice(names)
+>> Alice
+
 SHUFFLE
 =====
 a = [1,2,3,4,5]
@@ -777,6 +781,9 @@ import math
 math.sqrt(4) # Output: 2
 math.sin(0)	 # Output: 0.0
 math.cos(0)	 # Output: 1.0
+
+rad = math.radians(90)
+print(math.sin(rad)) # 1
 
 WEBSITE
 =====
@@ -2391,7 +2398,7 @@ random.randint(1, 10)
 >> 7
 
 #############################################
-DATE TIME
+DATETIME
 =====
 import datetime
 
@@ -2497,6 +2504,15 @@ ADVANCE TIMEDELTA
 =====
 timedelta(days: float=..., seconds: float=..., microseconds: float=..., milliseconds: float=..., minutes: float=..., hours: float=..., weeks: float=..., *, fold: int=...)
 
+CALENDAR
+=====
+import calendar
+
+Checking Leap Year
+=====
+print(calendar.isleap(2017)) # False
+print(calendar.isleap(2020)) # True
+
 #############################################
 PSUTIL: GET CPU LOAD
 =====
@@ -2573,6 +2589,9 @@ RUN A COMMAND ON THE OS
 # os.popen("INSERT_YOUR_COMMAND")
 os.popen(calc) # Open calculator app
 
+GETTING THE CURRENT PATH FOR THE CURRENT FILE
+=====
+os.getcwd()
 
 #########################################################################################
 REGULAR EXPRESSIOB - REGEX
@@ -3593,7 +3612,65 @@ while True:
 #########################################################################################
 MODULES & LIBRARY
 =====
+# You can create your own modules, say "SpecialFind.py"
+secretCode = '012098qwer'
+
+def findIndex(sequence, target):
+    for index, element in enumerate(sequence):
+        if element == target:
+            return index
+    # Return -1 when not found the specified element            
+    return -1
 
 Importing Modules
 =====
-https://youtu.be/CqvZ3vGoGs0?t=161
+# In the other python script file
+import SpecialFind
+
+fruit = ['Apple', 'Orange', 'Banana', 'Watermelon']
+fruitToFind = 'Watermelon'
+
+indexOfFruitToFind = SpecialFind.findIndex(fruit, fruitToFind)
+
+print(indexOfFruitToFind) # 3
+
+Make Abbreviation For the Module Imported
+=====
+import SpecialFind as abc
+indexOfFruitToFind = abc.findIndex(fruit, fruitToFind)
+print(abc.secretCode) # 012098qwer
+
+Only Import The Selected Function From The Module
+=====
+from SpecialFind import findIndex as fi # 'as fi' is optional
+indexOfFruitToFind = fi(fruit, fruitToFind)
+print(secretCode) # NameError: name 'secret' is not defined
+
+Only Import The Specified Function And Variable From A Module
+=====
+from SpecialFind import findIndex as fi, secretCode
+indexOfFruitToFind = fi(fruit, fruitToFind)
+print(secretCode) # 012098qwer
+
+Importing everything from a module
+=====
+from SpecialFind import *
+indexOfFruitToFind = findIndex(fruit, fruitToFind)
+print(secretCode) # 012098qwer
+
+indexOfFruitToFind = SpecialFind.findIndex(fruit, fruitToFind) # ERROR: 'SpecialFind.' is not needed
+print(SpecialFind.secretCode) # ERROR: 'SpecialFind.' is not needed
+
+GETTING THE FILE PATH OF THE MODULE
+=====
+import datetime
+import os
+import calendar
+
+print(datetime.__file__)
+print(os.__file__)
+print(calendar.__file__)
+
+# C:\Users\Acer\AppData\Local\Programs\Python\Python39\lib\datetime.py
+# C:\Users\Acer\AppData\Local\Programs\Python\Python39\lib\os.py
+# C:\Users\Acer\AppData\Local\Programs\Python\Python39\lib\calendar.py
