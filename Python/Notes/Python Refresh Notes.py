@@ -1,4 +1,4 @@
-# Last updated: Wed, February 17, 2021 - 14:10
+# Last updated: Wed, February 25, 2021 - 22:37
 
 PROGRAM
 #########################################################################################
@@ -180,6 +180,27 @@ if x:
 else:
     print(False)
 # False
+
+TERNARY OPERATOR
+=====
+# [on_true] if [expression] else [on_false] 
+min = a if a < b else b
+
+# Python program to demonstrate ternary operator 
+a, b = 10, 20
+  
+# Use tuple for selecting an item 
+# (if_test_false,if_test_true)[test] 
+print( (b, a) [a < b] ) 
+  
+# Use Dictionary for selecting an item 
+print({True: a, False: b} [a < b]) 
+
+# Python program to demonstrate nested ternary operator 
+a, b = 10, 20
+  
+print ("Both a and b are equal" if a == b else "a is greater than b"
+        if a > b else "b is greater than a") 
 
 COMMENT
 =====
@@ -534,6 +555,7 @@ def fac(n, total=1):
     else: return fac(n-1, total*n)
 print(fac(5)) # Output: 120
 
+#########################################################################################
 BOOLEAN
 =====
 check = True
@@ -629,7 +651,7 @@ int(x), float(x)
 
 ROUNDING OFF
 =====
-# round(FLOAT, NUMBER_OF_DECIMAL)
+# round(FLOAT, ndigits)
 total = 12.259
 round(total, 2)
 >> 12.26
@@ -638,6 +660,21 @@ total
 total = round(total, 2)
 total
 >> 12.26
+
+# round of nearest tenth, hundredth so on
+# ndigits=-1 rounds to the nearest 10, ndigits=-2 rounds to the nearest 100 and so on
+print(round(1235, -1)) # 1240
+print(round(1255, -2)) # 1300
+print(round(1555, -3)) # 2000
+
+IMAGINARY NUMBER
+=====
+x = 12
+# x is a real number, so its imaginary part is 0.
+print(x.imag) # 0
+# Here's how to make a complex number, in case you've ever been curious:
+c = 12 + 3j
+print(c.imag) # 3.0
 
 ABSOLUTE VALUE
 =====
@@ -802,6 +839,14 @@ DISPLAY ALL THE METHODS AVAILABLE FOR VARIABLE
 =====
 dir(tmp)
 >> ['capitalize', 'casefold', 'center', ...]
+
+DISPLAY ALL METHODS AND VARIABLES USED
+=====
+dir()
+
+DELETING THE VARIABLE
+=====
+del var
 
 FIND THE INDEX
 =====
@@ -1035,6 +1080,10 @@ With Tax: RM9.22
 '''
 # if price_with_gst == 8.185 and rounded off, result will be 8.18
 
+# Significance Figure
+print("pi to 4 significant digits = {:.4}".format(math.pi))
+>> pi to 4 significant digits = 3.142
+
 # Meaning of the semicolon
 print("With tax: RM{gst:.2f}".format(gst = price_with_gst))
 >> With tax: RM9.22
@@ -1208,6 +1257,22 @@ for data in mix:
 
 # Print the list at once
 print(mix) # ['Ali', 29, 175.5, 89.2, 'Sarah']
+
+PUTTING FUNCTION IN A LIST
+=====
+ls = ['Ali', help]
+ls[1](int)
+>>> Help on class int in module builtins:
+
+class int(object)
+ |  int([x]) -> integer
+ |  int(x, base=10) -> integer
+ |
+ |  Convert a number or string to an integer, or return 0 if no arguments
+ |  are given.  If x is a number, return x.__int__().  For floating point
+ |  numbers, this truncates towards zero.
+ |
+ |  If x is not a number or if...
 
 CREATE A LIST OF NUMBER ASCENDING WIHOUT LOOP
 =====
@@ -1423,6 +1488,30 @@ max(nums)
 >> 53
 min(nums)
 >> 6
+
+# KEY FOR MIN AND MAX
+def mod_5(x):
+    """Return the remainder of x after dividing by 5"""
+    return x % 5
+
+print(
+    'Which number is biggest?',
+    max(100, 51, 14),
+    'Which number is the biggest modulo 5?',
+    max(100, 51, 14, key=mod_5),
+    sep='\n',
+)
+
+def get_mae(max_leaf_nodes, train_X, val_X, train_y, val_y):
+    model = DecisionTreeRegressor(max_leaf_nodes=max_leaf_nodes, random_state=0)
+    model.fit(train_X, train_y)
+    preds_val = model.predict(val_X)
+    mae = mean_absolute_error(val_y, preds_val)
+    return(mae)
+
+scores = {leaf_size: get_mae(leaf_size, train_X, val_X, train_y, val_y) for leaf_size in candidate_max_leaf_nodes}
+best_tree_size = min(scores, key=scores.get)
+
 sum(nums)
 >> 183
 
@@ -1485,6 +1574,24 @@ language = ['Python', 'Java', 'C++', 'Javascript']
 print([len(x) for x in language])
 >> [6, 4, 3, 10]
 
+# IF statement in list comprehension
+def count_negatives(nums):
+    return len([n for n in nums if n < 0])
+
+def count_negatives(nums):
+    # Reminder: in the "booleans and conditionals" exercises, we learned about a quirk of 
+    # Python where it calculates something like True + True + False + True to be equal to 3.
+    return sum([num < 0 for num in nums])
+
+def elementwise_greater_than(L, thresh):
+    """Return a list with the same length as L, where the value at index i is 
+    True if L[i] is greater than thresh, and False otherwise.
+    
+    >>> elementwise_greater_than([1, 2, 3, 4], 2)
+    [False, False, True, True]
+    """
+    return [n > thresh for n in L]
+
 # Print number which is divisible by 3
 print([x for x in range(0, 40) if x % 3 == 0])
 >> [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39]
@@ -1510,6 +1617,58 @@ x = [1,2,3]
 y = [4,5]
 x.append(y)
 print(x) # [1,2,3,[4,5]]
+
+# BLACKJACK: COMPARING BETWEEN TWO HANDS
+def getVal(cards):
+    
+    val = 0; aces = 0
+    
+    for c in cards:
+        if c in ['J', 'Q', 'K']:
+            val += 10
+        elif c == 'A':
+            aces += 1
+        else:
+            val += int(c)
+        
+    if aces == 1 and val <= 10:
+        val += 11
+    else:
+        val += aces
+        
+    return val
+
+def blackjack_hand_greater_than(hand_1, hand_2):
+    """
+    Return True if hand_1 beats hand_2, and False otherwise.
+    
+    In order for hand_1 to beat hand_2 the following must be true:
+    - The total of hand_1 must not exceed 21
+    - The total of hand_1 must exceed the total of hand_2 OR hand_2's total must exceed 21
+    
+    Hands are represented as a list of cards. Each card is represented by a string.
+    
+    When adding up a hand's total, cards with numbers count for that many points. Face
+    cards ('J', 'Q', and 'K') are worth 10 points. 'A' can count for 1 or 11.
+    
+    When determining a hand's total, you should try to count aces in the way that 
+    maximizes the hand's total without going over 21. e.g. the total of ['A', 'A', '9'] is 21,
+    the total of ['A', 'A', '9', '3'] is 14.
+    
+    Examples:
+    >>> blackjack_hand_greater_than(['K'], ['3', '4'])
+    True
+    >>> blackjack_hand_greater_than(['K'], ['10'])
+    False
+    >>> blackjack_hand_greater_than(['K', 'K', '2'], ['3'])
+    False
+    """
+    
+    # Initializing the score
+    h1 = getVal(hand_1)
+    h2 = getVal(hand_2)
+    
+    return h1 <= 21 and (h1 > h2 or h2 > 21)
 
 #########################################################################################
 DICTIONARIES
@@ -1821,6 +1980,20 @@ dict.values() # Returns a sequence containing the values in the dictionary
 dict.update(other_dictionary) # Updates the dictionary with the items coming from the other dictionary. Existing entries will be replaced; new entries will be added.
 dict.clear() # Removes all the items of the dictionary
 
+# COMPREHENSION
+planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']
+planet_to_initial = {planet: planet[0] for planet in planets}
+"""
+{'Mercury': 'M',
+ 'Venus': 'V',
+ 'Earth': 'E',
+ 'Mars': 'M',
+ 'Jupiter': 'J',
+ 'Saturn': 'S',
+ 'Uranus': 'U',
+ 'Neptune': 'N'}
+"""
+
 #########################################################################################
 TUPLES
 =====
@@ -1846,6 +2019,21 @@ print(num)
 
 print(max(num))
 >> 122
+
+GETTING RATIO
+=====
+x = 0.125
+x.as_integer_ratio() # (1, 8)
+
+numerator, denominator = x.as_integer_ratio()
+print(numerator / denominator) # 0.125
+
+SWAPPING THE INTEGER WITHOUT USING TMP
+=====
+a = 1
+b = 0
+a, b = b, a
+print(a, b)
 
 FUNCTION RETURNING 1 OR MORE VALUES
 =====
@@ -2000,7 +2188,6 @@ lst = ( [ (v, k) for k, v in hashmap.items() ] )
 lst.sort()
 >> [(-5, 'A'), (3, 'C'), (123, 'B')]
 
-#########################################################################################
 ENUMERATE WITH TUPLE
 =====
 # The enumerate() function takes a list as a parameter and returns a tuple for each element in the list. The first value of the tuple is the index and the second value is the element itself.
@@ -3674,3 +3861,126 @@ print(calendar.__file__)
 # C:\Users\Acer\AppData\Local\Programs\Python\Python39\lib\datetime.py
 # C:\Users\Acer\AppData\Local\Programs\Python\Python39\lib\os.py
 # C:\Users\Acer\AppData\Local\Programs\Python\Python39\lib\calendar.py
+
+GETTING THE SOURCE_CODE OF A FUNCTION
+=====
+# INSPECT LIBRARY
+# Need to install first = pip install inspect
+import inspect
+lines = inspect.getsource(FunctionName)
+print(lines)
+
+NUMPY
+=====
+import numpy as np
+
+rolls = np.random.randint(low=1, high=6, size=10)
+print(rolls)
+>> array([1, 5, 3, 4, 2, 2, 1, 1, 1, 4])
+
+rolls.mean()
+>> 2.4
+
+type(rolls)
+>> 'numpy.ndarray'
+
+ls = rolls.tolist()
+print(ls) # [1, 5, 3, 4, 2, 2, 1, 1, 1, 4]
+
+[3, 4, 1, 2, 2, 1] + 10
+# ERROR BUT WITH NUMPY BROADCAST CAN
+rolls + 10
+array([11, 15, 13, 14, 12, 12, 11, 11, 11, 14])
+
+# At which indices are the dice less than 3?
+rolls < 3
+array([ True, False, False, False,  True,  True,  True,  True,  True, False])
+
+NUMPY: Creating a matrix
+=====
+xlist = [[1,2,3],[2,4,6],]
+# Create a 2-dimensional array
+x = numpy.asarray(xlist)
+# print("xlist = {}\nx =\n{}".format(xlist, x))
+
+print("xlist =", xlist)
+print("x =\n" + str(x))
+print(type(x))
+
+"""
+xlist = [[1, 2, 3], [2, 4, 6]]
+x =
+[[1 2 3]
+ [2 4 6]]
+<class 'numpy.ndarray'>
+"""
+
+# Get the last element of the second row of our numpy array
+x[1,-1] # 6
+
+# Get the last element of the second sublist of our nested list?
+xlist[1,-1] # Type_Error
+xlist[-1][-1]
+
+SYSTEM
+=====
+import sys
+print(sys.version_info)
+s = sys.version_info
+print(f'The version of Python Kaggle is using: {s[0]}.{s[1]}.{s[2]}')
+"""
+sys.version_info(major=3, minor=7, micro=9, releaselevel='final', serial=0)
+The version of Python Kaggle is using: 3.7.9
+"""
+
+TENSORFLOW
+=====
+import tensorflow as tf
+# Create two constants, each with value 1
+a = tf.constant(1)
+b = tf.constant(1)
+# Add them together to get...
+print(a + b) # tf.Tensor(2, shape=(), dtype=int32)
+
+MATPLOTLIB
+=====
+def prettify_graph(graph):
+    """Modify the given graph according to Jimmy's requests: add a title, make the y-axis
+    start at 0, label the y-axis. (And, if you're feeling ambitious, format the tick marks
+    as dollar amounts using the "$" symbol.)
+    """
+    graph.set_title("Results of 500 slot machine pulls")
+    
+    # Complete steps 2 and 3 here
+    graph.set_ylim(0)
+    graph.set_ylabel('Balance')
+    graph.set_xlabel('Number of pulls')
+    
+    # Formatting
+    graph.yaxis.set_major_formatter(mp.ticker.FuncFormatter('${}'.format))
+    
+    """
+    def prettify_graph(graph):
+        graph.set_title("Results of 500 slot machine pulls")
+        
+        # Make the y-axis begin at 0
+        graph.set_ylim(bottom=0)
+        
+        # Label the y-axis
+        graph.set_ylabel("Balance")
+        
+        # Bonus: format the numbers on the y-axis as dollar amounts
+        # An array of the values displayed on the y-axis (150, 175, 200, etc.)
+        ticks = graph.get_yticks()
+        
+        # Format those values into strings beginning with dollar sign
+        new_labels = ['${}'.format(int(amt)) for amt in ticks]
+        
+        # Set the new labels
+        graph.set_yticklabels(new_labels)
+    """
+    
+    
+graph = jimmy_slots.get_graph()
+prettify_graph(graph)
+graph
