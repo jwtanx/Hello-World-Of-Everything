@@ -1157,6 +1157,7 @@ OR
 
 writer = open(r'C:\Users\Files\Lol.txt', "w")
 writer.write(string)
+writer.close() # IMPORTANT TO CLOSE FOR THIS METHOD
 
 NEWLINE CHARACTER
 =====
