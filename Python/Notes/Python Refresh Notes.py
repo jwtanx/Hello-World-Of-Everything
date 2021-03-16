@@ -1,4 +1,4 @@
-# Last updated: Tue, March 16, 2021 - 10:00
+# Last updated: Tue, March 16, 2021 - 12:21
 
 PROGRAM
 #########################################################################################
@@ -407,6 +407,107 @@ def combine(func, x, y):
 	return(func(x,y), func(x, y))
 
 print(combine(add, 5, 10))
+
+#########################################################################################
+LAMBDAS
+=====
+'''
+Reference:
+https://realpython.com/python-lambda/
+https://www.youtube.com/watch?v=goypZR_lQ7I
+'''
+def calc(f, x, y):
+    return f(x, y)
+
+calc(lambda x, y: x + y, 10, 20))
+# NOTE that the lambda x, y: x+y is a function
+
+Simple implementation
+=====
+(lambda x: x + 1)(2)
+3
+
+(lambda x, y: x + y)(2, 3)
+5
+
+Putting the LAMBDA Function into a variable
+=====
+add_one = lambda x: x + 1
+add_one(2)
+3
+
+#########################################################################################
+MAP VS LIST COMPREHENSION
+=====
+# Using the lambda function to do for each of the element in the list
+>>> list(map(lambda x: x.capitalize(), ['cat', 'dog', 'cow']))
+['Cat', 'Dog', 'Cow']
+# The simpler way of doing the same thing is using list comprehension
+>>> [x.capitalize() for x in ['cat', 'dog', 'cow']]
+['Cat', 'Dog', 'Cow']
+
+>>> list(map(lambda x: x+1, [1,2,3]))
+[2,3,4]
+>>> [x+1 for x in [1,2,3]]
+[2,3,4]
+
+list(map(len, ['John', 'Cena', 'Smith']))
+[4,4,5]
+
+BEHIND THE SCENE OF THE MAP IMPLEMENTATION
+=====
+def map(function, list):
+    re = []
+    for element in list:
+        re.append(functoin(element))
+    return re
+
+#########################################################################################
+FILTER
+=====
+'''
+Return a new sequence where values are taken from the given sequence if they
+return True when passes to a given function
+'''
+list(filter(lambda x : x % 2 == 0, range(1, 5)))
+[2, 4]
+
+# List comprehension
+[x for x in range(1, 5) if x % 2 == 0]
+[2, 4]
+
+# Another way of putting the list according to the number
+even = lambda x: x % 2 == 0
+list(filter(even, range(11)))
+[0, 2, 4, 6, 8, 10]
+
+list(filter(lambda x:x>5, range(11)))
+[6, 7, 8, 9, 10]
+
+list(filter(lambda x:len(x)>5, ['Cat', 'Dragon', 'Elephant'])) 
+['Dragon', 'Elephant']
+
+#########################################################################################
+REDUCE
+=====
+from functools import reduce
+
+total = reduce(lambda accumulative, current: accumulative + current, [1,2,3], 0) # <-- 0 here means starting total as 0
+print(total) # 6
+
+# Another way when having tuple or dict
+pairs = [(1, 'a'), (2, 'b'), (3, 'c')]
+reduce(lambda acc, element: acc + element[0], pairs, 0) # element is the element in the pairs list which is the tuple in this case
+# 6
+
+pairs = [(1, 'apple'), (2, 'boy'), (3, 'cat')]
+reduce(lambda acc, element: acc + len(element[1]), pairs, 0) # element is the element in the pairs list which is the tuple in this case
+# 11
+
+# Using sum function
+pairs = [(1, 'a'), (2, 'b'), (3, 'c')]
+sum(x for x, _ in pairs)
+# 6
 
 #########################################################################################
 WHILE LOOP WITH BREAK & CONTINUE
