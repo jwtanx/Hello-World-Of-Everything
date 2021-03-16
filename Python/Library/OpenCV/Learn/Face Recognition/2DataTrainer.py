@@ -63,9 +63,10 @@ def getImageFileList(directory):
         IDs.append(ID)
 
         # Showing the faces of each of the image created while training it
-        cv.imshow('Training in progress', faceNP)
+        cv.imshow('Training in progress...', faceNP)
         cv.waitKey(10)
 
+    print('Training completed!')
     return faceNPs, IDs
 
 # Getting the list of the faces and the list of the ids
