@@ -3,3 +3,8 @@ test.cpp
 test.exe
 example.txt
 tempCodeRunnerFile.cpp
+*.lnk
+*.jpg
+*.yml
+temp
+test.*
