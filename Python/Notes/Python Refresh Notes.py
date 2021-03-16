@@ -1,4 +1,4 @@
-# Last updated: Wed, February 25, 2021 - 22:37
+# Last updated: Tue, March 16, 2021 - 10:00
 
 PROGRAM
 #########################################################################################
@@ -199,8 +199,7 @@ print({True: a, False: b} [a < b])
 # Python program to demonstrate nested ternary operator 
 a, b = 10, 20
   
-print ("Both a and b are equal" if a == b else "a is greater than b"
-        if a > b else "b is greater than a") 
+print ("Both a and b are equal" if a == b else "a is greater than b" if a > b else "b is greater than a") 
 
 COMMENT
 =====
@@ -821,6 +820,18 @@ math.cos(0)	 # Output: 1.0
 
 rad = math.radians(90)
 print(math.sin(rad)) # 1
+
+POWER WITHOUT THE POWER FUNCTION
+=====
+import math
+
+for i in range(1, 6):
+    print(i, math.prod(2 for _ in range(i)))
+
+1   2
+2   4
+3   8
+4   16
 
 WEBSITE
 =====
@@ -1917,6 +1928,11 @@ print('Key with highest frequency:', highestFreqWord, '\nCount:', counts.get(hig
 print('Key with highest frequency:', highestFreqWord, '\nCount:', counts[highestFreqWord])
 print('Key with highest frequency:', highestFreqWord, '\nCount:', max)
 
+GETTING THE HIGHEST OCCURENCE OF THE ITEM IN A LIST
+=====
+ls = ['F', 'F', 'M', 'M', 'M', 'M']
+commonGender = max(ls, key=ls.count)
+
 RETRIEVING KEYS & VALUES
 =====
 hashmap = {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
@@ -2464,6 +2480,51 @@ class Apple:
 jonagold = Apple('Jonagold', 'red', 'sweet')
 print(jonagold)
 >> Jonagold apple is red and it is sweet
+
+PROPERTY DECORATORS - GETTERS, SETTERS AND DELETERS
+=====
+''' Reference: https://www.youtube.com/watch?v=jCzT9XFZ5bw '''
+
+class student:
+    def __init__(self, first, last):
+        self.first = first
+        self.last = last
+
+    @property
+    def email(self):
+        return f'{self.first}.{self.last}@edu.com'
+
+    @property
+    def fullname(self):
+        return f'{self.first} {self.last}'
+
+    @fullname.setter
+    def fullname(self, name):
+        first, last = name.split(' ')
+        self.first = first
+        self.last = last
+
+    @fullname.deleter
+    def fullname(self):
+        print('Fullname deleted')
+        self.first = None
+        self.last = None
+
+
+student1 = student('John', 'Cena')
+print(student1.first)
+print(student1.email) # With the @property decorator, you don't need .email() <--
+print(student1.fullname) # With the @property decorator, you don't need .fullname() <--
+
+# How to use the @fullname.setter
+student1.fullname = 'Steve Jobs'
+print(student1.first)
+print(student1.email) # With the @property decorator, you don't need .email() <--
+print(student1.fullname) # With the @property decorator, you don't need .fullname() <--
+
+# How to use the @fullname.deleter
+del student1.fullname
+
 
 HELP FOR THE CLASSES YOU MADE
 =====
