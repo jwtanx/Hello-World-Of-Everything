@@ -34,13 +34,14 @@ Command Palette
 Shift + Space 		scroll notebook up
 Space 				scroll notebook down
 
-While in edit mode (pressEnter to activate)
+While in edit mode (press Enter to activate)
 Esc 				take you into command mode
 Tab 				code completion or indent
 Shift + Tab 		tooltip
 Ctrl + ] 			indent
 Ctrl + [ 			dedent
 Ctrl + A 			select all
+Ctrl + D 			delete the current row
 Ctrl + Z 			undo
 Ctrl + Y 			redo or [Ctrl + Shift + Z]
 Ctrl + Home 		go to cell start
