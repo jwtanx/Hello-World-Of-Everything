@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("form").onsubmit = function () {
+          const username = document.querySelector("#name1").value;
+          alert(`Welcome ${username}!`);
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <form>
+      <label>Name:</label>
+      <input
+        autofocus
+        type="text"
+        id="name1"
+        placeholder="Enter your name here!"
+      />
+
+      <input type="submit" />
+    </form>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- <script>
+    let c1 = 1;
+    let c2 = 2;
+    let choice = ["Hello", "Goodbye"];
+  </script> -->
+  <head>
+    <title>Hello World?</title>
+
+    <h1>Hello</h1>
+
+    <script>
+      // VARIABLE CAN PUT ANYWHERE ALSO CAN ACCESS
+      let c1 = 1;
+      let c2 = 2;
+      let choice = ["Hello", "Goodbye"];
+    </script>
+  </head>
+
+  <body>
+    <h2>Goodbye</h2>
+    <script>
+      function hello() {
+        const heading1 = document.querySelector("h1");
+        const heading2 = document.querySelector("h2");
+        const variableThatWontBeChanged = 100;
+
+        if (heading1.innerHTML === "Hello" && c1 === 5) {
+          // Double equal sign can too but type diff also consider true
+          // Triple to check the type and the value
+          alert("Hey");
+        } else if (c1 === 10) {
+          alert("Lol");
+        }
+
+        // Go through the page and find me the content that has the tag of h1 then change the content
+        heading1.innerHTML = choice[c1++ % 2];
+        heading2.innerHTML = choice[c2++ % 2];
+      }
+    </script>
+    <button onclick="hello()">Sign in</button>
+  </body>
+</html>

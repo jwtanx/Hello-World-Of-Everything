@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Color</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Select all object in a list of array, return in a nodelist
+        // document.querySelectorAll("button").forEach(function (button) {
+        //   button.onclick = function () {
+        //     document.querySelector("#hello").style.color = button.dataset.color;
+        //   };
+        // });
+        // OR
+        document.querySelectorAll("button").forEach((button) => {
+          button.onclick = function () {
+            document.querySelector("#hello").style.color = button.dataset.color;
+          };
+        });
+
+        document.querySelector("form").onsubmit = () => {
+          const change = document.querySelector("#colorname").value;
+          alert(change);
+          document.querySelector("#hello").style.color = change;
+          return false;
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <h1 id="hello">Hello!</h1>
+    <button data-color="red">Red</button>
+    <button data-color="blue">Blue</button>
+    <button data-color="green">Green</button>
+    <form>
+      <label>Set Color:</label>
+      <input
+        autofocus
+        type="text"
+        id="colorname"
+        placeholder="Set your color"
+      />
+      <input type="submit" />
+    </form>
+  </body>
+</html>
