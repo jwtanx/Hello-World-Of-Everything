@@ -1,0 +1,133 @@
+<!DOCTYPE html> <!-- Quick start by typing '!' and press tab key -->
+<html>
+<!-- Autoformatting in vs code by pressing Shift + Alt + F -->
+
+<head>
+    <title>HTML Basic Cheat Sheet</title>
+</head>
+
+<body>
+    <!-- Headings -->
+    <h1>Heading 1</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+    <h5>Heading 5</h5>
+    <h6>Heading 6</h6>
+
+    <!-- Paragraph -->
+    <!-- Type lorem then tab | Type lorem10 then tab to show 10 words only -->
+    <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, odit?
+    </p>
+
+    <!-- 
+        ==================================
+        # Inline vs Block Level Elements #
+        ==================================
+
+        # Inline Level
+            1. Do not start on a new line
+            2. Take only necessary width
+            :<span>, <img>, <a>, <strong>
+
+        # Block Level
+            1. Start on a new line
+            2. Take full width available
+            Example: <div>, <h1> - <h6>, <p> & <form>
+        -->
+
+    <p>This is examples for inline level elements</p>
+    <p>This is a <strong>strong</strong> word</p>
+    <p>This is a <em>emphasized</em> word</p>
+    <p>This is a <a href="about.html">About Page</a> link</p>
+    <p>This is a <a href="https://google.com">Google</a> link</p>
+    <p>This is a <a href="https://google.com" target="_blank">Google</a> link that will be open in a new tab</p>
+
+    <!-- Attribute Tags 
+            1. All tags can have attributes
+            2. Provide information about an element
+            3. Placed with the start tag
+            4. Key / Value pairs(id="someid")
+
+            General Usage: 
+            <tag ATTRIBUTE_NAME="ATTRIBUTE_VALUE">content</tag>
+        -->
+    <h1 title="Cheat Sheet About">About Us</h1>
+
+    <!-- Lists: Unordered List OR Ordered List -->
+    <!-- Unordered List == <ul></ul> -->
+    <ul>
+        <!-- Each List item will have a li tag -->
+        <li>List item 1</li>
+        <li>List item 2</li>
+        <li>List item 3</li>
+        <li>List item 4</li>
+        <li>You can see the bullet list has an extra 40em padding on the start, you can edit this on css</li>
+    </ul>
+
+    <!-- Ordered List == <ol></ol> -->
+    <ol>
+        <!-- Each List item will have a li tag -->
+        <li>List item 1</li>
+        <li>List item 2</li>
+        <li>List item 3</li>
+        <li>List item 4</li>
+        <li>You can see the bullet list has an extra 40em padding on the start, you can edit this on css</li>
+    </ol>
+
+    <!-- Tables -->
+    <!-- A table has head and body as well :: Take note that table is not used for layout, please use CSS-->
+    <table>
+        <thead>
+            <!-- Table head is where we put the table headers : Name, Age, Email, Phone Number etc-->
+            <tr>
+                <!-- <tr> stands for table row -->
+                <!-- <th> stands for table headers -->
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- <td> stands for table data -->
+            <tr>
+                <td>John</td>
+                <td>16</td>
+                <td>john@something.com</td>
+            </tr>
+            <tr>
+                <td>Cena</td>
+                <td>61</td>
+                <td>cena@something.com</td>
+            </tr>
+            <tr>
+                <td>Smith</td>
+                <td>32</td>
+                <td>smith@something.com</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br> <!-- Breaking a line between the table and the form -->
+    <hr> <!-- Horizontal rule-->>
+
+    <!-- Forms -->
+    <!-- Eg: Login Form -->
+    <form action="process.php" method="POST"></form>
+    <!-- The action attribute is for us to submit the form to the php page -->
+    <!-- Method :: POST :: Making a POST request to the server to add data to the database etc, POST is secure -->
+    <!-- Method :: GET  :: Not very secure as you can see the data filled in the url, but it's fine for searching -->
+        <label>First Name</label>
+        <input type="text" name="first-name">
+        <!-- The name attribute here is how we will grab value from this form -->
+
+    <!-- Adding some space below the table for better viewing -->
+    <div style="margin-top:500px"></div>
+
+
+
+</body>
+
+</html>
