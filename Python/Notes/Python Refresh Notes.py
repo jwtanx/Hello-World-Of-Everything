@@ -472,6 +472,9 @@ return True when passes to a given function
 list(filter(lambda x : x % 2 == 0, range(1, 5)))
 [2, 4]
 
+list(map(lambda x : x % 2 == 0, range(1, 5))) # A map would return the Boolean values
+[False, True, False, True]
+
 # List comprehension
 [x for x in range(1, 5) if x % 2 == 0]
 [2, 4]
@@ -919,6 +922,9 @@ math.sqrt(4) # Output: 2
 math.sin(0)	 # Output: 0.0
 math.cos(0)	 # Output: 1.0
 
+math.floor(2.5) # Output: 2
+math.ceil(2.5)  # Output: 3
+
 rad = math.radians(90)
 print(math.sin(rad)) # 1
 
@@ -979,11 +985,15 @@ host = info[pos+1 : secondPos]
 
 STRING UPPER & LOWER
 =====
+tmp = hEllo woRld
 tmp.upper()
 >> HELLO WORLD
 
 tmp.lower()
 >> hello world
+
+tmp.title()
+>> Hello World
 
 SEARCH & REPLACE
 =====
@@ -1686,6 +1696,27 @@ print([i*7 for i in range(1,11)])
 language = ['Python', 'Java', 'C++', 'Javascript']
 print([len(x) for x in language])
 >> [6, 4, 3, 10]
+
+Flatten the 2d list
+=====
+list_of_list = [[1,2,3],[4,5,6],[7,8]]
+flatten_list_of_list = [j for i in list_of_list for j in i]
+print(flatten_list_of_list)
+output: [1, 2, 3, 4, 5, 6, 7, 8]
+
+Identity matrix
+=====
+identity_matrix = [[ 1 if item_idx == row_idx else 0 for item_idx in range(0, 3) ] for row_idx in range(0, 3) ]
+print(identity_matrix)
+eye = [[1 if i==j else 0 for i in range(3)] for j in range(3)]
+output: [1, 0, 0], [0, 1, 0], [0, 0, 1]]
+
+Transpose
+=====
+matrix = [[1,2,3],[4,5,6],[7,8,9]]
+transposed_matrix = [[row[i] for row in matrix] for i in range(3)]
+print(transposed_matrix)
+output: [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
 # IF statement in list comprehension
 def count_negatives(nums):
