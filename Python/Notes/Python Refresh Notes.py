@@ -78,6 +78,26 @@ BASIC ARGUMENT SPECIFIERS
 %.<number of digits>f - Floating point numbers with a fixed amount of digits to the right of the dot.
 %x/%X - Integers in hex representation (lowercase/uppercase)
 
+# Align the string in the middle when printing
+print('|{:^24s}|'.format("MyString"))
+# Output: |        MyString        |
+
+print("MyString".center(24, "-")
+# Output: --------MyString--------
+
+print('|' + "MyString".center(24) + '|')
+# Output: |        MyString        |
+
+# Left justify
+'hi'.ljust(10)
+# 'hi        '
+
+'{0: <16} StackOverflow!'.format('Hi')
+# 'Hi               StackOverflow!'
+
+'{message: <{width}}'.format(message='Hi', width=16)
+# 'Hi              '
+
 #########################################################################################
 EXPRESSIONS
 =====
@@ -436,6 +456,14 @@ add_one = lambda x: x + 1
 add_one(2)
 3
 
+FILTER
+=====
+ls = [1, 2, 3, 4, 6, 10, 212, 23, 2]
+hi = 23
+lo = 2
+print(list(filter(lambda x, l=lo, h=hi: l < x <= h, ls)))
+
+
 #########################################################################################
 MAP VS LIST COMPREHENSION
 =====
@@ -461,6 +489,16 @@ def map(function, list):
     for element in list:
         re.append(functoin(element))
     return re
+
+ls1 = [1,2,3,4,5]
+ls2 = [6,7,8,9,10]
+
+def merge(ls1, ls2):
+    re = [x for x in list(map(lambda x, y: x+y, ls1, ls2))]
+    print(re)
+    return re
+
+merge(ls1, ls2)
 
 #########################################################################################
 FILTER
@@ -1043,7 +1081,10 @@ re.sub(r'[^\w]', ' ', s)
 re.sub(r'[\W]', ' ', s)
 >> 'how much for the maple syrup   20 99  That s ridiculous   '
 
-re.sub(r'[^\w\S]', ' ', s)
+re.sub(r'[\W]', '', s)
+>> 'howmuchforthemaplesyrup2099Thatsridiculous'
+
+re.sub(r'[^\w\S]', '', s)
 >> "howmuchforthemaplesyrup?$20.99?That'sridiculous!!!"
 
 re.sub(r'[^\w\s]', '', s)
@@ -2402,6 +2443,9 @@ set('abc').intersection('cbs').
 A = {1,2,3,4,1}
 print(A) # {1,2,3,4}
 
+# using set() to remove duplicated from list 
+test_list = list(set(test_list))
+
 Instances of Set and ImmutableSet both provide the following operations:
 =====
 # number of elements in set s (cardinality)
@@ -2799,7 +2843,7 @@ now.year
 
 INSERT YOUR OWN TIME
 =====
-a = datetime.datetime(100,1,1,11,34,59)
+
 print(a) # 0100-01-01 11:34:59
 
 ADVANCE TIME
@@ -2893,6 +2937,15 @@ Checking Leap Year
 =====
 print(calendar.isleap(2017)) # False
 print(calendar.isleap(2020)) # True
+
+Checking the time taken to run your program
+=====
+import time
+start = time.time()
+
+main()
+
+print(f'The time taken: {(time.time() - start)*1000:.2f} ms')
 
 #############################################
 PSUTIL: GET CPU LOAD
