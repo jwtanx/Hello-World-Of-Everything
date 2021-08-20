@@ -482,6 +482,9 @@ MAP VS LIST COMPREHENSION
 list(map(len, ['John', 'Cena', 'Smith']))
 [4,4,5]
 
+ls = ["data-%03d.txt" % r for r in range(0, 3)]
+ls = [f'lol-{r:03d}' for r in range(0, 3)]
+
 BEHIND THE SCENE OF THE MAP IMPLEMENTATION
 =====
 def map(function, list):
