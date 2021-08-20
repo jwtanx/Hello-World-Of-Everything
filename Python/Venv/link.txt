@@ -1,0 +1,1 @@
+"D:\Project\Python\2021\Face and Gesture Recognition\venv\Scripts\activate.bat"
