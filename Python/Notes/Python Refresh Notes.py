@@ -1090,6 +1090,12 @@ re.sub(r'[^\w\S]', '', s)
 re.sub(r'[^\w\s]', '', s)
 >> 'how much for the maple syrup 2099 Thats ridiculous'
 
+re.sub(r'[\w\s]', '', '..   apple')
+>> '..'
+
+re.sub(r'[\w\s]', '', '..   apple  ..')
+>> '....'
+
 # Changing a list to a string then replace them, we can avoid using for loop
 test_str = ['123', '456']
 b = (str) (test_str) # "['123', '456']"
@@ -2330,6 +2336,12 @@ for k, v in sorted(hashmap.items()):
 >> B 123
 >> C 3
 
+SORTED BY KEYS LENGTH
+=====
+# https://stackoverflow.com/questions/11753758/dictionary-sorting-by-key-length
+newlist = yourdict.items()
+sortedlist = sorted(newlist, key=lambda s: len(s[0]))
+
 SORTED BY VALUES
 =====
 hashmap = {'C': 3, 'B': 123, 'A': -5}
@@ -3027,6 +3039,27 @@ GETTING THE CURRENT PATH FOR THE CURRENT FILE
 =====
 os.getcwd()
 
+RESTART THE CURRENT PROGRAM WIHOUT WHILE LOOP OR EXITING
+=====
+# Ref: https://stackoverflow.com/questions/14907067/how-do-i-restart-a-program-based-on-user-input
+
+import os, sys
+# os.execl(sys.executable, sys.executable, *sys.argv)
+os.execl(sys.executable, '"{}"'.format(sys.executable), *sys.argv)
+# But make sure there is no spaces in your path for the above code
+
+import subprocess
+subprocess.call(sys.executable + ' "' + os.path.realpath(__file__) + '"') # Not tried yet
+
+COPYING STRING TO THE CLIPBOARD
+=====
+# Ref: https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard
+import subprocess 
+data = "hello world"
+subprocess.run("clip", universal_newlines=True, input=data)
+
+# Check step to unicode it and copy to clipboard by searching unicode with clipboard
+
 #########################################################################################
 REGULAR EXPRESSIOB - REGEX
 =====
@@ -3472,6 +3505,16 @@ cmd = 'GET http://data.pr4e.org/romeo.txt HTTP/1.0\r\n\r\n'.encode()
 type(cmd)
 <type 'bytes'>
 
+Unicode [REF: COPY TO CLIPBOARD]
+=====
+# Ref: https://stackoverflow.com/questions/14630288/unicodeencodeerror-charmap-codec-cant-encode-character-maps-to-undefined
+import sys
+import codecs
+sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
+print u"Stöcker"                # works
+print "Stöcker".decode("utf-8") # works
+print "Stöcker"                 # fails
+
 RETRIEVING WEB PAGES
 =====
 # USING URLLIB
@@ -3814,6 +3857,22 @@ data = '''{
 info = json.loads(data)
 print('Name:', info["name"])
 print('Hide:', info["email"]["hide"])
+
+Saving the dictionary as JSON
+=====
+import json
+   
+# Data to be written
+dictionary ={
+    "name" : "sathiyajith",
+    "rollno" : 56,
+    "cgpa" : 8.6,
+    "phonenumber" : "9976770500"
+}
+   
+with open("sample.json", "w") as outfile:
+    json.dump(dictionary, outfile)
+
 
 List
 =====
@@ -4231,3 +4290,44 @@ def prettify_graph(graph):
 graph = jimmy_slots.get_graph()
 prettify_graph(graph)
 graph
+
+
+WINSOUND
+=====
+# Ref: https://docs.python.org/3/library/winsound.html
+# Ref: https://stackoverflow.com/questions/44472162/how-do-play-audio-playsound-in-background-of-python-script
+
+import winsound
+list_of_sounds = ['SystemAsterisk', 'SystemExclamation', 'SystemExit', 'SystemHand', 'SystemQuestion']
+# Only SystemHand is different than the rest
+
+# Play asynchronously while running another code
+winsound.PlaySound('SystemAsterisk', winsound.SND_ASYNC | winsound.SND_ALIAS )
+
+# Play the sound before going to the next code
+winsound.PlaySound('SystemAsterisk', winsound.SND_ALIAS)
+
+# To stop playing the sound
+winsound.PlaySound(None, winsound.SND_ASYNC)
+
+# Beep beep sound where freq from 37 to 32767, and duration in ms
+winsound.Beep(frequency, duration)
+winsound.Beep(1000, 2000) # 1000hz and 2000 means 2 seconds
+
+BASE64 Image
+=====
+import base64
+
+with open("image.ext", "rb") as image_file:
+    encoded_string = base64.b64encode(image_file.read())
+
+
+# Decode it
+import cStringIO
+import PIL.Image
+
+# assume data contains your decoded image
+file_like = cStringIO.StringIO(data)
+
+img = PIL.Image.open(file_like)
+img.show()
