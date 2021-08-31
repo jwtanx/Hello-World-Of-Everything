@@ -51,6 +51,7 @@ r 			  | replace a single character
 J 			  | join line below to the current line
 cc 			  | change (replace) entire line
 cw 			  | change (replace) to the end of the word
+ciw           | change (replace) to the current word you are on
 c$ 			  | change (replace) to the end of the line
 s 			  | delete character and substitute text
 S 			  | delete line and substitute text (same as cc)
@@ -204,3 +205,11 @@ gT or :tabprev or :tabp | move to the previous tab
 :tabclose or :tabc 			| close the current tab and all its windows
 :tabonly or :tabo 			| close all tabs except for the current one
 :tabdo command 				  | run the command on all tabs 
+
+
+VIM Line numbers
+===
+Shortcut                | Description
+----------------------- | -----------
+:set number 			| Set the normal line number
+:set relativenumber 	| Set the relative line numbers towards above and bottom
