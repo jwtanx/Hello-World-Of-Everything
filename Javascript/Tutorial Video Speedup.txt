@@ -1,0 +1,12 @@
+Microsoft video x3
+v = document.getElementsByClassName("vjs-tech")[0]
+v.playbackRate = 3
+
+Youtube video x3
+v = document.getElementsByClassName("video-stream html5-main-video")[0]
+v.playbackRate = 3
+
+COURSERA
+vid = document.getElementsByClassName("vjs-tech")[0]
+vid.playbackRate = 2.5
+
