@@ -1080,23 +1080,23 @@ REGEX
 =====
 import re
 s = "how much for the maple syrup? $20.99? That's ridiculous!!!"
-re.sub(r'[^\w]', ' ', s)
-re.sub(r'[\W]', ' ', s)
+s = re.sub(r'[^\w]', ' ', s)
+s = re.sub(r'[\W]', ' ', s)
 >> 'how much for the maple syrup   20 99  That s ridiculous   '
 
-re.sub(r'[\W]', '', s)
+s = re.sub(r'[\W]', '', s)
 >> 'howmuchforthemaplesyrup2099Thatsridiculous'
 
-re.sub(r'[^\w\S]', '', s)
+s = re.sub(r'[^\w\S]', '', s)
 >> "howmuchforthemaplesyrup?$20.99?That'sridiculous!!!"
 
-re.sub(r'[^\w\s]', '', s)
+s = re.sub(r'[^\w\s]', '', s)
 >> 'how much for the maple syrup 2099 Thats ridiculous'
 
-re.sub(r'[\w\s]', '', '..   apple')
+s = re.sub(r'[\w\s]', '', '..   apple')
 >> '..'
 
-re.sub(r'[\w\s]', '', '..   apple  ..')
+s = re.sub(r'[\w\s]', '', '..   apple  ..')
 >> '....'
 
 # Changing a list to a string then replace them, we can avoid using for loop
@@ -1149,17 +1149,6 @@ def h(text):
 # FIRST
 def i(text):
     text = text.replace('&', r'\&').replace('#', r'\#')
-
-Timed like this:
-python #mtimeit #s"import time_functions" "time_functions.a('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.b('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.c('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.d('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.e('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.f('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.g('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.h('abc&def#ghi')"
-python #mtimeit #s"import time_functions" "time_functions.i('abc&def#ghi')"
 
 ISNUMERIC
 =====
@@ -2934,6 +2923,18 @@ print(now.strftime('%a')) # Sun
 # https://docs.python.org/3.6/library/datetime.html#datetime.datetime.now
 # https://overiq.com/python-3-time-module/
 
+PARSING DATETIME
+=====
+# Ref: https://stackoverflow.com/questions/466345/converting-string-into-datetime
+from datetime import datetime
+datetime_object = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
+
+import time
+time_object = time.strptime('1:33', '%M:%S')
+
+# strptime = "string parse time"
+# strftime = "string format time"
+
 TIMEDELTA
 =====
 # days can be replaced by hours, minutes and seconds
@@ -3062,6 +3063,19 @@ data = "hello world"
 subprocess.run("clip", universal_newlines=True, input=data)
 
 # Check step to unicode it and copy to clipboard by searching unicode with clipboard
+
+CLEAR THE SCREEN OF THE TERMINAL
+=====
+# https://www.geeksforgeeks.org/clear-screen-python/
+# https://stackoverflow.com/questions/517970/how-to-clear-the-interpreter-console
+
+import os
+cmd = 'cls' if os.name == 'nt' else 'clear'
+# 'nt' stands for Windows
+
+clear = lambda: os.system(cmd)
+clear()
+
 
 #########################################################################################
 REGULAR EXPRESSIOB - REGEX
