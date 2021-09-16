@@ -36,6 +36,11 @@ def on_press(key):
         # Make sure you put your spotify browser in the next Windows
         pyautogui.hotkey('win', 'ctrl', 'right')
         time.sleep(0.5)
+
+        # Just in case there is duplication for the previous song
+        pyautogui.press('esc')
+        time.sleep(0.25)
+
         pyautogui.rightClick(px, py)
 
         # 3 up -> right -> down
