@@ -34,7 +34,7 @@ def on_press(key):
 
 cmd = input('[ENTER TO START]')
 
-if cmd:
+if cmd == '':
     print('Program started... \nINS: Add song\nPAUSE: End the program')
     # Collect events until released
     with keyboard.Listener(on_press=on_press) as listener:
