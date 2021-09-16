@@ -321,7 +321,7 @@ train.columns = train.columns.str.lstrip()
 from sklearn.model_selection import train_test_split
 # X_train, X_test, y_train, y_set = train_test_split(X, y, train_size=0.8, random_state=42)
 # OR
-X_train, X_test, y_train, y_set = train_test_split(X, y, test_size=0.2, random_state=42, stratify=df['Label'])
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=df['Label'])
 
 # Getting the same amount of types for the training and the testing
 y1 = y_test.value_counts()
@@ -329,5 +329,13 @@ y2 = y_train.value_counts()
 tol = y.value_counts()
 
 # y1 / tol ~= y2 / tol according to their classes
+
+```
+
+## Saving dataframe to CSV
+[Reference](https://towardsdatascience.com/how-to-export-pandas-dataframe-to-csv-2038e43d9c03?gi=9c65376fa79d)
+```py
+# Set index=False so that the index will not be showing in the first column
+df.to_csv('file_name.csv', index=False)
 
 ```
