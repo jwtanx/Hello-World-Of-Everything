@@ -3,9 +3,22 @@
 import time
 import pyautogui
 from pynput import keyboard
+from os import system, name
 
 # NOTE: To my future me: Make sure to set your browser to 80% and in queue mode & F11 full screen mode
 # Mine is in 1920 x 1080 pixel resolution, change accordingly
+
+# define our clear function
+
+
+def clear():
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
+
 
 # Default skip location
 px, py = 960, 200
@@ -35,6 +48,7 @@ def on_press(key):
 cmd = input('[ENTER TO START]')
 
 if cmd == '':
+    clear()
     print('Program started... \nINS: Add song\nPAUSE: End the program')
     # Collect events until released
     with keyboard.Listener(on_press=on_press) as listener:
