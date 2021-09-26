@@ -3034,6 +3034,21 @@ def main():
 
 main()
 
+CHANGING THE FILE EXTENSION GENERALLY
+=====
+import os
+
+filepath = '/fol.der/this.is.an.img.png'
+
+# Our goal here is to change the png or jpeg behind into txt
+'.'.join(os.path.split(filepath)[1].split('.')[:-1]) + '.txt'
+# OUTPUT: 'this.is.an.img.txt'
+
+CHANGING THE FULL DIRECTORY
+=====
+'.'.join(filepath.split('.')[:-1]) + '.txt'
+# OUTPUT: '/fol.der/this.is.an.img.txt'
+
 RUN A COMMAND ON THE OS
 =====
 # os.popen("INSERT_YOUR_COMMAND")
