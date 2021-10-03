@@ -464,6 +464,11 @@ lo = 2
 print(list(filter(lambda x, l=lo, h=hi: l < x <= h, ls)))
 
 
+FUNCTION IN JUST ONE LINE OF CODE
+=====
+c = lamdba: os.system('cls')
+# c() will then clear the screen
+
 #########################################################################################
 MAP VS LIST COMPREHENSION
 =====
@@ -502,6 +507,121 @@ def merge(ls1, ls2):
     return re
 
 merge(ls1, ls2)
+
+#########################################################################################
+ITERATOR
+=====
+
+NEXT
+=====
+# Reference: https://www.programiz.com/python-programming/methods/built-in/next
+marks = [65, 71, 68, 74, 61]
+
+# convert list to iterator
+iterator_marks = iter(marks)
+
+# the next element is the first element
+marks_1 = next(iterator_marks)
+
+print(marks_1)
+
+# find the next element which is the second element
+marks_2 = next(iterator_marks)
+
+print(marks_2)
+
+# Output: 65
+#         71
+
+NEXT - Syntax
+=====
+next(iterator, default)
+
+NEXT - Example
+=====
+random = [5, 9, 'cat']
+
+# converting the list to an iterator
+random_iterator = iter(random)
+print(random_iterator)
+
+# Output: 5
+print(next(random_iterator))
+
+# Output: 9
+print(next(random_iterator))
+
+# Output: 'cat'
+print(next(random_iterator))
+
+# This will raise Error
+# iterator is exhausted
+print(next(random_iterator))
+
+NEXT - How to fix the error?
+=====
+random = [5, 9]
+
+# converting the list to an iterator
+random_iterator = iter(random)
+
+# Output: 5
+print(next(random_iterator, '-1'))
+
+# Output: 9
+print(next(random_iterator, '-1'))
+
+# random_iterator is exhausted
+# Output: '-1'
+print(next(random_iterator, '-1'))
+
+print(next(random_iterator, '-1'))
+print(next(random_iterator, '-1'))
+
+#########################################################################################
+ITERTOOLS
+=====
+
+GROUPBY
+=====
+# Reference: https://www.geeksforgeeks.org/itertools-groupby-in-python/
+import itertools
+L = [("a", 1), ("a", 2), ("b", 3), ("b", 4)]
+
+# Key function
+key_func = lambda x: x[0]
+
+for key, group in itertools.groupby(L, key_func):
+    print(key + " :", list(group))
+
+# Output
+a : [('a', 1), ('a', 2)]
+b : [('b', 3), ('b', 4)]
+
+PRODUCT
+=====
+# Reference: https://www.geeksforgeeks.org/python-itertools-product/
+# How it works?
+Input : arr1 = [1, 2, 3] 
+arr2 = [5, 6, 7] 
+Output : [(1, 5), (1, 6), (1, 7), (2, 5), (2, 6), (2, 7), (3, 5), (3, 6), (3, 7)]
+
+Input : arr1 = [10, 12] 
+arr2 = [8, 9, 10] 
+Output : [(10, 8), (10, 9), (10, 10), (12, 8), (12, 9), (12, 10)]
+
+# Example code
+from itertools import product
+ 
+def cartesian_product(arr1, arr2):
+    return list(product(arr1, arr2))
+   
+arr1 = [1, 2, 3]
+arr2 = [5, 6, 7]
+print(cartesian_product(arr1, arr2))
+
+# Output
+[(1, 5), (1, 6), (1, 7), (2, 5), (2, 6), (2, 7), (3, 5), (3, 6), (3, 7)] 
 
 #########################################################################################
 FILTER
@@ -2428,6 +2548,65 @@ for index, character in enumerate("Hello", 100):
 103 l
 104 o
 '''
+
+#########################################################################################
+ZIP
+=====
+# Taking two list and make them into a dictionary or a list of tuple
+# Reference : https://realpython.com/python-zip-function/
+
+items = ['Book', 'Orange', 'Bread', 'CD']
+price = [31.99, 0.99, 3.17, 12.01]
+
+# NOTE: ZIP is iterable
+for i, p in zip(items, price):
+    print(i, p)
+
+'''
+Book 31.99
+Orange 0.99
+Bread 3.17
+CD 12.01
+'''
+
+# But you cannot call it without using the list or the dict function
+print(zip(items, price))
+# <zip object at 0x000001A7F03F1E40>
+
+# Into list
+print(list(zip(items, price)))
+# [('Book', 31.99), ('Orange', 0.99), ('Bread', 3.17), ('CD', 12.01)]
+
+# Into list using sorted
+print(sorted(zip(items, price)))
+# [('Book', 31.99), ('Bread', 3.17), ('CD', 12.01), ('Orange', 0.99)]
+
+# Into dictionary
+print(dict(zip(items, price)))
+# {'Book': 31.99, 'Orange': 0.99, 'Bread': 3.17, 'CD': 12.01}
+
+# Updating the value for one of the keys in dictionary
+grocery = dict(zip(items, price))
+new_price_for_orange = [1.09]
+key_to_update = ['Orange']
+grocery.update(zip(key_to_update, new_price_for_orange))
+print(grocery)
+#  {'Book': 31.99, 'Orange': 1.09, 'Bread': 3.17, 'CD': 12.01}
+
+UNZIP
+=====
+# Unzipping the values into two tuples
+# Refencence : https://careerkarma.com/blog/python-zip/ 
+employees_zipped = [('Candice', 2), ('Ava', 9), ('Andrew', 18), ('Lucas', 28)]
+employee_names, employee_numbers = zip(*employees_zipped)
+
+print(employee_names)
+# ('Candice', 'Ava', 'Andrew', 'Lucas')
+print(employee_numbers)
+# (2, 9, 18, 28)
+
+# Changing them into the list
+employee_names, employee_numbers = list(employee_names), list(employee_numbers)
 
 #########################################################################################
 SETS
