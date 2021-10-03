@@ -12,6 +12,18 @@ df = df.append(dict(Quadrant=quadrant, Phrase=description, Vertices=bounds), ign
 
 ```
 
+## Randomly generate a dataframe
+[Reference](https://stackoverflow.com/questions/32752292/how-to-create-a-dataframe-of-random-integers-with-pandas)
+```py
+# Method 1
+df = pd.DataFrame(np.random.randint(0, 100, size=(100, 4)), columns=list('ABCD'))
+
+# Method 2: Recommended way
+rng = np.random.default_rng()
+df = pd.DataFrame(rng.integers(0, 100, size=(100, 4)), columns=list('ABCD'))
+
+```
+
 ## Converting numpy to dataframe
 [Reference](https://datatofish.com/numpy-array-to-pandas-dataframe/)
 ```py
@@ -337,5 +349,185 @@ tol = y.value_counts()
 ```py
 # Set index=False so that the index will not be showing in the first column
 df.to_csv('file_name.csv', index=False)
+
+```
+
+## Dropping the last row of the dataframe
+[Reference](https://thispointer.com/drop-last-row-of-pandas-dataframe-in-python-3-ways/)
+```py
+# Method 1: Using iloc
+# df = df.iloc[row_start:row_end , col_start:col_end]
+df = df.iloc[:-1, :]
+
+# Method 2: Using slice
+# df = df[row_start:row_end, col_start:col_end]
+df = df[:-1, :]
+
+# Method 3: Using drop
+df = df.drop(index=df.index[-1], axis=0)
+
+# Method 4: Using the len, when you do not have unique index
+df = df[:len(df)-1]
+
+```
+
+## Getting the first column name
+```py
+col_1_name = df.columns[0]
+
+```
+
+## Getting the first column series or list
+[Reference](https://stackoverflow.com/questions/15360925/how-to-get-the-first-column-of-a-pandas-dataframe-as-a-series)
+```py
+# Method 1
+s = df[df.columns[0]]
+# Converting it to list
+ls = df[df.columns[0]].tolist()
+
+# Method 2: 'Name' is the column name
+ls = df.Name.tolist()
+
+```
+
+## How to set a column as an index
+[Reference](https://stackoverflow.com/questions/38542419/could-pandas-use-column-as-index)
+```py
+# Method 1
+df = df.set_index('No.')
+df.set_index('No.', inplace=True)
+
+# Method 2
+# Example of setting the first column to be the index
+df = df.set_index(df.columns[0])
+
+```
+
+## How to unset the index or reset the index
+[Reference](https://www.delftstack.com/howto/python-pandas/pandas-remove-index/)
+```py
+# Method 1: Normal resetting and add back the index as column_0
+df = df.reset_index()
+
+# Method 2: Resetting + removing the column of the index
+df = df.reset_index(drop=True)
+
+```
+
+## Changing the value of a cell
+```py
+# df.xxx[row, column]
+
+df.at[1, 'Col_2'] = 10
+df.loc[1, 'Col_2'] = 10
+
+df.iat[1, 2] = 10
+df.iloc[1, 2] = 10
+
+```
+
+## Different conversion of df to json
+[Reference #1](https://stackoverflow.com/questions/28590663/pandas-dataframe-to-json-without-index)
+```py
+# Method 1: Getting the list of dictionaries for each row: 
+# Best converting to dictionary and returning them as a list
+dic = df.to_dict(orient='records') 
+# [{'A': 46, 'B': 75, 'C': 94, 'D': 43}, {'A': 32, 'B': 78, 'C': 85, 'D': 61}]
+
+# ============================== #
+
+# Method 2: Getting the list of dictionaries for each row.
+df_dict = df.reset_index().to_dict(orient='index') 
+df_vals = list(df_dict.values())
+# [{'index': 0, 'A': 46, 'B': 75, 'C': 94, 'D': 43}, {'index': 1, 'A': 32, 'B': 78, 'C': 85, 'D': 61}]
+
+dic = df.to_dict('index') # To remove the index in the dictionary
+ls = list(dic.values())
+# [{'A': 46, 'B': 75, 'C': 94, 'D': 43}, {'A': 32, 'B': 78, 'C': 85, 'D': 61}]
+
+# ============================== #
+
+# Method 3: Getting the list of dictionaries for each row. (Returning a string)
+json_obj = df.reset_index().to_json(orient='records')
+# '[{"index":0,"A":46,"B":75,"C":94,"D":43},{"index":1,"A":32,"B":78,"C":85,"D":61}]'
+
+json_obj = df.to_json(orient='records') # To remove the index in the dictionary
+# '[{"A":46,"B":75,"C":94,"D":43},{"A":32,"B":78,"C":85,"D":61}]'
+
+```
+[Reference #2](https://stackoverflow.com/questions/26716616/convert-a-pandas-dataframe-to-a-dictionary/26716774#26716774)
+```py
+# dict - the default: column names are keys, values are dictionaries of index:data pairs
+df.to_dict('dict')
+{'a': {0: 'red', 1: 'yellow', 2: 'blue'}, 
+ 'b': {0: 0.5, 1: 0.25, 2: 0.125}}
+
+# list - keys are column names, values are lists of column data
+df.to_dict('list')
+{'a': ['red', 'yellow', 'blue'], 
+ 'b': [0.5, 0.25, 0.125]}
+
+# series - like 'list', but values are Series
+df.to_dict('series')
+{'a': 0       red
+      1    yellow
+      2      blue
+      Name: a, dtype: object, 
+
+ 'b': 0    0.500
+      1    0.250
+      2    0.125
+      Name: b, dtype: float64}
+
+# split - splits columns/data/index as keys with values being column names, data values by row and index labels respectively
+df.to_dict('split')
+{'columns': ['a', 'b'],
+ 'data': [['red', 0.5], ['yellow', 0.25], ['blue', 0.125]],
+ 'index': [0, 1, 2]}
+
+# records - each row becomes a dictionary where key is column name and value is the data in the cell
+df.to_dict('records')
+[{'a': 'red', 'b': 0.5}, 
+ {'a': 'yellow', 'b': 0.25}, 
+ {'a': 'blue', 'b': 0.125}]
+
+# index - like 'records', but a dictionary of dictionaries with keys as index labels (rather than a list)
+df.to_dict('index')
+{0: {'a': 'red', 'b': 0.5},
+ 1: {'a': 'yellow', 'b': 0.25},
+ 2: {'a': 'blue', 'b': 0.125}}
+
+```
+[Reference #3](https://pandas.pydata.org/pandas-docs/version/0.23.3/generated/pandas.DataFrame.to_json.html)
+```py
+# Horizontal data
+df.to_json(orient='index')
+# '{"row 1":{"col 1":"a","col 2":"b"},"row 2":{"col 1":"c","col 2":"d"}}'
+
+# Vertical data
+df.to_json(orient='columns')
+# '{"col 1":{"row 1":"a","row 2":"c"},"col 2":{"row 1":"b","row 2":"d"}}'
+
+# Only value no key
+df.to_json(orient='values')
+# '[["a","b"],["c","d"]]'
+
+# Getting the schema
+df.to_json(orient='table')
+# '{"schema": {"fields": [{"name": "index", "type": "string"},
+#                         {"name": "col 1", "type": "string"},
+#                         {"name": "col 2", "type": "string"}],
+#              "primaryKey": "index",
+#              "pandas_version": "0.20.0"},
+#   "data": [{"index": "row 1", "col 1": "a", "col 2": "b"},
+#            {"index": "row 2", "col 1": "c", "col 2": "d"}]}'
+
+```
+
+## Setting the datetime format for the dataframe before converting to json
+[Reference](https://stackoverflow.com/questions/52730953/pandas-to-json-output-date-format-in-specific-form)
+```py
+# Changing the output from "2018-09-17T00:00:00Z":{" to "2018-09-17":{"
+df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
 
 ```
