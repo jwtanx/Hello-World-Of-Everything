@@ -24,6 +24,19 @@ df = pd.DataFrame(rng.integers(0, 100, size=(100, 4)), columns=list('ABCD'))
 
 ```
 
+## Simplest way to create a dataframe for testing
+```py
+df = pd.DataFrame('x', index=range(3), columns=list('abcd'))
+df
+'''
+   a  b  c  d
+0  x  x  x  x
+1  x  x  x  x
+2  x  x  x  x
+'''
+
+```
+
 ## Converting numpy to dataframe
 [Reference](https://datatofish.com/numpy-array-to-pandas-dataframe/)
 ```py
@@ -414,7 +427,7 @@ df = df.reset_index(drop=True)
 
 ```
 
-## Changing the value of a cell
+## Updating / Changing the value of a cell
 ```py
 # df.xxx[row, column]
 
@@ -423,6 +436,19 @@ df.loc[1, 'Col_2'] = 10
 
 df.iat[1, 2] = 10
 df.iloc[1, 2] = 10
+
+# Which is faster? Comparison: https://stackoverflow.com/questions/37757844/pandas-df-locz-x-y-how-to-improve-speed
+In [37]: %timeit df.loc[random.randint(0, 10**7), 'b']
+1000 loops, best of 3: 502 µs per loop
+
+In [38]: %timeit df.iloc[random.randint(0, 10**7), 1]
+1000 loops, best of 3: 394 µs per loop
+
+In [39]: %timeit df.at[random.randint(0, 10**7), 'b']
+10000 loops, best of 3: 66.8 µs per loop
+
+In [41]: %timeit df.iat[random.randint(0, 10**7), 1]
+10000 loops, best of 3: 32.9 µs per loop
 
 ```
 
@@ -529,5 +555,38 @@ df.to_json(orient='table')
 ```py
 # Changing the output from "2018-09-17T00:00:00Z":{" to "2018-09-17":{"
 df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+
+```
+
+## Updating / Renaming the column name of the dataframe
+[Reference](https://stackoverflow.com/questions/11346283/renaming-column-names-in-pandas)
+```py
+# Reassigning for all the headers
+# Method 1
+df.columns = ['x', 'y', 'z']
+
+# Method 2
+df2 = df.set_axis(['x', 'y', 'z'], axis=1, inplace=False)
+
+# =================================== #
+# Renaming only for a certain columns #
+
+# Method 1
+df2 = df.rename({'a': 'X', 'b': 'Y'}, axis=1)  # new method
+df2 = df.rename({'a': 'X', 'b': 'Y'}, axis='columns')
+df2 = df.rename(columns={'a': 'X', 'b': 'Y'})  # old method
+
+# Method 2: inplace
+df.rename({'a': 'X', 'b': 'Y'}, axis=1, inplace=True)
+df.rename({df.columns[1]: 'Y'}, axis=1, inplace=True)
+
+```
+
+## Formatting the header name of the dataframe using lambda
+```py
+df.rename(columns=lambda x: x.replace(' ', '_'), inplace=True)
+df.rename(columns=lambda x: x.lstrip(), inplace=True)
+df.rename(columns=lambda x: x[1:], inplace=True)
+df.columns = df.columns.str.replace(' ', '_')
 
 ```
