@@ -185,17 +185,59 @@ print(df.ix[:, 0:2])
 
 ## Replace the value throughout the whole df
 ```py
-df = pd.DataFrame({'A': [0, 1, 2, 3, 4], 'B': [5, 6, 7, 8, 9], 'C': ['a', 'b', 'c', 'd', 'e']})
+df = pd.DataFrame({'A': [0, 1, 0, 3, 4], 'B': [5, 6, 0, 8, 0], 'C': ['a', 'b', 'c', 'd', 'e']})
 df.replace(0, 5)
 df
 '''
-    A  B  C
+   A  B  C
 0  5  5  a
 1  1  6  b
-2  2  7  c
+2  5  5  c
 3  3  8  d
-4  4  9  e
+4  4  5  e
 '''
+```
+
+## Replace the value throughout the whole df according to the datatype of the columns (NOT APPLICABLE FOR None)
+Why not applicable? Because the code below the column will not be included into the list when there is any one of the data in the column is None
+[Reference](https://stackoverflow.com/questions/23743460/replace-none-with-nan-in-pandas-dataframe)
+```py
+import numpy as np
+
+# Getting only the list of columns that you want to be replaced
+obj_columns = list(df.select_dtypes(include=['int']).columns.values)
+df[obj_columns] = df[obj_columns].replace(['old'], 'new')
+
+# Example
+df = pd.DataFrame({'A': [3, 1, 3, 3, 4], 'B': [5, 6, 3, 8, 0], 'C': ['a', 'b', 'c', 'd', 'e']})
+#    A  B  C
+# 0  3  5  a
+# 1  1  6  b
+# 2  3  3  c
+# 3  3  8  d
+# 4  4  0  e
+
+obj_columns = list(df.select_dtypes(include=['int']).columns.values)
+df[obj_columns] = df[obj_columns].replace([3], np.nan)
+#      A    B  C
+# 0  NaN  5.0  a
+# 1  1.0  6.0  b
+# 2  NaN  NaN  c
+# 3  NaN  8.0  d
+# 4  4.0  0.0  e
+
+```
+
+## SIMPLE REPLACING THE NONE VALUE
+But take note of the problem as mentioned: If you use df.replace([None], np.nan, inplace=True), this changed all datetime objects with missing data to object dtypes. So now you may have broken queries unless you change them back to datetime which can be taxing depending on the size of your data.
+```py
+import numpy as np
+df = df.replace([None], np.nan)
+
+# Take note: This produces an error
+df = df.replace(None, np.nan) # ERROR
+# TypeError: 'regex' must be a string or a compiled regular expression or a list or dict of strings or regular expressions, you passed a 'bool'
+
 ```
 
 
@@ -237,6 +279,9 @@ df = df.drop(df.loc[:, 'B':'D'].columns, axis = 1)
 
 # Removing a column with the specified column name
 df = df.drop('Category', axis='columns')
+
+# Removing the first column
+df.drop(df.columns[0], inplace=True, axis=1)
 
 ```
 
@@ -450,9 +495,32 @@ In [39]: %timeit df.at[random.randint(0, 10**7), 'b']
 In [41]: %timeit df.iat[random.randint(0, 10**7), 1]
 10000 loops, best of 3: 32.9 µs per loop
 
+# NOTE: `iloc` is slower but it can be used to get the list of data for a particular row while `iat` cannot
+
 ```
 
-## Different conversion of df to json
+## GETTING THE DATA FOR THE PARTICULAR ROW
+```py
+# Use iloc to get the data row
+print(df.iloc[1])
+# a    ABU
+# b    TIM
+# c    ALI
+
+print(list(df.iloc[1]))
+# ['ABU', 'TIM', 'ALI']
+
+```
+
+
+## Updating / Changing the values of the whole column
+```py
+df[df.columns[0]] = list(range(1, len(df)+1))
+
+```
+
+
+## Different conversion of df to JSON
 [Reference #1](https://stackoverflow.com/questions/28590663/pandas-dataframe-to-json-without-index)
 ```py
 # Method 1: Getting the list of dictionaries for each row: 
@@ -589,4 +657,78 @@ df.rename(columns=lambda x: x.lstrip(), inplace=True)
 df.rename(columns=lambda x: x[1:], inplace=True)
 df.columns = df.columns.str.replace(' ', '_')
 
+```
+
+## Checking if there is a None in a df
+```py
+first_col_list = list(df[df.columns[0]])
+
+if pd.isna(first_col_list[i]):
+    print('This is a None')
+
+# NOTE: We cannot check with the syntax `first_col_list[i] == None`
+```
+
+## SPLITTING THE DATA IN A CELL TO CREATE NEW MULTIPLE ROWS
+[Reference](https://stackoverflow.com/questions/12680754/split-explode-pandas-dataframe-string-entry-to-separate-rows/40449726#40449726)
+
+```py
+
+
+```
+
+## FILTERING THE DATA
+[Reference](https://stackoverflow.com/questions/11869910/pandas-filter-rows-of-dataframe-with-operator-chaining?rq=1)
+```py
+# Method 1: Using normal multiple filterinig at the same time
+In [99]: df[(df.A == 1) & (df.D == 6)]
+Out[99]:
+   A  B  C  D
+d  1  3  9  6
+
+# Method 2: Using chaining condition, filtering after one condition before going to check for the next condition
+df = pd.DataFrame(np.random.randn(30, 3), columns=['a','b','c'])
+df_filtered = df.query('a > 0').query('0 < b < 2')
+# Single query
+df_filtered = df.query('a > 0 and 0 < b < 2')
+
+
+```
+
+## CHANGING THE VALUES OF A COLUMN BASED ON THE OTHER COLUMN
+[Reference](https://stackoverflow.com/questions/63768410/how-to-modify-original-dataframe-after-updating-its-value-off-of-a-filtered-view)
+```py
+         col_0   col_1
+0    'Blood B'    'OK'
+1    'Blood A'    'NO'
+2    'Blood B'    'NO'
+
+df.loc[df['col_0'] == 'Blood B', 'col_1'] = 'CHANGES'
+
+         col_0        col_1
+0    'Blood B'    'CHANGES'
+1    'Blood A'         'NO'
+2    'Blood B'    'CHANGES'
+
+# df.loc[df['SPORT'].eq('Tennis'), 'TEST'] = 'CHANGED'
+
+```
+
+## STRING SEARCHING IN DATAFRAME
+[Reference](https://towardsdatascience.com/check-for-a-substring-in-a-pandas-dataframe-column-4b949f64852?gi=a0358f34659)
+```py
+
+
+
+```
+
+## SELECTING THE OPTION FOR THE CELL BASED ON THE OTHER COLUMNS DATA
+[Reference](https://stackoverflow.com/questions/54893547/edit-data-in-a-python-pandas-filter-and-apply-it-to-the-original-data-frame)
+```py
+zone1 = (df['Latitude'] > 0) & (df['Longitude'] > 0)
+zone2 = (df['Latitude'] < 0) & (df['Longitude'] > 0)
+zone3 = (df['Latitude'] > 0) & (df['Longitude'] < 0)
+zone4 = (df['Latitude'] < 0) & (df['Longitude'] < 0)
+
+df['Zone'] = np.select([zone1,zone2,zone3,zone4],['Z1','Z2', 'Z3','Z4'])
 ```
