@@ -1,0 +1,63 @@
+{
+	"name": "white",
+	"displayName": "White",
+	"description": "Minimalist monochrome theme",
+	"keywords": [
+		"white",
+		"theme",
+		"night",
+		"minimal",
+		"monochrome"
+	],
+	"version": "1.3.6",
+	"publisher": "arthurwhite",
+	"author": {
+		"name": "Arthur White"
+	},
+	"icon": "icon.png",
+	"engines": {
+		"vscode": "^1.20.0"
+	},
+	"categories": [
+		"Themes"
+	],
+	"galleryBanner": {
+		"color": "#000",
+		"theme": "dark"
+	},
+	"bugs": {
+		"url": "https://github.com/arthurwhite/white-theme-vscode/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/arthurwhite/white-theme-vscode"
+	},
+	"contributes": {
+		"themes": [
+			{
+				"label": "White",
+				"uiTheme": "vs",
+				"path": "./themes/White-color-theme.json"
+			},
+			{
+				"label": "White Night",
+				"uiTheme": "vs-dark",
+				"path": "./themes/White-Night-color-theme.json"
+			}
+		]
+	},
+	"scripts": {
+		"build": "./build.py"
+	},
+	"prettier": {
+		"arrowParens": "always",
+		"tabWidth": 4,
+		"trailingComma": "all"
+	},
+	"__metadata": {
+		"id": "4318defb-0881-43a9-a19e-0ff86c785c45",
+		"publisherId": "129722cb-ddc3-45c8-a21a-2a8070eacd9d",
+		"publisherDisplayName": "Arthur White",
+		"installedTimestamp": 1629094220105
+	}
+}
