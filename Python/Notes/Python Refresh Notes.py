@@ -1743,6 +1743,9 @@ n = [1,2,3]
 n.sort(reverse=True)
 print(n) # [3,2,1]
 
+# Another method
+reversed = n[::-1]
+
 SORTED
 =====
 # This function return you a new sorted list without modifying the original list
@@ -1752,6 +1755,60 @@ newList
 >> ['Ali', 'John', 'Sarah']
 names
 >> ['Sarah', 'John' ,'Ali']
+
+Sorted with a function
+=====
+# https://www.programiz.com/python-programming/methods/built-in/sorted
+# take the second element for sort
+def take_second(elem):
+    return elem[1]
+
+random = [(2, 2), (3, 4), (4, 1), (1, 3)]
+
+# sort list with key
+sorted_list = sorted(random, key=take_second)
+
+# print list
+print('Sorted list:', sorted_list)
+# Sorted list: [(4, 1), (2, 2), (1, 3), (3, 4)]
+
+Sorted with multiple keys
+=====
+# https://www.programiz.com/python-programming/methods/built-in/sorted
+# Nested list of student's info in a Science Olympiad
+# List elements: (Student's Name, Marks out of 100, Age)
+participant_list = [
+    ('Alison', 50, 18),
+    ('Terence', 75, 12),
+    ('David', 75, 20),
+    ('Jimmy', 90, 22),
+    ('John', 45, 12)
+]
+
+def sorter(item):
+    # Since highest marks first, least error = most marks
+    error = 100 - item[1]
+    age = item[2]
+    return (error, age)
+
+sorted_list = sorted(participant_list, key=sorter)
+print(sorted_list)
+# [('Jimmy', 90, 22), ('Terence', 75, 12), ('David', 75, 20), ('Alison', 50, 18), ('John', 45, 12)]
+
+# Explanation: Tuple comparison is OR condition
+>>> (1,3) > (1, 4)
+False
+>>> (1, 4) < (2,2)
+True
+>>> (1, 4, 1) < (2, 1)
+True
+
+Using LAMBDA instead of function
+=====
+sorted_list = sorted(participant_list, key=lambda item: (100-item[1], item[2]))
+
+print(sorted_list)
+
 
 SORTED BY KEY
 =====
@@ -1972,6 +2029,25 @@ def blackjack_hand_greater_than(hand_1, hand_2):
     h2 = getVal(hand_2)
     
     return h1 <= 21 and (h1 > h2 or h2 > 21)
+
+Checking if all the elements in a list are identical
+=====
+# https://stackoverflow.com/questions/3844801/check-if-all-elements-in-a-list-are-identical
+# Method 1
+from itertools import groupby
+
+def all_equal(iterable):
+    g = groupby(iterable)
+    return next(g, True) and not next(g, False)
+
+# Method 2
+def all_equal(iterator):
+    iterator = iter(iterator)
+    try:
+        first = next(iterator)
+    except StopIteration:
+        return True
+    return all(first == x for x in iterator)
 
 #########################################################################################
 DICTIONARIES
@@ -2301,6 +2377,30 @@ planet_to_initial = {planet: planet[0] for planet in planets}
  'Uranus': 'U',
  'Neptune': 'N'}
 """
+
+Sorting dictionary based on the values
+=====
+# https://careerkarma.com/blog/python-sort-a-dictionary-by-value/
+orders = {
+    'cappuccino': 54,
+    'latte': 56,
+    'espresso': 72,
+    'americano': 48,
+    'cortado': 41
+}
+
+sort_orders = sorted(orders.items(), key=lambda x: x[1], reverse=True)
+
+for i in sort_orders:
+    print(i[0], i[1])
+
+'''
+espresso 72
+latte 56
+cappuccino 54
+americano 48
+cortado 41
+'''
 
 #########################################################################################
 TUPLES
@@ -2721,6 +2821,15 @@ s.pop()
 
 # remove all elements from set s
 s.clear()
+
+Getting the intersection of the sets in a list of sets
+=====
+# Create the list of sets
+lst = [{1, 2, 3}, {1, 4}, {1, 2, 3}]
+
+# One-Liner to intersect a list of sets
+print(lst[0].intersection(*lst))
+# {1}
 
 #########################################################################################
 Object-Oriented Programming (OOP)
@@ -4542,3 +4651,31 @@ file_like = cStringIO.StringIO(data)
 
 img = PIL.Image.open(file_like)
 img.show()
+
+COPY
+=====
+# https://stackoverflow.com/questions/17246693/what-is-the-difference-between-shallow-copy-deepcopy-and-normal-assignment-oper/17246744#17246744
+import copy
+
+a = [1, 2, 3]
+b = [4, 5, 6]
+c = [a, b]
+
+# Using normal assignment operatings to copy:
+d = c
+print id(c) == id(d)          # True - d is the same object as c
+print id(c[0]) == id(d[0])    # True - d[0] is the same object as c[0]
+
+# Using a shallow copy:
+d = copy.copy(c)
+print id(c) == id(d)          # False - d is now a new object
+print id(c[0]) == id(d[0])    # True - d[0] is the same object as c[0]
+
+# Using a deep copy:
+d = copy.deepcopy(c)
+print id(c) == id(d)          # False - d is now a new object
+print id(c[0]) == id(d[0])    # False - d[0] is now a new object
+
+# Getting the address in hex format
+d = c
+hex(id(c)) == hex(id(d))      # True - d is the same object as c
