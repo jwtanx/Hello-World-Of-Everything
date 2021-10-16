@@ -512,7 +512,6 @@ print(list(df.iloc[1]))
 
 ```
 
-
 ## Updating / Changing the values of the whole column
 ```py
 df[df.columns[0]] = list(range(1, len(df)+1))
@@ -731,4 +730,22 @@ zone3 = (df['Latitude'] > 0) & (df['Longitude'] < 0)
 zone4 = (df['Latitude'] < 0) & (df['Longitude'] < 0)
 
 df['Zone'] = np.select([zone1,zone2,zone3,zone4],['Z1','Z2', 'Z3','Z4'])
+```
+
+## GETTING THE INDEX OF A COLUMN USING ITS NAME
+[Reference](https://www.geeksforgeeks.org/get-column-index-from-column-name-of-a-given-pandas-dataframe/)
+```py
+# dictionary
+record = {'Math': [10, 20, 30, 40, 70],
+          'Science': [40, 50, 60, 90, 50], 
+          'English': [70, 80, 66, 75, 88]}
+  
+# give column name
+col_name = "Science"
+  
+# find the index no
+index_no = df.columns.get_loc(col_name)
+  
+print("Index of {} column in given dataframe is : {}".format(col_name, index_no))
+# Index of Science column in given dataframe is : 1
 ```
