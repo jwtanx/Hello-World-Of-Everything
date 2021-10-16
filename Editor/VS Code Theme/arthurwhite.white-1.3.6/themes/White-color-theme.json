@@ -55,6 +55,8 @@
         "editorOverviewRuler.wordHighlightStrongForeground": "#0064ff4c",
         "editorRuler.foreground": "#f4f6fc",
         "editorSuggestWidget.foreground": "#000",
+        "editorSuggestWidget.focusHighlightForeground": "#ffca00", // ADDED
+        // "editorSuggestWidget.highlightForeground": "#ffca00", // For the unfocused but highlight word in the suggestions
         "editorWarning.foreground": "#f90",
         "editorWidget.background": "#f4f6fc",
         "editorWidget.border": "#e7ecf2",
