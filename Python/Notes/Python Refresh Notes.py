@@ -4679,3 +4679,30 @@ print id(c[0]) == id(d[0])    # False - d[0] is now a new object
 # Getting the address in hex format
 d = c
 hex(id(c)) == hex(id(d))      # True - d is the same object as c
+
+ENCODING AND DECODING IN HEX
+=====
+# Encoding
+"hello".encode("utf-8").hex()
+# '68656c6c6f'
+
+# Decoding
+bytearray.fromhex("68 65 6C 6C 6F").decode()
+bytearray.fromhex("68 65 6c 6c 6f").decode()
+bytearray.fromhex("68656c6c6f").decode()
+bytes.fromhex('68656c6c6f').decode('utf-8')
+# 'hello'
+
+
+SIMPLEJSON
+=====
+# pip install simplejson
+# How to export the json null data from df or python that has None value in it?
+df_vals = list(df.T.to_dict().values())
+simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
+
+# OR...
+
+dic = df.to_dict('index')
+df_vals = list(dic.values())
+simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
