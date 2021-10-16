@@ -156,6 +156,18 @@ The quick brown fox jump over the lazy dog
 `                                   `
 `                                   `
 
+`                                   `
+`                                   `
+`           ¯\_(`ツ`)_/¯             `
+`                                   `
+`                                   `
+
+`                                  `
+`                                  `
+`           ¯\_(`||ツ||`)_/¯            `
+`                                  `
+`                                  `
+
 ┌ ┬ ┐
 ├ ┼ ┤
 └ ┴ ┘
@@ -217,3 +229,12 @@ Non cogito, ergo existo.
 `I think, therefore I am... confused`
 
 好想躺在那草原上，游入白雲，沉入海底。
+
+🤦 내 소주를 생강 추출물로 대체
+
+if you == heartbroken:
+    cv2.waitKey()
+    time.sleep(28800)
+    life_df.replace(['sadness'], 'happiness')
+else:
+    continue happy go lucki~
