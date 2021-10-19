@@ -3379,6 +3379,13 @@ cmd = 'cls' if os.name == 'nt' else 'clear'
 clear = lambda: os.system(cmd)
 clear()
 
+CHECKING IF A DIRECTORY IS A FOLDER
+=====
+os.path.isdir('src')
+
+CHECKING IF A DIRECTORY IS A FILE
+=====
+os.path.isfile('src')
 
 #########################################################################################
 REGULAR EXPRESSIOB - REGEX
