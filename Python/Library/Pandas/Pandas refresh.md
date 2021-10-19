@@ -749,3 +749,18 @@ index_no = df.columns.get_loc(col_name)
 print("Index of {} column in given dataframe is : {}".format(col_name, index_no))
 # Index of Science column in given dataframe is : 1
 ```
+
+## DF TO JSON
+```py
+# pip install simplejson
+# How to export the json null data from df or python that has None value in it?
+# df_vals = list(df.T.to_dict().values())
+simplejson.loads(simplejson.dumps(list(df.T.to_dict().values()), ignore_nan=True))
+
+# OR...
+
+dic = df.to_dict('index')
+df_vals = list(dic.values())
+simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
+
+```
