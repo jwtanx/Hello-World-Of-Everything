@@ -2102,6 +2102,7 @@ print(student1)
 
 DELETING KEY WITH ITS VALUE
 =====
+# https://www.geeksforgeeks.org/python-ways-to-remove-a-key-from-dictionary/
 del wallet['RM50']
 print(wallet)
 >> {'RM20': 10, 'RM5': 7, 'RM1': 12}
@@ -2110,6 +2111,9 @@ print(wallet)
 student1 = {'name':'John', 'age':19, 'courses':['CS', 'ALGO']}
 s1courseList = student1.pop('courses') # ['CS', 'ALGO']
 print('student1') # {'name': 'John', 'age': 19}
+
+# Using pop to avoid if the key cannot be found in the dictionary
+ele = student1.pop('year of study', 'NOT_REGISTERED_YET')
 
 FINDING KEYS THAT DONT EXIST
 =====
@@ -2401,6 +2405,15 @@ cappuccino 54
 americano 48
 cortado 41
 '''
+
+DICTIONARY SORTED BY KEYS
+=====
+mydict = {'carl':40, 'alan':2, 'bob':1, 'danny':3}
+dict(sorted(mydict.items()))
+# {'alan': 2, 'bob': 1, 'carl': 40, 'danny': 3}
+
+sorted(mydict.items())
+# [('alan', 2), ('bob', 1), ('carl', 40), ('danny', 3)]
 
 #########################################################################################
 TUPLES
@@ -4713,3 +4726,29 @@ simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
 dic = df.to_dict('index')
 df_vals = list(dic.values())
 simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
+
+COPYING STRING TO CLIPBOARD
+=====
+# https://stackoverflow.com/questions/579687/how-do-i-copy-a-string-to-the-clipboard
+
+# Method 1: OS
+import os
+def addToClipBoard(text):
+    command = 'echo ' + text.strip() + '| clip'
+    os.system(command)
+
+addToClipBoard('penny lane')
+
+# Method 2: Pandas
+import pandas as pd
+df=pd.DataFrame(['Text to copy'])
+df.to_clipboard(index=False,header=False)
+
+# Method 2.1: Pandas
+from pandas.io import clipboard
+clipboard.copy("test")
+
+# Method 3: Pyperclip
+import pyperclip
+pyperclip.copy("your string")
+clipboard_content = pyperclip.paste()
