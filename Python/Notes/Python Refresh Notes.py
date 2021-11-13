@@ -1699,6 +1699,41 @@ fruits.remove('Pear')
 ls = [1,5,1,2,3,4,1]
 ls.remove(1) # [5, 1, 2, 3, 4, 1]
 
+REMOVING ALL OCCURENCE
+=====
+# Since there is no .removeAll(matching_param)
+# Method 1
+x = [1,2,3,2,2,2,3,4]
+list(filter((2).__ne__, x))
+[1, 3, 3, 4]
+
+# Method 2
+x = [1,2,3,2,2,2,3,4]
+list(filter(lambda a: a != 2, x))
+[1, 3, 3, 4]
+
+# Method 3: Fastest
+re = [value for value in the_list if value != val]
+
+def ch():
+    return list(filter((2).__ne__, [1,2,3,2,2,2,3,4]))
+
+def ch1():
+    return list(filter(lambda a: a != 2, [1,2,3,2,2,2,3,4]))
+
+def ch2():
+   return [value for value in [1,2,3,2,2,2,3,4] if value != 2]
+
+print(timeit.timeit(ch, number=10000))
+print(timeit.timeit(ch1, number=10000))
+print(timeit.timeit(ch2, number=10000))
+
+'''
+0.011971862000791589
+0.02591789999860339
+0.00766440400184365
+'''
+
 POP
 =====
 fruits.pop()
@@ -3350,6 +3385,22 @@ CHANGING THE FULL DIRECTORY
 '.'.join(filepath.split('.')[:-1]) + '.txt'
 # OUTPUT: '/fol.der/this.is.an.img.txt'
 
+BUILT-IN PYTHON OS WAY TO GET THE EXTENSION OF THE FILE
+=====
+os.path.splitext('/a/b.c/d.png')
+# ('/a/b.c/d', '.png')
+
+os.path.splitext('/a/b.c/d.txt.png')
+# ('/a/b.c/d.txt', '.png')
+
+GETTING THE FILENAME
+=====
+os.path.basename('/root/dir/sub/file.ext')
+# file.ext
+
+os.path.basename('/root/dir/sub/file.name.ext')
+# file.name.ext
+
 RUN A COMMAND ON THE OS
 =====
 # os.popen("INSERT_YOUR_COMMAND")
@@ -3358,6 +3409,19 @@ os.popen(calc) # Open calculator app
 GETTING THE CURRENT PATH FOR THE CURRENT FILE
 =====
 os.getcwd()
+
+MAKE DIRECTORIES
+=====
+# Single directory
+import os
+if not os.path.exists(folder):
+    os.mkdir(folder)
+
+# Nested directory
+import os
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
 
 RESTART THE CURRENT PROGRAM WIHOUT WHILE LOOP OR EXITING
 =====
