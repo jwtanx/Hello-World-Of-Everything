@@ -764,3 +764,9 @@ df_vals = list(dic.values())
 simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
 
 ```
+
+## GETTING THE UNIQUE VALUES FROM A COLUMN
+```py
+df['category'].unique().tolist()    
+df.category.unique().tolist()
+```
