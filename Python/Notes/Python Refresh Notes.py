@@ -3460,6 +3460,10 @@ CHECKING IF A DIRECTORY IS A FOLDER
 =====
 os.path.isdir('src')
 
+GETTING A LIST OF FOLDERS IN A FOLDER
+=====
+folder = [f for f in os.listdir() if os.path.isdir(f)]
+
 CHECKING IF A DIRECTORY IS A FILE
 =====
 os.path.isfile('src')
@@ -4816,3 +4820,28 @@ clipboard.copy("test")
 import pyperclip
 pyperclip.copy("your string")
 clipboard_content = pyperclip.paste()
+
+
+DOWNLOADING IMAGE FROM THE WEBSITE
+=====
+# Ref: https://stackoverflow.com/questions/13137817/how-to-download-image-using-requests
+
+# Method 1
+import shutil
+import requests
+
+url = 'http://example.com/img.png'
+# Stream is set to True to avoid requests doesn't download the whole image into memory first
+response = requests.get(url, stream=True)
+with open('img.png', 'wb') as out_file:
+    shutil.copyfileobj(response.raw, out_file)
+del response
+
+
+# Method 2
+import requests
+url = "http://craphound.com/images/1006884_2adf8fc7.jpg"
+response = requests.get(url, stream=True)
+if response.status_code == 200:
+    with open("/Users/apple/Desktop/sample.jpg", 'wb') as f:
+        f.write(response.content)
