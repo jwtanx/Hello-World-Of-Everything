@@ -770,3 +770,14 @@ simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
 df['category'].unique().tolist()    
 df.category.unique().tolist()
 ```
+
+## STRIP / REMOVING THE WHITESPACES OF THE CELLS
+```py
+# https://stackoverflow.com/questions/33788913/pythonic-efficient-way-to-strip-whitespace-from-every-pandas-data-frame-cell-tha
+data_frame_trimmed = data_frame.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+```
+
+## REPLACING THE WORD USING REGEX
+```py
+df = df.replace('_x000D_', '', regex=True)
+```
