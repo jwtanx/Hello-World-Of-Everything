@@ -1926,6 +1926,9 @@ tmp = 'hello       there hahaha'
 tmpList = tmp.split()
 >> ['hello', 'there', 'hahaha']
 
+# Remove the next line and extra spaces
+" ".join(string.split())
+
 tmp = 'hello;there;world'
 tmpList = tmp.split()
 >> ['hello;there;world']
@@ -2440,6 +2443,12 @@ cappuccino 54
 americano 48
 cortado 41
 '''
+
+Sort by value and get the first value
+=====
+# Finding the cheapest drink
+cheapest_drink = sorted(orders.items(), key=lambda x: x[1])[0][0]
+'cortado'
 
 DICTIONARY SORTED BY KEYS
 =====
@@ -4845,3 +4854,47 @@ response = requests.get(url, stream=True)
 if response.status_code == 200:
     with open("/Users/apple/Desktop/sample.jpg", 'wb') as f:
         f.write(response.content)
+
+ZIP FILES
+=====
+# https://stackoverflow.com/questions/31346790/unzip-all-zipped-files-in-a-folder-to-that-same-folder-using-python-2-7-5
+import os, zipfile
+
+dir_name = 'C:\\SomeDirectory'
+extension = ".zip"
+
+os.chdir(dir_name) # change directory from working dir to dir with files
+
+for item in os.listdir(dir_name): # loop through items in dir
+    if item.endswith(extension): # check for ".zip" extension
+        file_name = os.path.abspath(item) # get full path of files
+        zip_ref = zipfile.ZipFile(file_name) # create zipfile object
+        zip_ref.extractall(dir_name) # extract file to dir
+        zip_ref.close() # close file
+        os.remove(file_name) # delete zipped file
+
+BEAUTIFULSOUP4, BS4
+=====
+# Open a html file and read then only get the specific tag name
+# Ref: https://www.geeksforgeeks.org/how-to-parse-local-html-file-in-python/
+with open("sample.html", "r") as HTMLFile:
+    index = HTMLFile.read()
+
+h1_list = BeautifulSoup(index, "lxml").select("h1")
+
+for i, h1 in enumerate(h1_list, start=1):
+    print(f"H1 #{i}")
+    print(h1.get_text(strip=True))
+
+
+# Only select the first header
+import requests
+from bs4 import BeautifulSoup
+
+html_request = requests.get("https://www.geeksforgeeks.org/how-to-parse-local-html-file-in-python/")
+
+# Creating a BeautifulSoup object and specifying the parser
+content = BeautifulSoup(html_request.text, 'lxml')
+first_paragraph = content.select_one("p")
+
+print(first_paragraph.text)
