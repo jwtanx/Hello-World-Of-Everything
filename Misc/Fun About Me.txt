@@ -180,6 +180,12 @@ The quick brown fox jump over the lazy dog
 `           ───┼───┼───             `
 `            x │ o │ x              `
 
+`             x │ x │ o             `
+`            ───┼───┼───            `
+`             o │ x │ o             `
+`            ───┼───┼───            `
+`             x │ o │ x             `
+
 `The       brown     jump      the  `
 `The quick       fox      over      `
 `The quick brown     jump      the  `
@@ -255,3 +261,12 @@ I have an apple and an orange. Which one would you take?
             A. Apple                       B. Orange
 
 A: ||No, orange for you||    B: ||No, apple for you||
+
+🍱 This mini one is for you :]]
+
+`////////////////////////////////`
+`🚗🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗🚙`
+` - - - - - - - - - - - - - - - -`
+`🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗`
+`\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\`
+Yes, I am ||hungry||
