@@ -58,7 +58,7 @@ def restart():
     pyautogui.press('space')
 
     # Click the queue
-    pyautogui.click(1725, 1035)
+    pyautogui.click(1765, 1040)
 
     # Go back
     pyautogui.hotkey('win', 'ctrl', 'left')
