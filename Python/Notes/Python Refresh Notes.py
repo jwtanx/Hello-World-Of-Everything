@@ -1156,6 +1156,27 @@ tmp.lower()
 tmp.title()
 >> Hello World
 
+STRING CHECKING IF THERE IS CAPITAL IN IT
+=====
+# Ref : https://stackoverflow.com/questions/37288244/check-to-see-if-capital-letters-exist-in-string
+
+while True:
+    testString = input()
+    try:
+        assert 8 <= len(testString) <= 15, "String must be between 8 and 15 characters"
+        assert all(x.isalnum() for x in testString), "String must be alphanumeric"
+        assert any(x.isupper() for x in testString), "String must contain one capital"
+        assert any(x.islower() for x in testString), "String must contain one lowercase"
+        assert any(x.isdigit() for x in testString), "String must contain one digit"
+        assert testString[0].isdigit() == False, "No numbers at start"
+        assert testString[-1].isdigit() == False, "No numbers at end"
+        break #if we haven't hit any errors then the username fits the criterion
+    except Exception as e:
+        print(e)
+
+>>> any(x.isupper() for x in "abCd")
+>>> True
+
 SEARCH & REPLACE
 =====
 tmp.replace('Hello', 'Goodbye')
