@@ -149,14 +149,19 @@ Out:
 ## Exporting dataframe to csv
 [Reference](https://datatofish.com/export-dataframe-to-csv/)
 ```py
-df.to_csv(r'Path where you want to store the exported CSV file\File Name.csv', index = False)
+# Index is set to False so there is no index when reading the csv using pandas later
+df.to_csv(r'Path where you want to store the exported CSV file\File Name.csv', index=False)
 
 ```
 
 ## Loading the csv into the dataframe
+[Reference](https://stackoverflow.com/questions/20107570/removing-index-column-in-pandas-when-reading-a-csv)
 ```py
-df = pd.read_csv ('file_name.csv')
+df = pd.read_csv('file_name.csv')
 print(df)
+
+# To read the csv without the index
+df = pd.read_csv('file_name.csv', index_col=False)
 
 ```
 
@@ -470,6 +475,8 @@ df = df.reset_index()
 # Method 2: Resetting + removing the column of the index
 df = df.reset_index(drop=True)
 
+# Method 3 : With the inplace, so you do not need to reassign the df
+df.reset_index(drop=True, inplace=True)
 ```
 
 ## Updating / Changing the value of a cell
@@ -496,6 +503,13 @@ In [41]: %timeit df.iat[random.randint(0, 10**7), 1]
 10000 loops, best of 3: 32.9 µs per loop
 
 # NOTE: `iloc` is slower but it can be used to get the list of data for a particular row while `iat` cannot
+
+```
+
+## UPDATING MULTIPLE CELLS
+```py
+# This will update the first row cells that are in column 1 and column 2 to 10
+df.loc[1, ['Col_1' ,'Col_2']] = 10
 
 ```
 
