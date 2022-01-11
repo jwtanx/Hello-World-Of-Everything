@@ -270,3 +270,14 @@ A: ||No, orange for you||    B: ||No, apple for you||
 `🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗🚙🚗`
 `\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\`
 Yes, I am ||hungry||
+
+榴蓮和蘋果砸在你頭上，哪一個比較痛?
+答案：||你的頭啦，啊不然咧~||
+
+そうか
+
+`from time import sleep             `
+`try:                               `
+`    sleep(8*60*60)                 `
+`except KenotSleepException as e:   `
+`    count("Timmy sheep", 100)      `
