@@ -1953,10 +1953,30 @@ print([len(x) for x in language])
 
 Flatten the 2d list
 =====
+# https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-a-list-of-lists
+# Best to be used for that all element in the list are instance of list
 list_of_list = [[1,2,3],[4,5,6],[7,8]]
 flatten_list_of_list = [j for i in list_of_list for j in i]
 print(flatten_list_of_list)
 output: [1, 2, 3, 4, 5, 6, 7, 8]
+
+flat_list = [item for sublist in list_of_list for item in sublist]
+
+Flattening irregular list
+=====
+# https://stackoverflow.com/questions/2158395/flatten-an-irregular-list-of-lists/5409395#5409395
+flatten = lambda *n: (e for a in n
+    for e in (flatten(*a) if isinstance(a, (tuple, list)) else (a,)))
+
+# args for n, intermediate (or the shorter mid or you might prefer element) for a and result for e, so: 
+flatten = lambda *args: (result for mid in args for result in (flatten(*mid) if isinstance(mid, (tuple, list)) else (mid,)))
+
+l1 = ['a', ['b', ('c', 'd')]]
+l2 = [0, 1, (2, 3), [[4, 5, (6, 7, (8,), [9]), 10]], (11,)]
+print(list(flatten(l1, -2, -1, l2)))
+['a', 'b', 'c', 'd', -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+
 
 Identity matrix
 =====
