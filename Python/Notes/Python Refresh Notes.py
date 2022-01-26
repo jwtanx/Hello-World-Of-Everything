@@ -3233,8 +3233,16 @@ now.year
 
 INSERT YOUR OWN TIME
 =====
+datetime.datetime(2020, 1, 19, 11, 34, 59)
+print(a) # 2020-01-19 11:34:59
 
-print(a) # 0100-01-01 11:34:59
+COMPARING BETWEEN TWO DATETIME
+=====
+a = datetime.datetime(2020, 1, 19, 11, 34, 59)
+b = datetime.datetime(2020, 1, 20, 19, 55, 51)
+
+b > a
+# True
 
 ADVANCE TIME
 =====
