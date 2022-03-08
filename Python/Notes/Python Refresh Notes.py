@@ -1291,6 +1291,23 @@ def h(text):
 def i(text):
     text = text.replace('&', r'\&').replace('#', r'\#')
 
+HOW TO REPEAT REGEX PATTERN
+=====
+# https://stackoverflow.com/questions/37194527/how-do-i-repeat-regex
+
+"""
+Difference between * and +.
+* is 0 to any number of times.
++ is 1 to any number of times.
+{n} 'n' times.
+{n,} at-least 'n' times.
+
+Example
+[0-9]{1} this means 1 digit(0-9)
+[0-9]+ this means at-least one digit(0-9).
+[0-9]* no digits or any number of digits(0-9).
+"""
+
 ISNUMERIC
 =====
 # Check if it is numeric or alphabet
@@ -1971,6 +1988,17 @@ print([i*7 for i in range(1,11)])
 language = ['Python', 'Java', 'C++', 'Javascript']
 print([len(x) for x in language])
 >> [6, 4, 3, 10]
+
+# The usage of if else statement in the list comprehension
+numbers = [1,2,3,4,5,6]
+
+# Cannot put else after the num%2 == 0
+filtered = [num for num in numbers if num%2 == 0]
+# [2, 4, 6]
+
+# Can put else statement after the num%2 == 0
+filtered = [num if num%2 == 0 else None for num in numbers]
+# [None, 2, None, 4, None, 6]
 
 Flatten the 2d list
 =====
