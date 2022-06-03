@@ -3367,6 +3367,39 @@ ADVANCE TIMEDELTA
 =====
 timedelta(days: float=..., seconds: float=..., microseconds: float=..., milliseconds: float=..., minutes: float=..., hours: float=..., weeks: float=..., *, fold: int=...)
 
+ADDING MONTH
+=====
+# https://stackoverflow.com/questions/4130922/how-to-increment-datetime-by-custom-months-in-python-without-using-library
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
+date_after_month = datetime.today()+ relativedelta(months=1)
+print('Today: ',datetime.today().strftime('%d/%m/%Y'))
+print('After Month:', date_after_month.strftime('%d/%m/%Y'))
+
+ADDING MONTH FOR SUBSCRIPTION
+=====
+import datetime
+import calendar
+
+def add_months(sourcedate, months):
+    month = sourcedate.month - 1 + months
+    year = sourcedate.year + month // 12
+    month = month % 12 + 1
+    day = min(sourcedate.day, calendar.monthrange(year,month)[1])
+    return datetime.date(year, month, day)
+
+>>> somedate = datetime.date.today()
+>>> somedate
+datetime.date(2010, 11, 9)
+>>> add_months(somedate,1)
+datetime.date(2010, 12, 9)
+>>> add_months(somedate,23)
+datetime.date(2012, 10, 9)
+>>> otherdate = datetime.date(2010,10,31)
+>>> add_months(otherdate,1)
+datetime.date(2010, 11, 30)
+
 CALENDAR
 =====
 import calendar
@@ -4721,6 +4754,10 @@ x[1,-1] # 6
 # Get the last element of the second sublist of our nested list?
 xlist[1,-1] # Type_Error
 xlist[-1][-1]
+
+NUMPY: Deleting an element
+=====
+modified_array = np.delete(original_array, np.where(original_array == value_to_delete))
 
 SYSTEM
 =====
