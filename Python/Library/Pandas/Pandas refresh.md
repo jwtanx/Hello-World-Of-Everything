@@ -415,6 +415,19 @@ df.to_csv('file_name.csv', index=False)
 
 ```
 
+## Saving dataframe to EXCEL
+[Reference]()
+```py
+df.to_excel("test.xlsx", header=True, index=False)
+```
+
+## Problem with EXCEL unable to handle timeframe with timezone
+[Reference](https://stackoverflow.com/questions/61802080/excelwriter-valueerror-excel-does-not-support-datetime-with-timezone-when-savin)
+```py
+# df['date'] = old_dates
+df['date'] = df['date'].apply(lambda a: pd.to_datetime(a).date()) # .date() removes timezone
+```
+
 ## Dropping the last row of the dataframe
 [Reference](https://thispointer.com/drop-last-row-of-pandas-dataframe-in-python-3-ways/)
 ```py
@@ -794,4 +807,39 @@ data_frame_trimmed = data_frame.apply(lambda x: x.str.strip() if x.dtype == "obj
 ## REPLACING THE WORD USING REGEX
 ```py
 df = df.replace('_x000D_', '', regex=True)
+```
+
+## REVIEWING SOME OF THE ROW THAT HAS MISSING VALUE
+[Reference](https://stackoverflow.com/questions/14247586/how-to-select-rows-with-one-or-more-nulls-from-a-pandas-dataframe-without-listin)
+```py
+print(df[(df.isnull().sum(axis=1) >= 1)].index)
+# Int64Index([142666, 142667, 195148, 195149, 270009, 270010, 270011], dtype='int64')
+
+df.loc[df.isnull().any(axis=1)]
+```
+
+## DROPPING THE NaN VALUE
+```py
+df = df.dropna()
+
+# Double confirm if the row with NaN are removed
+df.loc[df.isnull().any(axis=1)]
+```
+
+## FATEST WAYS TO GET THE VALUE COUNT
+[Reference](https://stackoverflow.com/questions/35277075/python-pandas-counting-the-occurrences-of-a-specific-value)
+```py
+(df["COL_NAME"].values == "A").sum()
+```
+
+## DROPPING THE DUPLICATED ROW OF DATA
+```py
+df.drop_duplicates(keep=False, inplace=True) # Not keeping any duplicated value even the unique one will be removed too
+df.drop_duplicates(keep="first", inplace=True) # Keeping the first duplicated value
+df.drop_duplicates(keep="last", inplace=True) # Keeping the last duplicated value
+```
+## REMOVE COLUMNS
+```py
+df = df.drop(['B', 'C'], axis=1)
+df = df.drop(columns=['B', 'C'])
 ```
