@@ -1240,6 +1240,22 @@ s = re.sub(r'[\w\s]', '', '..   apple')
 s = re.sub(r'[\w\s]', '', '..   apple  ..')
 >> '....'
 
+# Subbing multiple spaces into one space
+re.sub(r'[\s+]', ' ', ";asldad asdlkasld    la;sdkas d    dlaskd\tdasjdakjd\nasdkja\n")   
+';asldad asdlkasld la;sdkas d dlaskd dasjdakjd asdkja '
+
+# Finding the list of substring indexes in a string
+import re
+# matches_position_start will be a list of starting index positions
+matches_start = re.finditer(word.lower(), string.lower())
+matches_position_start = [match.start() for match in matches_start] # Starting index of the matched word
+
+# matches_position_end will be a list of ending index positions
+matches_end = re.finditer(word.lower(), string.lower())
+matches_position_end = [match.end() for match in matches_end] # Ending index of the matched word
+
+match.group() # return the matched phrase
+
 # Changing a list to a string then replace them, we can avoid using for loop
 test_str = ['123', '456']
 b = (str) (test_str) # "['123', '456']"
