@@ -80,13 +80,26 @@ for i in range(data_size):
 # Traditional way
 df1 = pd.DataFrame([[1, 2], [3, 4]], columns=list('AB'), index=['x', 'y'])
 df2 = pd.DataFrame([[5, 6], [7, 8]], columns=list('AB'), index=['x', 'y'])
-df3 = df1.append(df2)
-df3
+df3 = pd.DataFrame([[1, 2], [7, 8]], columns=list('AB'), index=['x', 'y'])
+df = df1.append(df2)
+df
 '''
    A  B
 x  1  2
 y  3  4
 x  5  6
+y  7  8
+'''
+
+df = df1.append([df2, df3])
+df
+'''
+   A  B
+x  1  2
+y  3  4
+x  5  6
+y  7  8
+x  1  2
 y  7  8
 '''
 
@@ -105,7 +118,8 @@ for i in range(5):
 '''
 
 # Another way
-pd.concat([pd.DataFrame([i], columns=['A']) for i in range(5)], ignore_index=True)
+df = pd.concat([pd.DataFrame([i], columns=['A']) for i in range(5)], ignore_index=True)
+df = pd.concat([df1, df2, df3])
 
 ```
 
@@ -304,7 +318,9 @@ data = {
 df = pd.DataFrame(data)
   
 # Remove two columns name is 'C' and 'D'
-df.drop(['C', 'D'], axis = 1)
+df = df.drop(['C', 'D'], axis = 1)
+df = df.drop(columns=['C', 'D'], axis = 1)
+df = df.drop(df.columns[[0, 1, 3]], axis=1) # index starting from 0
   
 # df.drop(columns =['C', 'D'])
 '''
@@ -382,6 +398,27 @@ concatenated_dataframes
 0  1  2  2  1
 1  4  5  5  4
 '''
+```
+
+## Concatenate the dataframe vertically
+[Reference](https://www.geeksforgeeks.org/how-to-combine-two-dataframe-in-python-pandas/)
+```py
+import pandas as pd
+# First DataFrame
+df1 = pd.DataFrame({'id': ['A01', 'A02', 'A03', 'A04'],
+                    'Name': ['ABC', 'PQR', 'DEF', 'GHI']})
+  
+# Second DataFrame
+df2 = pd.DataFrame({'id': ['B05', 'B06', 'B07', 'B08'],
+                    'Name': ['XYZ', 'TUV', 'MNO', 'JKL']})
+  
+df3 = pd.DataFrame({'City': ['MUMBAI', 'PUNE', 'MUMBAI', 'DELHI'],
+                    'Age': ['12', '13', '14', '12']})
+  
+  
+# appending multiple DataFrame
+result = df1.append([df2, df3])
+display(result)
 ```
 
 ## Stripping the column name, removing the left white spaces in the name of the column
@@ -522,7 +559,7 @@ In [41]: %timeit df.iat[random.randint(0, 10**7), 1]
 ## UPDATING MULTIPLE CELLS
 ```py
 # This will update the first row cells that are in column 1 and column 2 to 10
-df.loc[1, ['Col_1' ,'Col_2']] = 10
+df.loc[0, ['Col_1' ,'Col_2']] = 10
 
 ```
 
@@ -818,9 +855,10 @@ print(df[(df.isnull().sum(axis=1) >= 1)].index)
 df.loc[df.isnull().any(axis=1)]
 ```
 
-## DROPPING THE NaN VALUE
+## DROPPING THE ROWS WITH NaN VALUE
 ```py
 df = df.dropna()
+df = df.dropna().reset_index(drop=True)
 
 # Double confirm if the row with NaN are removed
 df.loc[df.isnull().any(axis=1)]
@@ -834,9 +872,13 @@ df.loc[df.isnull().any(axis=1)]
 
 ## DROPPING THE DUPLICATED ROW OF DATA
 ```py
+df = pd.DataFrame({'A': [0,0,2,3,4], 'B': [0,0,2,3,4], 'C': ['a', 'a', 'c', 'd', 'e']})
+
 df.drop_duplicates(keep=False, inplace=True) # Not keeping any duplicated value even the unique one will be removed too
 df.drop_duplicates(keep="first", inplace=True) # Keeping the first duplicated value
 df.drop_duplicates(keep="last", inplace=True) # Keeping the last duplicated value
+
+df = df.drop_duplicates(keep="first").reset_index(drop=True)
 ```
 ## REMOVE COLUMNS
 ```py
@@ -888,3 +930,74 @@ def reduce_mem_usage(train_data):
 
 reduce_mem_usage(df)
 ```
+
+## FLITERING OUT THE ROWS WITH SPECIFIC STRING
+[Reference](https://www.geeksforgeeks.org/how-to-drop-rows-that-contain-a-specific-string-in-pandas/)
+```py
+words_to_removes = ["nasty", "funny", "poop"]
+
+df = df[~df["Comment"].str.contains('|'.join(discard), case=False)] # The ~ means "not", case = False if do not want to check the casing
+
+```
+
+## MERGING TWO ROWS BASED ON A VALUE IN A COLUMN
+[Reference](https://stackoverflow.com/questions/70248572/how-to-merge-two-rows-with-the-same-value-in-a-given-column)
+```py
+d = {"Class": ["5S1", "5S1", "U6F", "L6F", "U6F"], 
+    "Number": ["ONE", "TWO", "THREE", "FOUR", "FIVE"], 
+    "List": [["val1"], ["val2"], ["val3"], ["val4"], ["val5"]],
+    "Category_1": [0, 1, 1, 0, 0],
+    "Category_2": [1, 0, 0, 1, 1]}
+df = pd.DataFrame(d)
+
+"""
+  Class Number    List  Category_1  Category_2
+0   5S1    ONE  [val1]           0           1
+1   5S1    TWO  [val2]           1           0
+2   U6F  THREE  [val3]           1           0
+3   L6F   FOUR  [val4]           0           1
+4   U6F   FIVE  [val5]           0           1
+"""
+
+# IMPORTANT: Make sure you create a new df
+# Combining the string with \n
+df2 = pd.DataFrame(df.groupby("Class")["Number"].apply(lambda x:'\n'.join(x)))
+
+# Appending the list together
+df2["List"] = df.groupby("Class")["List"].sum()
+
+# Finding the max for the number
+df2["Category_1"] = df.groupby("Class")["Category_1"].max()
+
+# Finding the first for the number
+df2["Category_2"] = df.groupby("Class")["Category_2"].first()
+
+df2
+"""
+            Number          List  Category_1  Category_2
+Class
+5S1       ONE\nTWO  [val1, val2]           1           1
+L6F           FOUR        [val4]           0           1
+U6F    THREE\nFIVE  [val3, val5]           1           0
+"""
+
+```
+
+## CHANGING THE TYPE OF THE VALUE
+[Reference](https://stackoverflow.com/questions/15891038/change-column-type-in-pandas)
+```py
+df["kg"] = df["kg"].astype(int)
+print(df["kg"].dtype) # int64
+
+# Downcasting the int64 to int8
+df["kg"] = pd.to_numeric(df[col], downcast='integer')
+
+import numpy as np
+df["kg"] = df["kg"].astype(np.int8) # Both works
+print(df["kg"].dtype) # int8
+
+```
+
+Mask: https://stackoverflow.com/questions/19937362/filter-string-data-based-on-its-string-length
+Str length: https://stackoverflow.com/questions/42516616/sort-dataframe-by-string-length
+merge: https://www.datasciencemadesimple.com/join-merge-data-frames-pandas-python/
