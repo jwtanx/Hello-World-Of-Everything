@@ -1364,6 +1364,26 @@ hr, mins = time.split(':')
 print(hr)   # 18
 print(mins) # 42
 
+SPLIT - REGEX
+=====
+# https://www.pythontutorial.net/python-regex/python-regex-split/
+import re
+
+s = 'A! B. C D'
+pattern = r'\W+'
+l = re.split(pattern, s, 2) # Max split at 2
+# ['A', 'B', 'C D']
+
+# You can use the nltk.sentenize
+import nltk
+nltk.download('punkt', quiet=True)
+sent_text = nltk.sent_tokenize('Hi, I am John! Nice to meet you... I always, always wanted to meet you in person. Nevertheless, thank you.. 哈哈哈哈！')
+sent_text
+
+# Only split sentence
+text = 'Hi, I am John! Nice to meet you... I always, always wanted to meet you in person. Nevertheless, thank you..'
+ls = re.split(r"[.|!|?|！|？|。|；|;]+\s+", text)
+
 JOIN
 =====
 # Note: str.join(iterable)
@@ -3379,6 +3399,17 @@ TIMEDELTA
 print(now + datetime.timedelta(days = 5))
 >> 2020-07-24 17:41:12.923716
 
+CONVERTING HOURS IN FLOAT TO HOURS, MINS AND SECS
+=====
+time = 72.345
+
+hours = int(time)
+minutes = (time*60) % 60
+seconds = (time*3600) % 60
+
+print("%d:%02d:%02d" % (hours, minutes, seconds))
+>> 72:20:42
+
 ADVANCE TIMEDELTA
 =====
 timedelta(days: float=..., seconds: float=..., microseconds: float=..., milliseconds: float=..., minutes: float=..., hours: float=..., weeks: float=..., *, fold: int=...)
@@ -4774,6 +4805,13 @@ xlist[-1][-1]
 NUMPY: Deleting an element
 =====
 modified_array = np.delete(original_array, np.where(original_array == value_to_delete))
+
+NUMPY: Getting the indexes of the matched values
+=====
+arr = np.array([11, 12, 13, 14, 15, 16, 17, 15, 11, 12, 14, 15, 16, 17])
+result = np.where(arr == 15)
+print("Elements with value 15 exists at following indices", result[0])
+# [4 7 11]
 
 SYSTEM
 =====
