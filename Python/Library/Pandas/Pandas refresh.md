@@ -993,7 +993,7 @@ print(df["kg"].dtype) # int64
 df["kg"] = pd.to_numeric(df[col], downcast='integer')
 
 import numpy as np
-df["kg"] = df["kg"].astype(np.int8) # Both works
+df["kg"] = df["kg"].astype(int).astype(np.int8) # Both works
 print(df["kg"].dtype) # int8
 
 ```
