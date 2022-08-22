@@ -160,6 +160,41 @@ Out:
 
 ```
 
+## Re-ordering the columns order
+```py
+# Let's say the df is as below
+"""
+          0         1         2         3         4      mean
+0  0.445598  0.173835  0.343415  0.682252  0.582616  0.445543
+1  0.881592  0.696942  0.702232  0.696724  0.373551  0.670208
+2  0.662527  0.955193  0.131016  0.609548  0.804694  0.632596
+3  0.260919  0.783467  0.593433  0.033426  0.512019  0.436653
+4  0.131842  0.799367  0.182828  0.683330  0.019485  0.363371
+5  0.498784  0.873495  0.383811  0.699289  0.480447  0.587165
+6  0.388771  0.395757  0.745237  0.628406  0.784473  0.588529
+7  0.147986  0.459451  0.310961  0.706435  0.100914  0.345149
+8  0.394947  0.863494  0.585030  0.565944  0.356561  0.553195
+9  0.689260  0.865243  0.136481  0.386582  0.730399  0.561593
+"""
+
+# We want to put the "mean" column to the first column
+df = df[['mean', '0', '1', '2', '3']]
+"""
+       mean         0         1         2         3         4
+0  0.445543  0.445598  0.173835  0.343415  0.682252  0.582616
+1  0.670208  0.881592  0.696942  0.702232  0.696724  0.373551
+2  0.632596  0.662527  0.955193  0.131016  0.609548  0.804694
+3  0.436653  0.260919  0.783467  0.593433  0.033426  0.512019
+4  0.363371  0.131842  0.799367  0.182828  0.683330  0.019485
+5  0.587165  0.498784  0.873495  0.383811  0.699289  0.480447
+6  0.588529  0.388771  0.395757  0.745237  0.628406  0.784473
+7  0.345149  0.147986  0.459451  0.310961  0.706435  0.100914
+8  0.553195  0.394947  0.863494  0.585030  0.565944  0.356561
+9  0.561593  0.689260  0.865243  0.136481  0.386582  0.730399
+"""
+
+```
+
 ## Exporting dataframe to csv
 [Reference](https://datatofish.com/export-dataframe-to-csv/)
 ```py
@@ -259,7 +294,6 @@ df = df.replace(None, np.nan) # ERROR
 
 ```
 
-
 ## Replace the value in a specified column
 ```py
 df = pd.DataFrame({"column1": ["a", "b", "a"]})
@@ -333,6 +367,13 @@ df = df.drop(df.columns[[0, 1, 3]], axis=1) # index starting from 0
 '''
 ```
 
+## Removing some row randomly
+[Reference](https://stackoverflow.com/a/54955082)
+```py
+to_remove = np.random.choice(df[df["Discount"]==True].index, size=1068, replace=False) # size = number of rows to be removed
+df = df.drop(to_remove)
+```
+
 ## Understanding the parameter inplace
 [Reference](https://stackoverflow.com/questions/43893457/understanding-inplace-true)
 
@@ -391,7 +432,8 @@ df = df.drop(['C', 'D'], axis=1)
 dataframe1 = pd.DataFrame([[1, 2], [4, 5]])
 dataframe2 = pd.DataFrame([[2, 1], [5, 4]])
 
-concatenated_dataframes = pd.concat([dataframe1, dataframe2], axis=1) # axis=1 is column
+concatenated_dataframes = pd.concat([dataframe1, dataframe2], axis=1) # axis=1 is column, meaning concat horizontally
+# If axis=0, we are concatenating the dfs vertically but makes sure the columns are the same
 concatenated_dataframes
 '''
    0  1  0  1
@@ -579,9 +621,21 @@ print(list(df.iloc[1]))
 ## Updating / Changing the values of the whole column
 ```py
 df[df.columns[0]] = list(range(1, len(df)+1))
-
 ```
 
+## CHANGING THE VALUE FOR THE WHOLE COLUMN
+```py
+# Method 1
+df = df.assign(industry='yyy')
+
+# Method 2
+df = df_all.loc[df_call['industry']==specific_id,:].copy()
+df['industry'] = 'yyy'
+
+# Method 3
+df.loc[:,'industry'] = 'yyy'
+
+```
 
 ## Different conversion of df to JSON
 [Reference #1](https://stackoverflow.com/questions/28590663/pandas-dataframe-to-json-without-index)
@@ -782,6 +836,17 @@ df.loc[df['col_0'] == 'Blood B', 'col_1'] = 'CHANGES'
 ```py
 
 
+```
+
+## FILTERING THE DF BASED ON THE STRING LENGTH
+[Reference](https://stackoverflow.com/questions/19937362/filter-string-data-based-on-its-string-length)
+```py
+# Slow but working
+df["text"] = df["text"].apply(lambda x: x if len(x) >= 10 else np.nan)
+
+# Alternative approach
+df = df[df["A"].apply(lambda x: len(str(x)) == 10)]
+df = df[(df["A"].astype(str).str.len() == 10) & (df["B"].astype(str).str.len() == 10)]
 
 ```
 
@@ -862,6 +927,18 @@ df = df.dropna().reset_index(drop=True)
 
 # Double confirm if the row with NaN are removed
 df.loc[df.isnull().any(axis=1)]
+```
+
+## DROPPING THE ROWS WITH SOME MATCHING CONDITIONS
+[Reference](https://sparkbyexamples.com/pandas/pandas-drop-rows-with-condition/)
+```py
+df.drop(df[(df["Price"] >= 24000) | (df["Discount"] == 1)].index, inplace=True)
+
+# Matching the rows with no string
+# Checking the least amount of length for the string of each row
+df.sort_values(by="Name", key=lambda x: x.str.len())
+df = df[df["Name"].astype(str).str.len() > 0].reset_index(drop=True)
+
 ```
 
 ## FATEST WAYS TO GET THE VALUE COUNT
@@ -991,13 +1068,22 @@ print(df["kg"].dtype) # int64
 
 # Downcasting the int64 to int8
 df["kg"] = pd.to_numeric(df[col], downcast='integer')
-
 import numpy as np
 df["kg"] = df["kg"].astype(int).astype(np.int8) # Both works
 print(df["kg"].dtype) # int8
 
+# Easiest method
+df["kg"] = df["kg"].astype("int8")
+
+# Checking all the dtypes of the pandas columm
+print(df.dtypes)
+```
+
+## SORTING THE DATAFRAME ROW BASED ON THE STRING LENGTH
+[Reference](https://stackoverflow.com/questions/42516616/sort-dataframe-by-string-length)
+```py
+df.sort_values(by="name", key=lambda x: x.str.len())
 ```
 
 Mask: https://stackoverflow.com/questions/19937362/filter-string-data-based-on-its-string-length
-Str length: https://stackoverflow.com/questions/42516616/sort-dataframe-by-string-length
 merge: https://www.datasciencemadesimple.com/join-merge-data-frames-pandas-python/
