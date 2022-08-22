@@ -1324,6 +1324,16 @@ Example
 [0-9]* no digits or any number of digits(0-9).
 """
 
+REGEX SUB - IGNORE CASE
+=====
+"""
+(?i) case-insensitive mode ON    
+(?-i) case-insensitive mode OFF
+"""
+import re
+re.sub("(?i)apple", "orange", "ApPLe")
+# orange
+
 ISNUMERIC
 =====
 # Check if it is numeric or alphabet
@@ -4801,6 +4811,26 @@ x[1,-1] # 6
 # Get the last element of the second sublist of our nested list?
 xlist[1,-1] # Type_Error
 xlist[-1][-1]
+
+NUMPY: WHERE AND ARGWHERE TO MATCH SOMETHING IN THE NP.ARRAY
+=====
+pred = np.array([[0,0,0,0,0,0,0,0], 
+                [0,0,0,1,0,0,0,0], 
+                [0,0,0,1,0,0,0,0], 
+                [0,1,0,1,0,0,0,0]])
+
+# Using np.where
+np.where(pred == 1)
+# (array([1, 2, 3, 3], dtype=int64), array([3, 3, 1, 3], dtype=int64))
+
+# Using np.argwhere
+np.argwhere(pred == 1)
+"""
+array([[1, 3],
+       [2, 3],
+       [3, 1],
+       [3, 3]], dtype=int64)
+"""
 
 NUMPY: Deleting an element
 =====
