@@ -160,6 +160,22 @@ Out:
 
 ```
 
+## INSERTING A NEW COLUMN WITH ALL EMPTY LIST FOR EACH OF THE CELLS
+[Reference](https://stackoverflow.com/questions/31466769/add-column-of-empty-lists-to-dataframe)
+```py
+import numpy as np
+
+# Faster method
+df['empty_list'] = np.empty((len(df), 0)).tolist()
+
+# Extra note
+np.empty((5, 0)).tolist() # [[], [], [], [], []]
+
+# Slower method
+df['empty_list'] = [[] for _ in range(len(df))]
+
+```
+
 ## Re-ordering the columns order
 ```py
 # Let's say the df is as below
@@ -348,7 +364,7 @@ data = {
     'D':['D1', 'D2', 'D3', 'D4', 'D5'], 
     'E':['E1', 'E2', 'E3', 'E4', 'E5'] }
 
-# Convert the dictionary into DataFrame 
+# Convert the dictionary into DataFrame
 df = pd.DataFrame(data)
   
 # Remove two columns name is 'C' and 'D'
@@ -809,8 +825,84 @@ df_filtered = df.query('a > 0').query('0 < b < 2')
 # Single query
 df_filtered = df.query('a > 0 and 0 < b < 2')
 
+```
+
+## UPDATING THE FIELD IF A CONDITION IS MET (UPDATE TWO COLUMNS AT THE SAME TIME)
+[Reference](https://stackoverflow.com/questions/36909977/update-row-values-where-certain-condition-is-met-in-pandas)
+```py
+# Updating one column only
+df1.loc[df1['category'] == 2, 'green_area'] = 'YES'
+print(df1)
+   category   green_area  yellow_area
+a       1     some_value   some_value
+b       2            YES   some_value
+c       2            YES   some_value
+d       3     some_value   some_value
+
+# Updating two columns are the same time
+df1.loc[df1['category'] == 2, ['green_area', 'yellow_area']] = 'YES'
+print(df1)
+   category   green_area  yellow_area
+a       1     some_value   some_value
+b       2            YES          YES
+c       2            YES          YES
+d       3     some_value   some_value
+```
+
+## UPDATING THE FIELD WITH TWO DIFFERENT VALUE IF XXX THEN A ELSE B (NP.WHERE)
+```py
+df1['feat'] = np.where(df1['stream']==2, 10, 20)
+print(df1)
+   stream  feat another_feat
+a       1    20   some_value
+b       2    10   some_value
+c       2    10   some_value
+d       3    20   some_value
+```
+
+## APPLYING THE CALCULATION TO THE CELLS THAT MATCH THE REQUIREMENT
+```py
+print(df1)
+   stream  feat  another_feat
+a       1     4             5
+b       2     4             5
+c       2     2             9
+d       3     1             7
+
+#filter columns all without stream
+cols = [col for col in df1.columns if col != 'stream']
+print cols
+['feat', 'another_feat']
+
+df1.loc[df1['stream'] == 2, cols ] = df1 / 2
+print(df1)
+   stream  feat  another_feat
+a       1   4.0           5.0
+b       2   2.0           2.5
+c       2   1.0           4.5
+d       3   1.0           7.0
 
 ```
+
+## NEW COLUMN, DATA ADDED WITH MULTIPLE CONDITION WITH MULTIPLE DIFFERENT VALUES (NP.WHERE, NP.SELECT)
+```py
+df0 = pd.DataFrame({'Col':[5,0,-6]})
+
+df0['New Col1'] = np.where((df0['Col'] > 0), 'Increasing', 
+                          np.where((df0['Col'] < 0), 'Decreasing', 'No Change'))
+
+df0['New Col2'] = np.select([df0['Col'] > 0, df0['Col'] < 0],
+                            ['Increasing',  'Decreasing'], 
+                            default='No Change')
+
+print (df0)
+   Col    New Col1    New Col2
+0    5  Increasing  Increasing
+1    0   No Change   No Change
+2   -6  Decreasing  Decreasing
+
+```
+
 
 ## CHANGING THE VALUES OF A COLUMN BASED ON THE OTHER COLUMN
 [Reference](https://stackoverflow.com/questions/63768410/how-to-modify-original-dataframe-after-updating-its-value-off-of-a-filtered-view)
@@ -957,7 +1049,7 @@ df.drop_duplicates(keep="last", inplace=True) # Keeping the last duplicated valu
 
 df = df.drop_duplicates(keep="first").reset_index(drop=True)
 ```
-## REMOVE COLUMNS
+## REMOVE COLUMNS / DROP COLUMNS
 ```py
 df = df.drop(['B', 'C'], axis=1)
 df = df.drop(columns=['B', 'C'])
