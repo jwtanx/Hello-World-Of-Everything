@@ -275,6 +275,24 @@ finally:
 	print('Goodbye')
 	quit() # <## completely exit the program
 
+EXCEPTION
+=====
+GETTING THE FILENAME, LINE NUMBER OF THE TRACEBACK
+import sys, os
+
+try:
+    raise NotImplementedError("No error")
+except Exception as e:
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    print(sys.exc_info())
+    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    print(exc_obj, fname, exc_tb.tb_lineno)
+
+"""
+(<class 'NotImplementedError'>, NotImplementedError('No error'), <traceback object at 0x000002DF1C3606C0>)
+No error testing.py 5
+"""
+
 #########################################################################################
 FUNCTION
 =====
@@ -3391,6 +3409,29 @@ print(now.strftime('%a')) # Sun
 # https://docs.python.org/3.6/library/datetime.html#datetime.datetime.now
 # https://overiq.com/python-3-time-module/
 
+CONVERTING LOCAL DATETIME TO UTC
+=====
+# https://thispointer.com/convert-local-datetime-to-utc-timezone-in-python/
+from datetime import datetime
+import pytz
+
+dt_str  = "10/21/2021 8:18:19"
+format  = "%m/%d/%Y %H:%M:%S"
+
+# Create datetime object in local timezone
+local_dt = datetime.strptime(dt_str, format)
+
+print('Datetime in Local Time zone: ', local_dt)
+
+# Convert local datetime to UTC time-zone datetime
+dt_utc = local_dt.astimezone(pytz.UTC)
+
+print('Datetime in UTC Time zone: ', dt_utc)
+
+dt_utc_str = dt_utc.strftime(format)
+
+print('Datetime string in UTC Time zone: ', dt_utc_str)
+
 PARSING DATETIME
 =====
 # Ref: https://stackoverflow.com/questions/466345/converting-string-into-datetime
@@ -3402,6 +3443,26 @@ time_object = time.strptime('1:33', '%M:%S')
 
 # strptime = "string parse time"
 # strftime = "string format time"
+
+CONVERTING THE time.struct_time OBJECT TO DATETIME
+=====
+# https://stackoverflow.com/questions/1697815/how-do-you-convert-a-time-struct-time-object-into-a-datetime-object
+from datetime import datetime
+from time import mktime
+dt = datetime.fromtimestamp(mktime(time_object))
+
+CONVERTING THE TIMESTAMP TO DATETIME
+=====
+from datetime import datetime
+dt = datetime.fromtimestamp(1651119785000//1000)
+
+CONVERTING DATE TO DATETIME
+=====
+# https://stackoverflow.com/questions/1937622/convert-date-to-datetime-in-python
+t = datetime.date.today()
+dt = datetime.datetime.fromordinal(t.toordinal())
+dt = datetime.datetime(t.year, t.month, t.day)
+
 
 TIMEDELTA
 =====
@@ -4738,6 +4799,22 @@ print(secretCode) # 012098qwer
 indexOfFruitToFind = SpecialFind.findIndex(fruit, fruitToFind) # ERROR: 'SpecialFind.' is not needed
 print(SpecialFind.secretCode) # ERROR: 'SpecialFind.' is not needed
 
+ARGPARSE
+=====
+# https://linuxhint.com/add_command_line_arguments_to_a_python_script/
+
+# To parse optional argument 
+import argparse
+parser = argparse.ArgumentParser(description="A test program.")
+parser.add_argument("-p", "--print_int", help="Prints the supplied argument.", type=int, default=123)
+parser.add_argument("-o", "--output", help="Prints the supplied argument.", action="store_true")
+args = parser.parse_args()
+print(args)
+
+# action="store_true"
+# When we run `arg.py` and `-o` is added, the value for `output` will be True, else False
+# Namespace(output=True, print_int=123)
+
 GETTING THE FILE PATH OF THE MODULE
 =====
 import datetime
@@ -4759,6 +4836,37 @@ GETTING THE SOURCE_CODE OF A FUNCTION
 import inspect
 lines = inspect.getsource(FunctionName)
 print(lines)
+
+
+GETTING THE ERROR INFORMATION USING THE INSPECT
+# More information: https://docs.python.org/3/library/inspect.html
+import inspect
+info = inspect.currentframe().f_code
+
+line = info.co_firstlineno
+filename = info.co_filename
+function = info.co_name
+print(f"ERROR : FUNCTION <{function}> IN FILE <{filename}> - LINE {line}")
+
+
+GETTING THE FILENAME, LINE NUMBER OF THE TRACEBACK
+# THE DIFFERENCE BETWEEN INSPECT AND SYS.EXC_INFO() IS SYS.EXC_INFO() GETS THE LAST LINE WHERE THE ERROR OCCURS
+import sys, os
+
+try:
+    raise NotImplementedError("No error")
+except Exception as e:
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    print(sys.exc_info())
+    function = exc_tb.tb_frame.f_code.co_name
+    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    print(exc_obj, fname, exc_tb.tb_lineno)
+
+"""
+(<class 'NotImplementedError'>, NotImplementedError('No error'), <traceback object at 0x000002DF1C3606C0>)
+No error testing.py 5
+"""
+
 
 NUMPY
 =====
@@ -4988,7 +5096,6 @@ bytearray.fromhex("68656c6c6f").decode()
 bytes.fromhex('68656c6c6f').decode('utf-8')
 # 'hello'
 
-
 SIMPLEJSON
 =====
 # pip install simplejson
@@ -5052,6 +5159,36 @@ response = requests.get(url, stream=True)
 if response.status_code == 200:
     with open("/Users/apple/Desktop/sample.jpg", 'wb') as f:
         f.write(response.content)
+
+HTTP REQUESTS
+=====
+import requests
+
+try:
+    response = requests.get('http://api.open-notify.org/astros.json', timeout=5)
+    
+    # Getting the session token
+    requests.get(
+        'https://api.github.com/user', 
+        auth=requests.HTTPBasicAuth('username', 'password')
+        )
+
+    session = requests.Session()
+    session.headers.update({'Authorization': 'Bearer {access_token}'})
+    response = session.get('https://httpbin.org/headers')
+
+    # Create a new resource
+    response = requests.post('https://httpbin.org/post', data = {'key':'value'})
+
+    # Update an existing resource
+    requests.put('https://httpbin.org/put', data = {'key':'value'})
+    
+    # Raise for any issue
+    response.raise_for_status()
+
+except Exception as e:
+    print(e)
+
 
 ZIP FILES
 =====
