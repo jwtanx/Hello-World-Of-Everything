@@ -293,6 +293,85 @@ except Exception as e:
 No error testing.py 5
 """
 
+LOGGING
+=====
+# https://stackoverflow.com/questions/7016056/python-logging-not-outputting-anything
+
+import logging
+# This sets the root logger to write to stdout (your console).
+# Your script/app needs to call this somewhere at least once.
+logging.basicConfig()
+
+# By default the root logger is set to WARNING and all loggers you define
+# inherit that value. Here we set the root logger to NOTSET. This logging
+# level is automatically inherited by all existing and new sub-loggers
+# that do not set a less verbose level.
+logging.root.setLevel(logging.NOTSET)
+
+# The following line sets the root logger level as well.
+# It's equivalent to both previous statements combined:
+logging.basicConfig(level=logging.NOTSET)
+
+
+# You can either share the `logger` object between all your files or the
+# name handle (here `my-app`) and call `logging.getLogger` with it.
+# The result is the same.
+handle = "my-app"
+logger1 = logging.getLogger(handle)
+logger2 = logging.getLogger(handle)
+# logger1 and logger2 point to the same object:
+# (logger1 is logger2) == True
+
+logger = logging.getLogger("my-app")
+# Convenient methods in order of verbosity from highest to lowest
+logger.debug("this will get printed")
+logger.info("this will get printed")
+logger.warning("this will get printed")
+logger.error("this will get printed")
+logger.critical("this will get printed")
+
+
+# In large applications where you would like more control over the logging,
+# create sub-loggers from your main application logger.
+component_logger = logger.getChild("component-a")
+component_logger.info("this will get printed with the prefix `my-app.component-a`")
+
+# If you wish to control the logging levels, you can set the level anywhere 
+# in the hierarchy:
+#
+# - root
+#   - my-app
+#     - component-a
+#
+
+# Example for development:
+logger.setLevel(logging.DEBUG)
+
+# If that prints too much, enable debug printing only for your component:
+component_logger.setLevel(logging.DEBUG)
+
+# For production you rather want:
+logger.setLevel(logging.WARNING)
+
+"""
+DEBUG:my-app:this will get printed
+INFO:my-app:this will get printed
+WARNING:my-app:this will get printed
+ERROR:my-app:this will get printed
+CRITICAL:my-app:this will get printed
+INFO:my-app.component-a:this will get printed with the prefix `my-app.component-a`
+"""
+
+CUSTOMIZING LOGGING
+=====
+import logging
+logging.warning('Watch out!') # will print a message to the console
+logging.info('I told you so') # will not print anything
+"""
+WARNING:root:Watch out!
+INFO:root:I told you so
+"""
+
 #########################################################################################
 FUNCTION
 =====
@@ -3409,6 +3488,11 @@ print(now.strftime('%a')) # Sun
 # https://docs.python.org/3.6/library/datetime.html#datetime.datetime.now
 # https://overiq.com/python-3-time-module/
 
+LISTING ALL THE AVAILABLE TIMEZONES
+=====
+import pytz
+print(pytz.all_timezones)
+
 CONVERTING LOCAL DATETIME TO UTC
 =====
 # https://thispointer.com/convert-local-datetime-to-utc-timezone-in-python/
@@ -3420,17 +3504,31 @@ format  = "%m/%d/%Y %H:%M:%S"
 
 # Create datetime object in local timezone
 local_dt = datetime.strptime(dt_str, format)
-
-print('Datetime in Local Time zone: ', local_dt)
+print('Datetime in Local Time zone: ', local_dt) # Datetime in Local Time zone:  2021-10-21 08:18:19
 
 # Convert local datetime to UTC time-zone datetime
 dt_utc = local_dt.astimezone(pytz.UTC)
-
-print('Datetime in UTC Time zone: ', dt_utc)
+print('Datetime in UTC Time zone: ', dt_utc) # Datetime in UTC Time zone:  2021-10-21 00:18:19+00:00
 
 dt_utc_str = dt_utc.strftime(format)
+print('Datetime string in UTC Time zone: ', dt_utc_str) # Datetime string in UTC Time zone:  10/21/2021 00:18:19
 
-print('Datetime string in UTC Time zone: ', dt_utc_str)
+
+CREATING A DATETIME WITH TIMEZONE UTC
+=====
+from datetime import datetime
+utc_now = datetime.utcnow()
+
+
+REPLACING THE DATETIME TIMEZONE TO UTC
+=====
+# https://stackoverflow.com/questions/13994594/how-to-add-timezone-into-a-naive-datetime-instance-in-python/29263542#29263542
+d = datetime.strptime("2022-04-28", "%Y-%m-%d")
+print(d.timestamp()) # 1651075200.0
+tz = pytz.UTC # pytz.timezone("UTC")
+d = d.replace(tzinfo=tz)
+print(d.timestamp()) # 1651104000.0
+
 
 PARSING DATETIME
 =====
@@ -3444,12 +3542,13 @@ time_object = time.strptime('1:33', '%M:%S')
 # strptime = "string parse time"
 # strftime = "string format time"
 
+
 CONVERTING THE time.struct_time OBJECT TO DATETIME
 =====
 # https://stackoverflow.com/questions/1697815/how-do-you-convert-a-time-struct-time-object-into-a-datetime-object
 from datetime import datetime
 from time import mktime
-dt = datetime.fromtimestamp(mktime(time_object))
+dt = datetime.fromtimestamp(mktime(time.struct_time)) # time.struct_time object = time.strptime("2022-11-30", "%Y-%m-%d")
 
 CONVERTING THE TIMESTAMP TO DATETIME
 =====
