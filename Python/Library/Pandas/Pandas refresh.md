@@ -176,6 +176,13 @@ df['empty_list'] = [[] for _ in range(len(df))]
 
 ```
 
+## CHECK IF A DATAFRAME IS EMPTY
+[Reference](https://stackoverflow.com/questions/19828822/how-to-check-whether-a-pandas-dataframe-is-empty)
+```py
+if df.empty:
+    print("df is empty")
+```
+
 ## Re-ordering the columns order
 ```py
 # Let's say the df is as below
@@ -1150,6 +1157,36 @@ L6F           FOUR        [val4]           0           1
 U6F    THREE\nFIVE  [val3, val5]           1           0
 """
 
+```
+
+## JOINING TWO DATAFRAME BASED ON AN INTERSECTING COLUMNS
+[Reference](https://stackoverflow.com/questions/49787325/full-outer-join-of-two-or-more-data-frames)
+[More information on join](https://www.analyticsvidhya.com/blog/2020/02/joins-in-pandas-master-the-different-types-of-joins-in-python/)
+```py
+item_code = pd.DataFrame([["A01", "apple"], ["B01", "banana"]], columns=["code", "name"])
+item_price = pd.DataFrame([["A01", 2.99], ["B01", 1.99]], columns=["fruit_code", "price"])
+print(item_code)
+"""
+  code    name
+0  A01   apple
+1  B01  banana
+"""
+
+print(item_price)
+"""
+  fruit_code  price
+0        A01   2.99
+1        B01   1.99
+"""
+
+# Joining the dataframes
+catalogue = item_code.join(item_price.set_index("fruit_code"), on="code", how="left") # left, right, outer, inner
+print(catalogue)
+"""
+  code    name  price
+0  A01   apple   2.99
+1  B01  banana   1.99
+"""
 ```
 
 ## CHANGING THE TYPE OF THE VALUE
