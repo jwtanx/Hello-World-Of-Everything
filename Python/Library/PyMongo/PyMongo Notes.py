@@ -35,13 +35,12 @@ collection.sort({"updatetime": 1})
 # https://stackoverflow.com/questions/26366417/how-to-make-a-query-date-in-mongodb-using-pymongo
 from datetime import datetime
 start = datetime.strptime("2022-04-28", "%Y-%m-%d")
-end = datetime.now()
+end = datetime.utcnow()
 
 # Make sure you convert the datetime into UTC first
 # https://thispointer.com/convert-local-datetime-to-utc-timezone-in-python/
 import pytz
 start = start.astimezone(pytz.UTC)
-end = end.astimezone(pytz.UTC)
 
 # If your mongodb datetime is in unix format, you have to change it
 start = int(start.timestamp() * 1000) # make sure to check if your mongodb is in 1000 unix form
@@ -56,3 +55,11 @@ data = list(collection.find({'updatetime': {'$lt': end, '$gte': start}}))
 import json
 from bson import json_util
 json.loads(json_util.dumps(data))
+
+# Using a list of ids to find query the database
+import pandas as pd
+from bson import ObjectId
+
+ids = ['5c8ecae42f684a30fbdfd576', '5c8ecaf82f684a30fbdfd578']
+documentIds = [ObjectId(_id) for _id in ids]
+data = pd.DataFrame(collection.find({"_id": {"$in": documentIds }}))
