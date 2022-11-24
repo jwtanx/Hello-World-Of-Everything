@@ -2350,6 +2350,19 @@ student1.update({'name':'Jane', 'age':29, 'phone':'213-1234'})
 print(student1)
 # {'name': 'Jane', 'age': 29, 'courses': ['CS', 'ALGO'], 'phone': '213-1234'}
 
+UPDATE THE KEY OF THE DICTIONARY
+=====
+# Method 1
+student1 = {'name':'John', 'age':19, 'courses':['CS', 'ALGO']}
+try:
+    student1["newName"] = student1.pop("name")
+except KeyError:
+    pass
+
+# Method 2
+student1["newName"] = student1["name"]
+del student1["name"]
+
 DELETING KEY WITH ITS VALUE
 =====
 # https://www.geeksforgeeks.org/python-ways-to-remove-a-key-from-dictionary/
@@ -3542,6 +3555,17 @@ time_object = time.strptime('1:33', '%M:%S')
 # strptime = "string parse time"
 # strftime = "string format time"
 
+FUZZY PARSING DATETIME
+=====
+from dateutil.parser import parse
+dt = parse("I am going to Genting on 21 Sep 2022", fuzzy=True)
+# datetime.datetime(2022, 9, 21, 0, 0)
+
+FUZZY PARSING DATETIME WITH MISC TOKENS
+=====
+from dateutil.parser import parse
+dt = parse("I am going to Genting on 21 September 2022 for a party celebration", fuzzy_with_tokens=True)
+# (datetime.datetime(2022, 9, 21, 0, 0), ('I am going to Genting on ', ' ', 'for a party celebration'))
 
 CONVERTING THE time.struct_time OBJECT TO DATETIME
 =====
@@ -3561,7 +3585,6 @@ CONVERTING DATE TO DATETIME
 t = datetime.date.today()
 dt = datetime.datetime.fromordinal(t.toordinal())
 dt = datetime.datetime(t.year, t.month, t.day)
-
 
 TIMEDELTA
 =====
