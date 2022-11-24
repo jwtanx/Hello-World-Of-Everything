@@ -376,7 +376,7 @@ df = pd.DataFrame(data)
   
 # Remove two columns name is 'C' and 'D'
 df = df.drop(['C', 'D'], axis = 1)
-df = df.drop(columns=['C', 'D'], axis = 1)
+df = df.drop(columns=['C', 'D'])
 df = df.drop(df.columns[[0, 1, 3]], axis=1) # index starting from 0
   
 # df.drop(columns =['C', 'D'])
@@ -817,7 +817,7 @@ if pd.isna(first_col_list[i]):
 
 ```
 
-## FILTERING THE DATA
+## FILTERING THE DATA OR QUERY THE DF (.query)
 [Reference](https://stackoverflow.com/questions/11869910/pandas-filter-rows-of-dataframe-with-operator-chaining?rq=1)
 ```py
 # Method 1: Using normal multiple filterinig at the same time
@@ -832,6 +832,18 @@ df_filtered = df.query('a > 0').query('0 < b < 2')
 # Single query
 df_filtered = df.query('a > 0 and 0 < b < 2')
 
+```
+
+## QUERY THE DF AND GET THE INDEX FROM IT
+[Reference](https://www.skytowner.com/explore/getting_indexes_of_rows_matching_conditions_in_pandas_dataframe)
+```py
+# Method 1: Getting the indexes in a list
+indexes = df.query("a == 1").index.tolist()
+# Note: You do not need to change the indexes to list to extract the first index
+df.query("a == 1").index[0]
+
+# Method 2: Get the indexes in a numpy array          
+df.index.get_indexer(df.query("a == 3").index)
 ```
 
 ## UPDATING THE FIELD IF A CONDITION IS MET (UPDATE TWO COLUMNS AT THE SAME TIME)
@@ -911,8 +923,9 @@ print (df0)
 ```
 
 
-## CHANGING THE VALUES OF A COLUMN BASED ON THE OTHER COLUMN
+## CHANGING THE VALUES OF A COLUMN BASED ON THE OTHER COLUMN (== or .eq [equal])
 [Reference](https://stackoverflow.com/questions/63768410/how-to-modify-original-dataframe-after-updating-its-value-off-of-a-filtered-view)
+[Reference](https://stackoverflow.com/questions/49161120/pandas-python-set-value-of-one-column-based-on-value-in-another-column)
 ```py
          col_0   col_1
 0    'Blood B'    'OK'
@@ -928,6 +941,56 @@ df.loc[df['col_0'] == 'Blood B', 'col_1'] = 'CHANGES'
 
 # df.loc[df['SPORT'].eq('Tennis'), 'TEST'] = 'CHANGED'
 
+```
+
+## MATCHING THE VALUE OF THE CELLS OF A COLUMNS WITH A LIST, THEN APPLY NEW VALUE TO THE CORRESSPONDING CELL (.isin [IN])
+[Reference](https://stackoverflow.com/questions/44218378/comparison-of-a-dataframe-column-values-with-a-list)
+```py
+import pandas as pd
+
+df = pd.DataFrame([[[1,2,3,4], 5, "john"], [[5,6,7,8], 0, "alex"], [[5,6,7,8], 2, "stacy"]], columns=["num", "age", "name"])
+df
+"""
+            num  age   name
+0  [1, 2, 3, 4]    5   john
+1  [5, 6, 7, 8]    9   alex
+2  [5, 6, 7, 8]    2  stacy
+"""
+
+df.loc[df["add"].isin({1,2,3,4,5}), "name"] = "baby" # Using set rather than list for the [1,2,3,4,5] for faster matching
+df
+"""
+            one  add  name
+0  [1, 2, 3, 4]    5  baby
+1  [5, 6, 7, 8]    0  alex
+2  [5, 6, 7, 8]    2  baby
+"""
+
+# Can return the matching as true / false too then you can also convert the type of the returned into integer
+df['D'] = df.C.isin(firsts).astype(int)
+
+df
+#   A   B   C   D
+#0  1   10  100 1
+#1  1   15  150 0
+#2  2   20  200 1
+#3  2   25  250 0
+#4  3   30  300 1
+#5  3   35  350 0
+
+```
+
+## RETURNING A LIST THAT THE ELEMENT WITHIN IT MATCHES WITH A LIST OF ELEMENTS [USING FILTER]
+[Reference](https://stackoverflow.com/questions/72319308/compare-each-element-in-a-list-with-a-column-of-lists-in-a-dataframe-python)
+```py
+lst = ['apple', 'orange', 'banana']
+df['match'] = df['fruits'].apply(lambda ls: list(filter(lambda x: x in lst, ls)))
+print(df)
+"""
+                   fruits            match
+0  [apple, orange, berry]  [apple, orange]
+1                [orange]         [orange]
+"""
 ```
 
 ## STRING SEARCHING IN DATAFRAME
@@ -1062,6 +1125,11 @@ df = df.drop(['B', 'C'], axis=1)
 df = df.drop(columns=['B', 'C'])
 ```
 
+## DROPPING THE COLUMNS THAT MIGHT OR NOT BE IN THE DATAFRAME
+```py
+df = df.drop(columns=["A", "B", "COL_NAME_NOT_EXISTS"], errors="ignore")
+```
+
 ## REDUCE THE MEMORY USAGE
 ```py
 import gc
@@ -1187,6 +1255,49 @@ print(catalogue)
 0  A01   apple   2.99
 1  B01  banana   1.99
 """
+```
+
+## JOINING TWO STRING FROM TWO COLUMNS TOGETHER (ADDING, CONCATENATE STRING)
+```py
+df = pd.DataFrame([["John", "Cena"], ["Spongebob", "Squarepant"]], columns=["First", "Last"])
+"""
+       First        Last
+0       John        Cena
+1  Spongebob  Squarepant
+"""
+
+df["Full name"] = df["First"] + " " + df["Last"]
+"""
+       First        Last             Full name
+0       John        Cena             John Cena
+1  Spongebob  Squarepant  Spongebob Squarepant
+"""
+
+# Drop the other two columns
+df = df.drop(columns=["First", "Last"])
+```
+
+## APPENDING INTEGER FROM A COLUMN TO ANOTHER COLUMN WITH LIST
+[Reference](https://stackoverflow.com/questions/69296253/append-another-column-values-to-pandas-column-with-list-values)
+```py
+import pandas as pd
+
+df = pd.DataFrame([[[1,2,3,4], 5, "john"], [[5,6,7,8], 0, "alex"]], columns=["one", "add", "name"])
+"""
+             one  add   name
+0   [1, 2, 3, 4]    5   john
+1   [5, 6, 7, 8]    0   alex
+"""
+
+import numpy as np
+df["one"] = df.apply(lambda x : np.append(x['add'], x['one']), axis=1)
+
+"""
+                one add name
+0   [5, 1, 2, 3, 4] 5   john
+1   [0, 5, 6, 7, 8] 0   alex
+"""
+df.apply(lambda x:  np.append(x['a'], (x['b'], x['c'])), axis=1) # For concatenating three column together
 ```
 
 ## CHANGING THE TYPE OF THE VALUE
