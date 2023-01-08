@@ -73,6 +73,13 @@ for i in range(data_size):
 
 ```
 
+Iterating / Looping the dataframe
+=====
+```
+for index, row in df.iterrows():
+    print(row["Name"], row["Age"])
+```
+
 ## Appending the data into the dataframe
 [Reference](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.append.html)
 
@@ -967,6 +974,7 @@ df
 """
 
 # Can return the matching as true / false too then you can also convert the type of the returned into integer
+first = set(np.array(100, 200, 300))
 df['D'] = df.C.isin(firsts).astype(int)
 
 df
@@ -977,6 +985,38 @@ df
 #3  2   25  250 0
 #4  3   30  300 1
 #5  3   35  350 0
+
+```
+
+## Select Pandas Rows Based on List Index
+[Reference](https://sparkbyexamples.com/pandas/pandas-select-rows-based-on-list-index/)
+```py
+#Below are quick examples.
+# How to select Pandas Rows Based on list using df.iloc[ind_list]
+ind_list = [1, 3]
+df.iloc[ind_list]
+# TIME FOR 100: 0.16279289999999946
+
+# How to select Pandas Rows Based on list using df.loc[df.index[index_list]]
+index_list = [0,2]
+df.loc[df.index[index_list]]
+# TIME FOR 100: 0.5328944999999976
+
+# Get Pandas rows on list index using index.isin().
+df2 = df[df.index.isin([1,3])]
+print(df2)
+# TIME FOR 100: 0.3878676999999868
+
+# Get pandas rows on list index by df.time(). [BEST FASTEST]
+df2=df.take([1,2])
+print(df2)
+# TIME FOR 100: 0.09662249999999517
+
+# Get Pandas rows on list index by df.query()
+index_list = [1,2]
+df2=df.query('index in @index_list')
+print(df2)
+# TIME FOR 100: 0.983664900000008
 
 ```
 
