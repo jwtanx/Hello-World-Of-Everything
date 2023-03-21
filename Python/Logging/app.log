@@ -1,0 +1,42 @@
+root -> WARNING: warning
+logger-1 -> WARNING: goog
+DEBUG:root:test
+DEBUG:root:gg
+DEBUG:root:testoutput
+DEBUG:root:test
+DEBUG:logger1:hello its me
+INFO:logger1:hello its me
+DEBUG:root:hgello
+INFO:root:gg
+WARNING:root:asda
+CRITICAL:root:helo
+INFO:root:SERVER STARTED
+CRITICAL:root:Host www.python.org unknown
+ERROR:root:Couldn't find 'spam'
+WARNING:root:Feature is deprecated
+INFO:root:Opening file 'data.csv', mode = 'r'
+INFO:root:got?
+WARNING:myapp:woot
+WARNING:myapp:woot
+WARNING:root:Watch out!
+INFO:root:I told you so
+INFO:root:SERVER STARTED
+DEBUG:root:done
+DEBUG:root:done
+DEBUG:root:asd
+INFO:root:a
+DEBUG:root:as
+INFO:root:as
+WARNING:root:as
+INFO:root:asd
+INFO:root:asd
+INFO:root:asd
+DEBUG:root:YES PLEASE
+CRITICAL:root:YES PLEASE
+WARNING:root:hello
+output
+DEBUG:root:debug success
+DEBUG:root:debug success
+INFO:root:lmao
+Warning.
+DEBUG:root:debug success
