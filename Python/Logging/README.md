@@ -1,6 +1,6 @@
 # Basics Notes for Logging
 
-# TL;DR
+# TL;DR: Read this is enough
 ## Default logging output into command line and log file
 ```py
 import logging
