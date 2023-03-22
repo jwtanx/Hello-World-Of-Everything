@@ -7,7 +7,13 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 file_handler = logging.FileHandler(filename="app.log", mode="a")
-formatter = logging.Formatter("%(levelname)s:%(name)s:%(message)s")
+format = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
+datetime_format="%Y-%m-%d %H:%M:%S"
+
+# Setting the format
+# formatter = logging.Formatter(format) # Also work
+formatter = logging.Formatter(format, datetime_format)
+logging.root.handlers[0].setFormatter(formatter)
 file_handler.setFormatter(formatter)
 logging.root.addHandler(file_handler)
 logging.debug("debug success")
@@ -100,6 +106,24 @@ logger.setLevel(logging.WARNING)
 FileOutputHandler = logging.FileHandler("app.log", mode="a")
 logger.addHandler(FileOutputHandler)
 logger.warning("Warning.") # Output will only be saved into the app.log
+```
+
+## SETTING THE FORMAT
+```py
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+file_handler = logging.FileHandler(filename="app.log", mode="a")
+format = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
+datetime_format="%Y-%m-%d %H:%M:%S %z"
+
+# Setting the format
+# formatter = logging.Formatter(format) # Also work
+formatter = logging.Formatter(format, datetime_format)
+logging.root.handlers[0].setFormatter(formatter)
+file_handler.setFormatter(formatter)
+logging.root.addHandler(file_handler)
+logging.debug("debug success")
 ```
 
 ## OUTPUT LOGS TO FILES AND COMMAND LINE
