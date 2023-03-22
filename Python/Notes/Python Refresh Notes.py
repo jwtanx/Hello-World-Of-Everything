@@ -2713,6 +2713,10 @@ Sort by value and get the first value
 cheapest_drink = sorted(orders.items(), key=lambda x: x[1])[0][0]
 'cortado'
 
+# Finding the most expensive drink
+expensive_drink = sorted(orders.items(), key=lambda x: x[1], reverse=True)[0][0]
+# espresso
+
 DICTIONARY SORTED BY KEYS
 =====
 mydict = {'carl':40, 'alan':2, 'bob':1, 'danny':3}
@@ -5103,6 +5107,16 @@ array([[1, 3],
 NUMPY: Deleting an element
 =====
 modified_array = np.delete(original_array, np.where(original_array == value_to_delete))
+
+NUMPY: Deleting a list of elements
+=====
+# https://stackoverflow.com/questions/10996140/how-to-remove-specific-elements-in-a-numpy-array
+import numpy as np
+>>> a = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+>>> b = np.array([3,4,7])
+>>> c = np.setdiff1d(a,b)
+>>> c
+array([1, 2, 5, 6, 8, 9])
 
 NUMPY: Getting the indexes of the matched values
 =====
