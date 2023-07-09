@@ -1,7 +1,18 @@
 # DOCKER BASICS
 
 # Method 1: Dockerfile
-...
+```yaml
+FROM python3.6
+
+RUN mkdir -p /opt/project
+COPY . /opt/project
+
+WORKDIR /opt/project
+
+EXPOSE 8080
+CMD python run.py
+
+```
 
 # Method 2: Docker compose
 1. Creating a docker-compose.yaml / docker-compose.yml file, both are the same. Make sure the name of the file is exactly docker-compose
@@ -29,7 +40,7 @@ docker compose up
 # Old version (Deprecated)
 docker-compose up
 ```
-...
+---
 
 ## DIFFERENCE BETWEEN DOCKER IMAGE AND DOCKER CONTAINER
 Docker image is like the game disk you put into your PC, the disk is built by somebody or even yourself
@@ -81,16 +92,21 @@ docker run 4ed769366c2e
 # METHOD 2: USING THE NAME OF THE DOCKER IMAGE
 docker run docker-image
 
-docker run -id --name docker-name --publish 8080:8899 docker-image
+docker run -itd --name docker-name --publish 8080:8899 docker-image
 # i: interactive
 # t: terminal
 # d: detached mode (running in the background)
 # 8080 is the port exposed for the local host to connect whereas 8899 is the port internally in the docker
 
 docker run -it --name docker-name --volume="%cd%/package/config":/package/config docker-image-name
-docker run -it --name docker-name --volume="$(PWD)/package/config":/package/config docker-image-name
+docker run -it --name docker-name --volume="$(PWD7)/package/config":/package/config docker-image-name
 # volume: binding the local files / folders with the folder inside of the container, when there is an update on the internal container / outside in the local machine, the files and folders will be synchronized.
-````
+
+# RUNNING THE DOCKER IMAGE IN THE BACKGROUND AND REMOVE IT AFTER WE ARE DONE
+docker run --rm -itd -p 8080:80 <image-name>:<image-tag>
+# rm: Remove the docker container once the docker container run everything it should be
+
+```
 
 ## Starting the docker container (RUN THIS FOR SECOND OR CONSEQUTIVE TIME OR ELSE THE CONTAINER WILL BE CORRUPTED IF YOU USE DOCKER START)
 ```bash
@@ -124,6 +140,8 @@ docker start discourse_app -i (for interactive)
 docker start discourse_app -itd (combination of interactive terminal and detached)
 docker rename discourse_app disc_app
 ```
+
+---
 
 ## REBUILDING IMAGES USING THE LATEST DOCKER CONTAINER
 https://vsupalov.com/rebuilding-docker-image-development/
@@ -159,3 +177,70 @@ docker cp main.py docker-container-name:app/package/path/main.py
 ```bash
 docker commit old_container_name new_image_name
 ```
+
+---
+
+## STOPPING & REMOVING ALL THE DOCKER CONTAINER THEN REMOVE ALL THE IMAGES
+```bash
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker rmi $(docker images)
+```
+
+---
+
+## GETTING THE LIST OF THE INFORMATION OF THE DOCKER
+```bash
+docker info
+
+# ...
+# Storage Driver: overlay2
+# ...
+# Docker Root Dir: /var/lib/docker
+
+```
+Note: The data is stored under /var/lib/docker/overlay2
+
+## CHECKING THE LIST OF THE LAYERS CREATED FOR THE IMAGE
+```bash
+docker history <image-name>
+
+# 92ae8f82bc21 <----- The most top layer which is our layer (our image sha256)
+# ...
+# ...
+# 09aa2ecd109d <----- The image we are building on top of (base image)
+# <missing>
+# <missing>
+# <missing>
+
+```
+
+## CONTROL GROUPS - CGROUP
+- Control groups is a feature of the Linux kernel.
+- It allows us to limit the access processes and containers have to system resources such as CPU, RAM, IOPS, and network.
+- We can enforce limits and constraints on docker containers too.
+- A common use case is to limit the PIDs to prevent fork bombs.
+
+- Finding the C group entries accociated with the docker containter
+```bash
+find /sys/fs/cgroup/ -name "6ef665788c2eb3b7b55e121ecb942c79e427383ed7622d3ca906bOfc2bbe782"
+# Where "6ef665788c2eb3b7b55e121ecb942c79e427383ed7622d3ca906bOfc2bbe782" is the sha256 of the image
+```
+You will see a list of entries like pids, hugetlb, devices, freezer, cpu, net_cls, systemd, ... directory
+Say, if we want to check the pids, we just cd to that path
+`cd /sys/fs/cgroup/pids/6ef665788c2eb3b7b55e121ecb942c79e427383ed7622d3ca906bOfc2bbe782`
+
+## STARTING THE DOCKER IN A USER REMAP WHERE THE ROOT IN THE DOCKER CANNOT ACCESS THE ROOT CONTENT ON THE HOST
+```sudo dockerd --userns-remap=default &```
+
+🤖 ChatGPT
+| Terms                  | Explanation                                                                                                                                                                                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dockerd                | To start the Docker daemon. The Docker daemon is responsible for managing and running Docker containers on your system.                                                                                                                                 |
+| --userns-remap=default | This flag specifies that user namespace remapping should be enabled, with the default configuration. User namespace remapping is a security feature that helps isolate the permissions of containers from the host system.                              |
+| &                      | The ampersand symbol at the end of the command puts the command in the background, allowing you to continue using the terminal without waiting for the command to complete. This is useful when starting long-running processes like the Docker daemon. |
+
+By running this command, the Docker daemon will be started with user namespace remapping enabled using the default configuration.
+
+```docker run -it --rm -v /:/shared/ alphine sh```
+Although the root is shared and the user in docker is root, the host root directory is still not accessible
