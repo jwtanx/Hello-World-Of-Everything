@@ -26,7 +26,7 @@ print("Hello")
 
 name = 'John'
 print('Hello', name, end('!'))
->> Hello John!
+>>> Hello John!
 
 print("Hello", end=" ")
 print("there!")
@@ -38,7 +38,7 @@ print(30, 11, 2020, sep="-")
 
 for i in range(5):
 	print(i, end=" ")
->> 0 1 2 3 4
+>>> 0 1 2 3 4
 
 ESCAPE CHARACTER
 =====
@@ -114,7 +114,7 @@ or
 
 LOGICAL OPERATORS # For more detailed explanation, take a look at the `02-Operators.py` in this repo/Python
 =====
-COMPARISON: 
+COMPARISON:
 '''
 >
 >=
@@ -168,10 +168,10 @@ for student in student_names:
         print('There is a student named beta')
 
 print(1 > '1')
->> TRACEBACK: TypeError
+>>> TRACEBACK: TypeError
 
 print(1 == '1')
->> False
+>>> False
 
 IF, ELIF, ELSE
 =====
@@ -183,11 +183,11 @@ else:
 	print('Something else')
 
 print("even" if x % 2 == 0 else "odd")
->> odd
+>>> odd
 
 # Special features: To check if there is any value in the sequence
 """
-# FALSE VALUES: 
+# FALSE VALUES:
     # False
     # None
     # Zero of any numeric type: 0, 0.00 (Other Negative or positive number will return True)
@@ -203,23 +203,23 @@ else:
 
 TERNARY OPERATOR
 =====
-# [on_true] if [expression] else [on_false] 
+# [on_true] if [expression] else [on_false]
 min = a if a < b else b
 
-# Python program to demonstrate ternary operator 
+# Python program to demonstrate ternary operator
 a, b = 10, 20
-  
-# Use tuple for selecting an item 
-# (if_test_false,if_test_true)[test] 
-print( (b, a) [a < b] ) 
-  
-# Use Dictionary for selecting an item 
-print({True: a, False: b} [a < b]) 
 
-# Python program to demonstrate nested ternary operator 
+# Use tuple for selecting an item
+# (if_test_false,if_test_true)[test]
+print( (b, a) [a < b] )
+
+# Use Dictionary for selecting an item
+print({True: a, False: b} [a < b])
+
+# Python program to demonstrate nested ternary operator
 a, b = 10, 20
-  
-print ("Both a and b are equal" if a == b else "a is greater than b" if a > b else "b is greater than a") 
+
+print ("Both a and b are equal" if a == b else "a is greater than b" if a > b else "b is greater than a")
 
 COMMENT
 =====
@@ -232,15 +232,15 @@ Here lies comment or documentary
 TYPE CONVERSION / TYPE CASTING
 =====
 x = float(1)
->> x 
->> 1.0
+>>> x
+>>> 1.0
 
 x = str(x)
 x = int(x) # Converting a string into a int
 x = float(x)
 
 ttl = int("2") + int("5")
->> 7
+>>> 7
 
 INPUT
 =====
@@ -336,7 +336,7 @@ logger.critical("this will get printed")
 component_logger = logger.getChild("component-a")
 component_logger.info("this will get printed with the prefix `my-app.component-a`")
 
-# If you wish to control the logging levels, you can set the level anywhere 
+# If you wish to control the logging levels, you can set the level anywhere
 # in the hierarchy:
 #
 # - root
@@ -380,7 +380,7 @@ def add(x, y):
 
 sum = add(2, 5)
 print(sum)
->> 7
+>>> 7
 
 # Default value when the variable is not passed into
 def welcome(name="user"):
@@ -401,8 +401,8 @@ print(convert(5000))
 HRS, MINS, SECS = convert(5000)
 print(HRS, MINS, SECS)
 
-# >> (1, 23, 20)
-# >> 1 23 20
+# >>> (1, 23, 20)
+# >>> 1 23 20
 
 # Default value in the fuction
 def welcome(name='user'):
@@ -430,7 +430,7 @@ FUNCTION WITH UNSPECIFIED NUMBER OF ARGUMENT [*args]
 def checklist(*items): # Receiving a tuple of arguments
     # print tuple
     print(items) # ('milk', 'rice', 'bread', 'jam')
-    
+
     for index, item in enumerate(items, 1): # 1 = starting with, it is optional, wihout it the number would start at 0
         print("Item", str(index) , ":", item.capitalize())
         '''
@@ -699,26 +699,26 @@ PRODUCT
 =====
 # Reference: https://www.geeksforgeeks.org/python-itertools-product/
 # How it works?
-Input : arr1 = [1, 2, 3] 
-arr2 = [5, 6, 7] 
+Input : arr1 = [1, 2, 3]
+arr2 = [5, 6, 7]
 Output : [(1, 5), (1, 6), (1, 7), (2, 5), (2, 6), (2, 7), (3, 5), (3, 6), (3, 7)]
 
-Input : arr1 = [10, 12] 
-arr2 = [8, 9, 10] 
+Input : arr1 = [10, 12]
+arr2 = [8, 9, 10]
 Output : [(10, 8), (10, 9), (10, 10), (12, 8), (12, 9), (12, 10)]
 
 # Example code
 from itertools import product
- 
+
 def cartesian_product(arr1, arr2):
     return list(product(arr1, arr2))
-   
+
 arr1 = [1, 2, 3]
 arr2 = [5, 6, 7]
 print(cartesian_product(arr1, arr2))
 
 # Output
-[(1, 5), (1, 6), (1, 7), (2, 5), (2, 6), (2, 7), (3, 5), (3, 6), (3, 7)] 
+[(1, 5), (1, 6), (1, 7), (2, 5), (2, 6), (2, 7), (3, 5), (3, 6), (3, 7)]
 
 #########################################################################################
 FILTER
@@ -745,7 +745,7 @@ list(filter(even, range(11)))
 list(filter(lambda x:x>5, range(11)))
 [6, 7, 8, 9, 10]
 
-list(filter(lambda x:len(x)>5, ['Cat', 'Dragon', 'Elephant'])) 
+list(filter(lambda x:len(x)>5, ['Cat', 'Dragon', 'Elephant']))
 ['Dragon', 'Elephant']
 
 #########################################################################################
@@ -773,7 +773,7 @@ sum(x for x, _ in pairs)
 #########################################################################################
 WHILE LOOP WITH BREAK & CONTINUE
 =====
-# NOTE: MAKE SURE YOU HAVE A CONDITION THAT CAN CEASE THE LOOPING 
+# NOTE: MAKE SURE YOU HAVE A CONDITION THAT CAN CEASE THE LOOPING
 # IF STUCK IN A INFINITY LOOPING, PRESS `CTRL + C` TO STOP THE PROGRAM
 
 # Indefinite loop
@@ -958,17 +958,17 @@ RANDOM
 =====
 import random
 random.randint(1, 100)
->> 5
+>>> 5
 
 random.uniform(1,100)
->> 5.890128243620637
+>>> 5.890128243620637
 
 random.randrange(1, 100)
->> 23
+>>> 23
 
 names = ['John', 'Alice', 'James']
 classMonitor = random.choice(names)
->> Alice
+>>> Alice
 
 SHUFFLE
 =====
@@ -984,7 +984,7 @@ print(random.choice(ls)) # 8 <-- Always random
 SAMPLE
 =====
 '''
-sample(['red', 'blue'], counts=[4, 2], k=5)  
+sample(['red', 'blue'], counts=[4, 2], k=5)
 	=
 sample(['red', 'red', 'red', 'red', 'blue', 'blue'], k=5)
 '''
@@ -996,14 +996,14 @@ CHARACTER # ASCII
 =====
 a = chr(97)
 a
->> 'a'
+>>> 'a'
 
 GETTING THE ORDER OF THE CHARACTER
 =====
 word = "abc"
 c = ord(word[0])
 c
->> 97
+>>> 97
 
 #########################################################################################
 INTEGER, FLOAT
@@ -1015,12 +1015,12 @@ ROUNDING OFF
 # round(FLOAT, ndigits)
 total = 12.259
 round(total, 2)
->> 12.26
+>>> 12.26
 total
->> 12.259
+>>> 12.259
 total = round(total, 2)
 total
->> 12.26
+>>> 12.26
 
 # round of nearest tenth, hundredth so on
 # ndigits=-1 rounds to the nearest 10, ndigits=-2 rounds to the nearest 100 and so on
@@ -1049,13 +1049,13 @@ STRINGS
 fruit = 'pineapple'
 letter = fruit[1]
 print(letter)
->> i
+>>> i
 
 LENGTH OF A STRING
 =====
 name = 'John'
 len(name)
->> 4
+>>> 4
 
 for letter in name:
 	print(letter)
@@ -1085,18 +1085,18 @@ SLICING STRINGS
 tmp = 'Monty Python'
        0123456789[10][11]
 s[0:4]
->> Mont
+>>> Mont
 s[6:7]
->> P
+>>> P
 s[6:20]
->> Python
+>>> Python
 
 s[:2]
->> Mo
+>>> Mo
 s[8:]
->> thon
+>>> thon
 s[:]
->> Monty Python
+>>> Monty Python
 
 MANIPULATING STRINGS
 =====
@@ -1104,24 +1104,24 @@ MANIPULATING STRINGS
 a = 'Hello'
 b = a + "There"
 print(b)
->> HelloThere
+>>> HelloThere
 b = a + " " + "There"
 print(b)
->> Hello There
+>>> Hello There
 
 REVERSING A STRING
 =====
 # Reference: https://www.geeksforgeeks.org/reverse-string-python-5-different-ways/
 
 # 1
-def reverse(string): 
-    string = string[::-1] 
-    return string 
+def reverse(string):
+    string = string[::-1]
+    return string
 '''Explanation : Extended slice offers to put a “step” field as [start,stop,step], and giving no field as start and stop indicates default to 0 and string length respectively and “-1” denotes starting from end and stop at the start, hence reversing string.'''
 
 # 2
-def reverse(string): 
-    string = "".join(reversed(string)) 
+def reverse(string):
+    string = "".join(reversed(string))
     return string
 
 # 3 Fastest way if the string is not a palindrome
@@ -1136,9 +1136,9 @@ USING in AS A LOGICAL OPERATOR
 =====
 fruit = 'banana'
 'n' in fruit
->> True
+>>> True
 'nan' in fruit
->> True
+>>> True
 
 STRING COMPARISON
 =====
@@ -1156,18 +1156,18 @@ STRING LIBRARY
 =====
 tmp = 'Hello World'
 print(tmp.lower())
->> hello world
+>>> hello world
 
 foo = tmp.lower()
 print(foo)
->> hello world
+>>> hello world
 
 type(tmp)
-#>> <class 'str'>
+# >>> <class 'str'>
 
 # .count() - Count and return the amount of occurance of the word/letter asked to count
 print(tmp.count('l'))
->> 3
+>>> 3
 
 # .find() - Find and return the index position of the parameter in a str
 # CTRL + F = "FIND THE INDEX"
@@ -1252,7 +1252,7 @@ print(uri_validator(e)) # True
 DISPLAY ALL THE METHODS AVAILABLE FOR VARIABLE
 =====
 dir(tmp)
->> ['capitalize', 'casefold', 'center', ...]
+>>> ['capitalize', 'casefold', 'center', ...]
 
 DISPLAY ALL METHODS AND VARIABLES USED
 =====
@@ -1267,29 +1267,29 @@ FIND THE INDEX
 fruit = 'banana'
          012345
 pos = fruit.find('na')
->> 2
+>>> 2
 
 aa = fruit.find('z')
->> -1
+>>> -1
 
 info = 'From geniusGoogle@gmail.com GeniusUser'
 pos = info.find('@')
 # Second parameter taken in means where to starts
 secondPos = info.find(' ', pos)
 host = info[pos+1 : secondPos]
->> gmail.com
+>>> gmail.com
 
 STRING UPPER & LOWER
 =====
 tmp = hEllo woRld
 tmp.upper()
->> HELLO WORLD
+>>> HELLO WORLD
 
 tmp.lower()
->> hello world
+>>> hello world
 
 tmp.title()
->> Hello World
+>>> Hello World
 
 STRING CHECKING IF THERE IS CAPITAL IN IT
 =====
@@ -1315,42 +1315,42 @@ while True:
 SEARCH & REPLACE
 =====
 tmp.replace('Hello', 'Goodbye')
->> Goodbye World
+>>> Goodbye World
 
 STRIPPING WHITESPACE
 =====
 greet = '     Hello There  '
 greet.lstrip()
->> 'Hello There  '
+>>> 'Hello There  '
 greet.rstrip()
->> '     Hello There'
+>>> '     Hello There'
 greet.strip()
->> 'Hello There'
+>>> 'Hello There'
 
 PREFIXES
 =====
 # STARTSWITH
 tmp = 'Please okay?'
 tmp.startswith('Please')
->> True
+>>> True
 tmp.startswith('p')
->> False
+>>> False
 
 # ENDSWITH
 tmp.endswith("okay?")
->> True
+>>> True
 
 STRING & CHARACTER SET
 =====
 # PYTHON3 <## in py3, all string are unicode
 x = u'한국어'
 type(x)
->> <class 'str'>
+>>> <class 'str'>
 
 # PYTHON2
 x = u'한국어'
 type(x)
->> <class 'unicode'>
+>>> <class 'unicode'>
 
 REGEX
 =====
@@ -1358,25 +1358,25 @@ import re
 s = "how much for the maple syrup? $20.99? That's ridiculous!!!"
 s = re.sub(r'[^\w]', ' ', s)
 s = re.sub(r'[\W]', ' ', s)
->> 'how much for the maple syrup   20 99  That s ridiculous   '
+>>> 'how much for the maple syrup   20 99  That s ridiculous   '
 
 s = re.sub(r'[\W]', '', s)
->> 'howmuchforthemaplesyrup2099Thatsridiculous'
+>>> 'howmuchforthemaplesyrup2099Thatsridiculous'
 
 s = re.sub(r'[^\w\S]', '', s)
->> "howmuchforthemaplesyrup?$20.99?That'sridiculous!!!"
+>>> "howmuchforthemaplesyrup?$20.99?That'sridiculous!!!"
 
 s = re.sub(r'[^\w\s]', '', s)
->> 'how much for the maple syrup 2099 Thats ridiculous'
+>>> 'how much for the maple syrup 2099 Thats ridiculous'
 
 s = re.sub(r'[\w\s]', '', '..   apple')
->> '..'
+>>> '..'
 
 s = re.sub(r'[\w\s]', '', '..   apple  ..')
->> '....'
+>>> '....'
 
 # Subbing multiple spaces into one space
-re.sub(r'[\s+]', ' ', ";asldad asdlkasld    la;sdkas d    dlaskd\tdasjdakjd\nasdkja\n")   
+re.sub(r'[\s+]', ' ', ";asldad asdlkasld    la;sdkas d    dlaskd\tdasjdakjd\nasdkja\n")
 ';asldad asdlkasld la;sdkas d dlaskd dasjdakjd asdkja '
 
 # Finding the list of substring indexes in a string
@@ -1462,7 +1462,7 @@ Example
 REGEX SUB - IGNORE CASE
 =====
 """
-(?i) case-insensitive mode ON    
+(?i) case-insensitive mode ON
 (?-i) case-insensitive mode OFF
 """
 import re
@@ -1473,36 +1473,36 @@ ISNUMERIC
 =====
 # Check if it is numeric or alphabet
 "forest".isnumeric()
->> False
+>>> False
 
 "12345".isnumeric()
->> True
+>>> True
 
 ISDIGIT
 =====
 "123".isdigit()
->> True
+>>> True
 
 ISALPHA()
 =====
 "abc".isalpha()
->> True
+>>> True
 "abc ".isalpha()
->> False
+>>> False
 
 ISALNUM()
 =====
 "abc123".isalnum()
->> True
+>>> True
 "abc 123".isalnum()
->> False
+>>> False
 
 SPLIT
 =====
 a = "This is a delicious ice-cream that no one can eat"
 ls = a.split(sep=None, maxsplit=3)
 print(ls)
->> ['This', 'is', 'a', 'delicious ice-cream that no one can eat']
+>>> ['This', 'is', 'a', 'delicious ice-cream that no one can eat']
 
 time = '18:42'
 hr, mins = time.split(':')
@@ -1534,10 +1534,10 @@ JOIN
 # Note: str.join(iterable)
 lst = "The string is splitted into a list".split(" ")
 lst
->> ['The', 'string', 'is', 'splitted', 'into', 'a', 'list']
+>>> ['The', 'string', 'is', 'splitted', 'into', 'a', 'list']
 finalString = " - ".join(lst)
 finalString
->> 'The - string - is - splitted - into - a - list'
+>>> 'The - string - is - splitted - into - a - list'
 
 Formatting String
 =====
@@ -1545,16 +1545,16 @@ name = "John"
 number = len(name) * 3
 
 print("Hello {}, your lucky number is {}". format(name, number))
->> Hello John, your lucky number is 12
+>>> Hello John, your lucky number is 12
 
 # More systematic way
 # Note that name & name are identified separately
 print("Your lucky number is {num}, {name}.".format(name = name, num = len(name)*3))
->> Your lucky number is 12, John.
+>>> Your lucky number is 12, John.
 
 # Easiest way
 print(f"Your lucky number is {number}, {name}.") # Make sure the variable in the curly braces is same as the initialized variables
->> Your lucky number is 12, John.
+>>> Your lucky number is 12, John.
 
 # Example
 def student_grade(name, grade):
@@ -1570,7 +1570,7 @@ FORMATTING FLOAT IN STRING
 price = 8.7
 price_with_gst = price * 1.06
 print(price, price_with_gst)
->> 8.7 9.222
+>>> 8.7 9.222
 
 # To round up the tax to 2dp
 print("Price: RM{:.2f}\nWith Tax: RM{:.2f}".format(price, price_with_gst))
@@ -1582,11 +1582,11 @@ With Tax: RM9.22
 
 # Significance Figure
 print("pi to 4 significant digits = {:.4}".format(math.pi))
->> pi to 4 significant digits = 3.142
+>>> pi to 4 significant digits = 3.142
 
 # Meaning of the semicolon
 print("With tax: RM{gst:.2f}".format(gst = price_with_gst))
->> With tax: RM9.22
+>>> With tax: RM9.22
 
 # ADVANCED FORMATTING
 def toCelcius(x):
@@ -1634,7 +1634,7 @@ handle = open(filename, mode)
 # File handle is not the data, it's just a way to get at the data but a thing that we can manipulate
 test = open('tester.txt', 'r')
 print(test)
->> <_io.TextIOWrapper name='Test.txt' mode='r' encoding='cp1252'>
+>>> <_io.TextIOWrapper name='Test.txt' mode='r' encoding='cp1252'>
 
 open()
 read()
@@ -1664,13 +1664,13 @@ NEWLINE CHARACTER
 # Non#printing character that move to the next line
 test = 'Hello\nWorld'
 print(test)
->> Hello
->> World
+>>> Hello
+>>> World
 
 # Newline [\n] is one character
 test = 'X\nY'
 len(test)
->> 3
+>>> 3
 
 FILE HANDLE AS A SEQUENCE
 =====
@@ -1711,11 +1711,11 @@ test = open('test.txt')
 data = test.read()
 
 print(data)
->> Hello there user, asduhunuioahvb...
+>>> Hello there user, asduhunuioahvb...
 len(data)
->> 56223
+>>> 56223
 data[:5]
->> Hello
+>>> Hello
 
 HOW TO DEAL WITH NON-EXISTING FILE
 =====
@@ -1790,10 +1790,10 @@ LOOKING INSIDE THE LISTS
 =====
 friends = ['Ali', 'Ah Kau', 'Muthu']
 print(friends[2])
->> Muthu
+>>> Muthu
 
 print(friends[:2])
->> ['Ali', 'Ah Kau']
+>>> ['Ali', 'Ah Kau']
 
 n = [5,4,3,2,1]
 print(n[2:4]) # [3,2] NOTE: the [x:y] --> x is inclusive while y is not inclusive
@@ -1814,7 +1814,7 @@ LISTS ARE MUTABLE/CHANGEABLE
 String: immutable
 test = 'hello'
 test[1]
->> e
+>>> e
 
 test[1] = 'o'
 # TRACEBACK: TypeError: 'str' object does not support item assignment
@@ -1823,10 +1823,10 @@ players = [93, 23, 45, 1, 9]
 players[2] = 7
 
 players
->> [93, 23, 7, 1, 9]
+>>> [93, 23, 7, 1, 9]
 
 len(players)
->> 5
+>>> 5
 
 LIST CONCATENATION
 =====
@@ -1841,15 +1841,15 @@ COUNTING ELEMENT IN A LIST
 =====
 ls = [1, 2, 3, 1, 2, 3, 4, 5, 6]
 print(ls.count(3))
->> 2
+>>> 2
 
 RANGE
 =====
 print(range(4))
->> [0, 1, 2, 3]
+>>> [0, 1, 2, 3]
 
 print(range(len(players)))
->> [0, 1, 2, 3, 4]
+>>> [0, 1, 2, 3, 4]
 
 LOOPS
 =====
@@ -1864,16 +1864,16 @@ SLICING LISTS
 # UP TO BUT NOT INCLUDING
 tmp = [1,2,3,4,5,6,7,8]
 tmp[1:3]
->> [2,3]
+>>> [2,3]
 
 tmp[:4]
->> [1,2,3,4]
+>>> [1,2,3,4]
 
 tmp[3:]
->> [4,5,6,7,8]
+>>> [4,5,6,7,8]
 
 tmp[:]
->> [1,2,3,4,5,6,7,8]
+>>> [1,2,3,4,5,6,7,8]
 
 LIST FUNCTION
 =====
@@ -1881,12 +1881,12 @@ x = list()
 y = [1,2,3,4]
 z = list(y)
 print(z)
->> [1,2,3,4]
+>>> [1,2,3,4]
 
 type(x)
->> <type 'list'>
+>>> <type 'list'>
 dir(z)
->> ['append', 'count', 'sort', ...]
+>>> ['append', 'count', 'sort', ...]
 
 APPEND
 =====
@@ -1896,24 +1896,24 @@ thing.append(99)
 thing.append('apples')
 
 print(thing)
->> [99, 'apples']
+>>> [99, 'apples']
 
 INSERT
 =====
 fruits = ['apple', 'banana', 'pineapple', 'melon']
 fruits.insert(1, 'orange')
->> ['apple', 'orange', 'banana', 'pineapple', 'melon']
+>>> ['apple', 'orange', 'banana', 'pineapple', 'melon']
 
 fruits.insert(999, 'Possible Fruit')
->> ['apple', 'orange', 'banana', 'pineapple', 'melon', 'Possible Fruit']
+>>> ['apple', 'orange', 'banana', 'pineapple', 'melon', 'Possible Fruit']
 
 REMOVE
 =====
 fruits.remove('Possible Fruit')
->> ['apple', 'orange', 'banana', 'pineapple', 'melon']
+>>> ['apple', 'orange', 'banana', 'pineapple', 'melon']
 
 fruits.remove('Pear')
->> TRACEBACK: ValueError list.remove(x): x not in list
+>>> TRACEBACK: ValueError list.remove(x): x not in list
 
 ls = [1,5,1,2,3,4,1]
 ls.remove(1) # [5, 1, 2, 3, 4, 1]
@@ -1956,36 +1956,36 @@ print(timeit.timeit(ch2, number=10000))
 POP
 =====
 fruits.pop()
->> 'melon'
->> ['apple', 'orange', 'banana', 'pineapple']
+>>> 'melon'
+>>> ['apple', 'orange', 'banana', 'pineapple']
 
 CHECK IF AN ITEM IN THE LIST
 =====
 num = [123, 2, 45, 67, 89]
 2 in num
->> True
+>>> True
 77 in num
->> False
+>>> False
 77 not in num
->> True
+>>> True
 
 a = [1,2,3]
 b = [4,5,6]
 a.append(b)
 print(a)
->> [1, 2, 3, [4, 5, 6]]
+>>> [1, 2, 3, [4, 5, 6]]
 
 SORT
 =====
 # This function modifies the list you chose
 name = ['Sarah', 'John' ,'Ali']
 print(name)
->> ['Sarah', 'John' ,'Ali']
+>>> ['Sarah', 'John' ,'Ali']
 name.sort()
 print(name)
->> ['Ali', 'John', 'Sarah']
+>>> ['Ali', 'John', 'Sarah']
 name[1]
->> 'John'
+>>> 'John'
 
 # NOTE: Works for the numbers too
 x = [3,1,2]
@@ -2006,9 +2006,9 @@ SORTED
 names = ['Sarah', 'John' ,'Ali']
 newList = sorted(names)
 newList
->> ['Ali', 'John', 'Sarah']
+>>> ['Ali', 'John', 'Sarah']
 names
->> ['Sarah', 'John' ,'Ali']
+>>> ['Sarah', 'John' ,'Ali']
 
 Sorted with a function
 =====
@@ -2025,6 +2025,11 @@ sorted_list = sorted(random, key=take_second)
 # print list
 print('Sorted list:', sorted_list)
 # Sorted list: [(4, 1), (2, 2), (1, 3), (3, 4)]
+
+Sorted for list of number in files
+=====
+sorted(os.listdir("."), key=lambda x: int(x.split('.')[0]))
+# Output = ["1.txt", "2.txt", "3.txt", "4.txt", ..., "100.txt"]
 
 Sorted with multiple keys
 =====
@@ -2070,17 +2075,17 @@ SORTED BY KEY
 names = ['Carlos', 'Pewdiepie' ,'Ali']
 newList = sorted(names, key=len)
 newList
->> ['Ali', 'Carlos', 'Pewdiepie']
+>>> ['Ali', 'Carlos', 'Pewdiepie']
 
 BUILD-IN FUNCTION FOR LIST: FIND THE MAX, MIN, SUM, *
 =====
 nums = [12,25,38,49,53,6]
 len(nums)
->> 6
+>>> 6
 max(nums)
->> 53
+>>> 53
 min(nums)
->> 6
+>>> 6
 
 # KEY FOR MIN AND MAX
 def mod_5(x):
@@ -2106,7 +2111,7 @@ scores = {leaf_size: get_mae(leaf_size, train_X, val_X, train_y, val_y) for leaf
 best_tree_size = min(scores, key=scores.get)
 
 sum(nums)
->> 183
+>>> 183
 
 # To get average
 print(sum(nums) / len(nums))
@@ -2128,31 +2133,31 @@ SPLIT
 tmp = "ABC with cows"
 
 tmpList = tmp.split()
->> ['ABC', 'with', 'cows']
+>>> ['ABC', 'with', 'cows']
 len(tmpList)
->> 3
+>>> 3
 tmpList[1]
->> 'with'
+>>> 'with'
 
 for w in tmpList:
 	print(w)
->> 'ABC'
->> 'with'
->> 'cows'
+>>> 'ABC'
+>>> 'with'
+>>> 'cows'
 
 # SPLIT THE WHITESPACE AS WELL
 tmp = 'hello       there hahaha'
 tmpList = tmp.split()
->> ['hello', 'there', 'hahaha']
+>>> ['hello', 'there', 'hahaha']
 
 # Remove the next line and extra spaces
 " ".join(string.split())
 
 tmp = 'hello;there;world'
 tmpList = tmp.split()
->> ['hello;there;world']
+>>> ['hello;there;world']
 tmpList = tmp.split(';')
->> ['hello', 'there', 'world']
+>>> ['hello', 'there', 'world']
 
 # LIST COMPREHENSION
 multiples = []
@@ -2160,15 +2165,15 @@ for i in range(1, 11):
 	multiples.appned(i*7)
 
 print(multiples)
->> [7, 14, 21, 28, 35, 42, 49, 56, 63, 70]
+>>> [7, 14, 21, 28, 35, 42, 49, 56, 63, 70]
 
 # Better version = use list comprehension
 print([i*7 for i in range(1,11)])
->> [7, 14, 21, 28, 35, 42, 49, 56, 63, 70]
+>>> [7, 14, 21, 28, 35, 42, 49, 56, 63, 70]
 
 language = ['Python', 'Java', 'C++', 'Javascript']
 print([len(x) for x in language])
->> [6, 4, 3, 10]
+>>> [6, 4, 3, 10]
 
 # The usage of if else statement in the list comprehension
 numbers = [1,2,3,4,5,6]
@@ -2198,7 +2203,7 @@ Flattening irregular list
 flatten = lambda *n: (e for a in n
     for e in (flatten(*a) if isinstance(a, (tuple, list)) else (a,)))
 
-# args for n, intermediate (or the shorter mid or you might prefer element) for a and result for e, so: 
+# args for n, intermediate (or the shorter mid or you might prefer element) for a and result for e, so:
 flatten = lambda *args: (result for mid in args for result in (flatten(*mid) if isinstance(mid, (tuple, list)) else (mid,)))
 
 l1 = ['a', ['b', ('c', 'd')]]
@@ -2227,14 +2232,14 @@ def count_negatives(nums):
     return len([n for n in nums if n < 0])
 
 def count_negatives(nums):
-    # Reminder: in the "booleans and conditionals" exercises, we learned about a quirk of 
+    # Reminder: in the "booleans and conditionals" exercises, we learned about a quirk of
     # Python where it calculates something like True + True + False + True to be equal to 3.
     return sum([num < 0 for num in nums])
 
 def elementwise_greater_than(L, thresh):
-    """Return a list with the same length as L, where the value at index i is 
+    """Return a list with the same length as L, where the value at index i is
     True if L[i] is greater than thresh, and False otherwise.
-    
+
     >>> elementwise_greater_than([1, 2, 3, 4], 2)
     [False, False, True, True]
     """
@@ -2242,7 +2247,7 @@ def elementwise_greater_than(L, thresh):
 
 # Print number which is divisible by 3
 print([x for x in range(0, 40) if x % 3 == 0])
->> [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39]
+>>> [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39]
 
 # MORE LIST METHODS
 list.reverse() # Reverses the order of items of the list
@@ -2268,9 +2273,9 @@ print(x) # [1,2,3,[4,5]]
 
 # BLACKJACK: COMPARING BETWEEN TWO HANDS
 def getVal(cards):
-    
+
     val = 0; aces = 0
-    
+
     for c in cards:
         if c in ['J', 'Q', 'K']:
             val += 10
@@ -2278,31 +2283,31 @@ def getVal(cards):
             aces += 1
         else:
             val += int(c)
-        
+
     if aces == 1 and val <= 10:
         val += 11
     else:
         val += aces
-        
+
     return val
 
 def blackjack_hand_greater_than(hand_1, hand_2):
     """
     Return True if hand_1 beats hand_2, and False otherwise.
-    
+
     In order for hand_1 to beat hand_2 the following must be true:
     - The total of hand_1 must not exceed 21
     - The total of hand_1 must exceed the total of hand_2 OR hand_2's total must exceed 21
-    
+
     Hands are represented as a list of cards. Each card is represented by a string.
-    
+
     When adding up a hand's total, cards with numbers count for that many points. Face
     cards ('J', 'Q', and 'K') are worth 10 points. 'A' can count for 1 or 11.
-    
-    When determining a hand's total, you should try to count aces in the way that 
+
+    When determining a hand's total, you should try to count aces in the way that
     maximizes the hand's total without going over 21. e.g. the total of ['A', 'A', '9'] is 21,
     the total of ['A', 'A', '9', '3'] is 14.
-    
+
     Examples:
     >>> blackjack_hand_greater_than(['K'], ['3', '4'])
     True
@@ -2311,11 +2316,11 @@ def blackjack_hand_greater_than(hand_1, hand_2):
     >>> blackjack_hand_greater_than(['K', 'K', '2'], ['3'])
     False
     """
-    
+
     # Initializing the score
     h1 = getVal(hand_1)
     h2 = getVal(hand_2)
-    
+
     return h1 <= 21 and (h1 > h2 or h2 > 21)
 
 Checking if all the elements in a list are identical
@@ -2363,23 +2368,23 @@ wallet['RM20'] = 10
 wallet['RM5'] = 7
 
 print(wallet)
->> {'RM50': 3, 'RM20': 10, 'RM5': 7}
+>>> {'RM50': 3, 'RM20': 10, 'RM5': 7}
 
 wallet['RM50'] += 2
 print(wallet['RM50'])
->> 5
+>>> 5
 
 APPENDING NEW KEY
 =====
 wallet['RM1'] = 12
 print(wallet)
->> {'RM50': 3, 'RM20': 10, 'RM5': 7, 'RM1': 12}
+>>> {'RM50': 3, 'RM20': 10, 'RM5': 7, 'RM1': 12}
 
 EDITING THE VALUE OF A KEY
 =====
 wallet['RM50'] = 0
 print(wallet)
->> {'RM50': 0, 'RM20': 10, 'RM5': 7, 'RM1': 12}
+>>> {'RM50': 0, 'RM20': 10, 'RM5': 7, 'RM1': 12}
 
 ADDING KEY AND UPDATING FEW KEYS AND THEIR RESPECIVE VALUE AT THE SAMETIME
 =====
@@ -2406,7 +2411,7 @@ DELETING KEY WITH ITS VALUE
 # https://www.geeksforgeeks.org/python-ways-to-remove-a-key-from-dictionary/
 del wallet['RM50']
 print(wallet)
->> {'RM20': 10, 'RM5': 7, 'RM1': 12}
+>>> {'RM20': 10, 'RM5': 7, 'RM1': 12}
 
 # NOTE: Another way to delete
 student1 = {'name':'John', 'age':19, 'courses':['CS', 'ALGO']}
@@ -2420,9 +2425,9 @@ FINDING KEYS THAT DONT EXIST
 =====
 hashmap = dict()
 print(hashmap['Ali'])
->> TRACEBACK, KeyError: 'Ali'
+>>> TRACEBACK, KeyError: 'Ali'
 'Ali' in hashmap
->> True
+>>> True
 
 ADDING LIST OF KEYS INTO DICTIONARIES
 =====
@@ -2435,7 +2440,7 @@ for name in names:
 		hashmap[name] += 1
 
 print(hashmap)
->> {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
+>>> {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
 # Simplified version below
 
 LENGTH OF THE KEYS IN A DICT
@@ -2492,7 +2497,7 @@ Ah Kau
 
 # Displaying the keys in a list
 print([n for n in hashmap.keys()])
->> ['Ali', 'Abu', 'Sarah', 'Ah Kau']
+>>> ['Ali', 'Abu', 'Sarah', 'Ah Kau']
 
 # DISPLAYING VALUES
 for v in hashmap.values():
@@ -2506,7 +2511,7 @@ for v in hashmap.values():
 
 # Displaying the values in a list
 print([c for c in hashmap.values()])
->> [3, 1, 1, 1]
+>>> [3, 1, 1, 1]
 
 TYPE FOR KEYS IN DICTIONARIES
 =====
@@ -2517,7 +2522,7 @@ for shirt in wardrobe:
 		print("{} {}".format(col, shirt))
 
 wardrobe["shirt"][1] = "pink"
->> {'shirt': ['red', 'pink', 'white'], 'jeans': ['blue', 'black']}
+>>> {'shirt': ['red', 'pink', 'white'], 'jeans': ['blue', 'black']}
 
 GET METHOD
 =====
@@ -2527,7 +2532,7 @@ x = names.get(name, 0)
 x = names.get(name, 5)
 # put the value into x, but if there is no key, default value for x is 5
 x = names.get(name)
->> None
+>>> None
 # put the value into x, but if there is no key, default value for x is None
 
 # With this, there is no traceback KeyError
@@ -2609,20 +2614,20 @@ RETRIEVING KEYS & VALUES
 =====
 hashmap = {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
 print(list(hashmap))
->> ['Ali', 'Abu', 'Sarah', 'Ah Kau']
+>>> ['Ali', 'Abu', 'Sarah', 'Ah Kau']
 print(hashmap.keys())
->> dict_keys(['Ali', 'Abu', 'Sarah', 'Ah Kau'])
+>>> dict_keys(['Ali', 'Abu', 'Sarah', 'Ah Kau'])
 print(list(hashmap.keys()))
->> ['Ali', 'Abu', 'Sarah', 'Ah Kau']
+>>> ['Ali', 'Abu', 'Sarah', 'Ah Kau']
 print(hashmap.values())
->> dict_values([3, 1, 1, 1])
+>>> dict_values([3, 1, 1, 1])
 print(list(hashmap.values()))
->> [3, 1, 1, 1]
+>>> [3, 1, 1, 1]
 
 TUPLE
 =====
 print(hashmap.items())
->> dict_items([('Ali', 3), ('Abu', 1), ('Sarah', 1), ('Ah Kau', 1)])
+>>> dict_items([('Ali', 3), ('Abu', 1), ('Sarah', 1), ('Ah Kau', 1)])
 
 TUPLE CONCATENATION
 =====
@@ -2637,10 +2642,10 @@ hashmap = {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
 for k, v in hashmap.items():
 	print(k, v)
 
->> Ali 3
->> Abu 1
->> Sarah 1
->> Ah Kau 1
+>>> Ali 3
+>>> Abu 1
+>>> Sarah 1
+>>> Ah Kau 1
 
 file_counts = {'txt': 5, 'jpeg': 12, 'pdf': 9}
 
@@ -2707,7 +2712,7 @@ americano 48
 cortado 41
 '''
 
-Sort by value and get the first value
+DICTIONARY: Sort by value and get the first value
 =====
 # Finding the cheapest drink
 cheapest_drink = sorted(orders.items(), key=lambda x: x[1])[0][0]
@@ -2739,18 +2744,18 @@ A = ()
 
 x = ('Ali', 'Sarah', 'Abu')
 x[1]
->> 'Sarah'
+>>> 'Sarah'
 
-# Tuples not allow assignment, cannot be appended   
+# Tuples not allow assignment, cannot be appended
 x[1] = 'Muthu'
->> ERROR: TypeError: 'tuple' object does not support item assignment
+>>> ERROR: TypeError: 'tuple' object does not support item assignment
 
 num = (55,2,45,122,98)
 print(num)
->> (55,2,45,122,98)
+>>> (55,2,45,122,98)
 
 print(max(num))
->> 122
+>>> 122
 
 GETTING RATIO
 =====
@@ -2778,11 +2783,11 @@ def convert(seconds):
 
 result = convert(5000)
 type(result)
->> <class 'tuple'>
+>>> <class 'tuple'>
 
 hrs, mins, secs = result
 print(hrs, mins, secs)
->> 1 23 20
+>>> 1 23 20
 
 FOR LOOP
 =====
@@ -2790,7 +2795,7 @@ for n in num:
 	print(n)
 
 num[1] = 12
->> Traceback error
+>>> Traceback error
 
 # Not mutable thats why this allows the data to be stored more densely than lists
 
@@ -2798,25 +2803,25 @@ num[1] = 12
 x.sort()
 x.append(1)
 x.reverse()
->> TRACEBACK: error
+>>> TRACEBACK: error
 
 x = tuple()
 dir(x)
->> ['count', 'index']
+>>> ['count', 'index']
 
 ASSIGNMENT
 =====
 (x, y) = (4, 'Fred')
 
 print(y)
->> Fred
+>>> Fred
 
 (a, b) = (213, 345)
 print(a)
->> 213
+>>> 213
 
 (a, b) = (8)
->> TRACEBACK: error
+>>> TRACEBACK: error
 
 ITEMS()
 =====
@@ -2827,50 +2832,50 @@ d['RM10'] = 10
 for (k, v) in d.items():
 	print(k, v)
 
->> RM50 3
->> RM10 10
+>>> RM50 3
+>>> RM10 10
 
 tups = d.items()
 print(tups)
->> dict_items([('RM50', 3), ('RM10', 10)])
+>>> dict_items([('RM50', 3), ('RM10', 10)])
 
 COMPARABLE
 =====
 (0,1,2) < (5,1,2)
->> True
+>>> True
 # Check first one first, 0 < 5? yes then return True and dont see behind anymore
 
 ('John', 'Sally') > ('Ali', 'Sam')
->> True
+>>> True
 
 SORTING LIST OF TUPLES
 =====
 hashmap = {'Ali': 3, 'Abu': 1, 'Sarah': 1, 'Ah Kau': 1}
 hashmap.items()
->> dict_items([('Ali', 3), ('Abu', 1), ('Sarah', 1), ('Ah Kau', 1)])
+>>> dict_items([('Ali', 3), ('Abu', 1), ('Sarah', 1), ('Ah Kau', 1)])
 
 sorted(hashmap.items())
->> [('Abu', 1), ('Ah Kau', 1), ('Ali', 3), ('Sarah', 1)]
+>>> [('Abu', 1), ('Ah Kau', 1), ('Ali', 3), ('Sarah', 1)]
 
 SORTED BY KEYS
 =====
 hashmap = {'C': 3, 'B': 123, 'A': -5}
 sorted(hashmap.items())
->> [('A', -5), ('B', 123), ('C', 3)]
+>>> [('A', -5), ('B', 123), ('C', 3)]
 
 for k, v in hashmap.items():
 	print(k, v)
 
->> C 3
->> B 123
->> A -5
+>>> C 3
+>>> B 123
+>>> A -5
 
 for k, v in sorted(hashmap.items()):
 	print(k, v)
 
->> A -5
->> B 123
->> C 3
+>>> A -5
+>>> B 123
+>>> C 3
 
 SORTED BY KEYS LENGTH
 =====
@@ -2886,13 +2891,13 @@ for k, v in hashmap.items():
 	tmp.append( (v, k) )
 
 print(tmp)
->> [(3, 'C'), (123, 'B'), (-5, 'A')]
+>>> [(3, 'C'), (123, 'B'), (-5, 'A')]
 
 tmp = sorted(tmp)
->> [(-5, 'A'), (3, 'C'), (123, 'B')]
+>>> [(-5, 'A'), (3, 'C'), (123, 'B')]
 
 tmp = sorted(tmp, reverse=True)
->> [(123, 'B'), (3, 'C'), (-5, 'A')]
+>>> [(123, 'B'), (3, 'C'), (-5, 'A')]
 
 GET THE TOP 10 WORD FREQUENCY
 =====
@@ -2917,14 +2922,14 @@ for v, k in lst[:10]:
 
 # SHORTER VERSION
 print(sorted( [ (v, k) for k, v in c.items() ] ) )
->> [(-5, 'A'), (3, 'C'), (123, 'B')]
+>>> [(-5, 'A'), (3, 'C'), (123, 'B')]
 
 # READUP LIST COMPREHENSION = CREATES A DYNAMIC LIST
 
 lst = ( [ (v, k) for k, v in hashmap.items() ] )
->> [(3, 'C'), (123, 'B'), (-5, 'A')]
+>>> [(3, 'C'), (123, 'B'), (-5, 'A')]
 lst.sort()
->> [(-5, 'A'), (3, 'C'), (123, 'B')]
+>>> [(-5, 'A'), (3, 'C'), (123, 'B')]
 
 ENUMERATE WITH TUPLE
 =====
@@ -3020,7 +3025,7 @@ print(grocery)
 UNZIP
 =====
 # Unzipping the values into two tuples
-# Refencence : https://careerkarma.com/blog/python-zip/ 
+# Refencence : https://careerkarma.com/blog/python-zip/
 employees_zipped = [('Candice', 2), ('Ava', 9), ('Andrew', 18), ('Lucas', 28)]
 employee_names, employee_numbers = zip(*employees_zipped)
 
@@ -3041,16 +3046,16 @@ A = {} # WRONG, this is a dictionary
 
 setA = {123, 23, 65}
 setB = {23, 2, 65}
-print(setA.intersection(setB)) # {23, 65} 
+print(setA.intersection(setB)) # {23, 65}
 
 set('abc').intersection('cbs').
->> {'b', 'c'}
+>>> {'b', 'c'}
 
 # No duplicated element will be stored
 A = {1,2,3,4,1}
 print(A) # {1,2,3,4}
 
-# using set() to remove duplicated from list 
+# using set() to remove duplicated from list
 test_list = list(set(test_list))
 
 Instances of Set and ImmutableSet both provide the following operations:
@@ -3084,15 +3089,15 @@ s.intersection(t)
 s & t
 setA = {123, 23, 65}
 setB = {23, 2, 65}
-print(setA.intersection(setB)) # {23, 65} 
+print(setA.intersection(setB)) # {23, 65}
 
 # new set with elements in s but not in t
 s.difference(t)
 s - t
 setA = {123, 23, 65, 10}
 setB = {23, 2, 65, 3}
-print(setA.difference(setB)) # {10, 123} 
-print(setB.difference(setA)) # {2, 3} 
+print(setA.difference(setB)) # {10, 123}
+print(setB.difference(setA)) # {2, 3}
 
 # new set with elements in either s or t but not both == [a.intersection(b)]'
 s.symmetric_difference(t)
@@ -3159,16 +3164,16 @@ print(lst[0].intersection(*lst))
 Object-Oriented Programming (OOP)
 =====
 type("x")
-# >> <class 'str'>
+# >>> <class 'str'>
 
 dir(int)
-# >> displays list of methods for int
+# >>> displays list of methods for int
 
 help(int)
-# >> displays list of documentation for int
+# >>> displays list of documentation for int
 
 print(help(str.lower))
-# >> displays list of documentation for str.lower() method
+# >>> displays list of documentation for str.lower() method
 
 # q to quit or quit to leave help session
 
@@ -3181,13 +3186,13 @@ class Apple():
 	flavor = None
 
 # Creating an object, () is a must, it is like Java
-RedApple = Apple() 
+RedApple = Apple()
 
 RedApple.color = "Red"
 RedApple.flavor = "Sweet & Sour"
 
 print('This apple is {} and it is {}.'.format(RedApple.color, RedApple.flavor))
-# >> This apple is Red and it is Sweet & Sour.
+# >>> This apple is Red and it is Sweet & Sour.
 
 # Another class
 class Flower:
@@ -3203,7 +3208,7 @@ this_pun_is_for_you = "VERY CRINGY PUN INDEED"
 
 print("Roses are {},".format(rose.color))
 print("violets are {},".format(violet.color))
-print(this_pun_is_for_you) 
+print(this_pun_is_for_you)
 
 PASS
 =====
@@ -3223,11 +3228,11 @@ class Dog:
 
 newDog = Dog()
 newDog.sound()
->> Woof! I am Bolt!
+>>> Woof! I am Bolt!
 
 newDog.name = 'Wing'
 newDog.sound()
->> Woof! I am Wing!
+>>> Woof! I am Wing!
 
 RETRIEVING PROCESSED DATA FROM A CLASS FUNCTION
 class piglet:
@@ -3239,7 +3244,7 @@ class piglet:
 hamlet = piglet()
 hamlet.year = 2
 print(hamlet.pig_years())
->> 36
+>>> 36
 
 __INIT__
 =====
@@ -3255,7 +3260,7 @@ class Apple:
 
 jonagold = Apple('Jonagold', 'red', 'sweet')
 jonagold.display()
->> Jonagold apple is red and it is sweet
+>>> Jonagold apple is red and it is sweet
 
 __STR__
 =====
@@ -3271,7 +3276,7 @@ class Apple:
 
 jonagold = Apple('Jonagold', 'red', 'sweet')
 print(jonagold)
->> Jonagold apple is red and it is sweet
+>>> Jonagold apple is red and it is sweet
 
 PROPERTY DECORATORS - GETTERS, SETTERS AND DELETERS
 =====
@@ -3332,7 +3337,7 @@ class Apple:
 
 DOCSTRING
 =====
-# To solve the above problem, double quote(""") or single quote(''') also work 
+# To solve the above problem, double quote(""") or single quote(''') also work
 
 def toSecond(h, m, s):
 	"""Returns the amt of seconds from h, m, s"""
@@ -3395,28 +3400,28 @@ class Animal:
 
 	def speak(self):
 		print("{sound}! I am {name}! {sound}!".format(name = self.name, sound = self.sound))
-		
+
 class Dog(Animal):
 	sound = 'Woof'
 
 bolt = Dog('Bolt')
 bolt.speak()
->> Woof! I am Bolt! Woof!
+>>> Woof! I am Bolt! Woof!
 
 ISINSTANCE
 =====
 # To check if an object is instance of a class
 print(isinstance(bolt, Animal))
->> True
+>>> True
 
 print(isinstance(bolt, Dog))
->> True
+>>> True
 
 class Cat(Animal):
 	pass
 
 print(isinstance(bolt, Cat))
->> False
+>>> False
 
 #########################################################################################
 MODULES
@@ -3432,11 +3437,11 @@ RANDOM
 import random
 
 random.randint(1, 10)
->> 5
+>>> 5
 random.randint(1, 10)
->> 2
+>>> 2
 random.randint(1, 10)
->> 7
+>>> 7
 
 #############################################
 DATETIME
@@ -3445,17 +3450,17 @@ import datetime
 
 now = datetime.datetime.now()
 type(now)
->> <class 'datetime.datetime'>
+>>> <class 'datetime.datetime'>
 # Why double datetime because the module datetime provides a datetime class
 
 print(now) # This is accessing the __str__ method
->> 2020-07-19 17:41:12.923716
+>>> 2020-07-19 17:41:12.923716
 
 >>> now
 # datetime.datetime(2020, 7, 19, 17, 41, 12, 923716)
 
 now.year
->> 2020
+>>> 2020
 
 INSERT YOUR OWN TIME
 =====
@@ -3548,6 +3553,10 @@ LISTING ALL THE AVAILABLE TIMEZONES
 import pytz
 print(pytz.all_timezones)
 
+GET THE UTC TIME NOW
+=====
+datetime.datetime.utcnow()
+
 CONVERTING LOCAL DATETIME TO UTC
 =====
 # https://thispointer.com/convert-local-datetime-to-utc-timezone-in-python/
@@ -3632,7 +3641,7 @@ TIMEDELTA
 =====
 # days can be replaced by hours, minutes and seconds
 print(now + datetime.timedelta(days = 5))
->> 2020-07-24 17:41:12.923716
+>>> 2020-07-24 17:41:12.923716
 
 CONVERTING HOURS IN FLOAT TO HOURS, MINS AND SECS
 =====
@@ -3643,7 +3652,7 @@ minutes = (time*60) % 60
 seconds = (time*3600) % 60
 
 print("%d:%02d:%02d" % (hours, minutes, seconds))
->> 72:20:42
+>>> 72:20:42
 
 ADVANCE TIMEDELTA
 =====
@@ -3839,7 +3848,7 @@ subprocess.call(sys.executable + ' "' + os.path.realpath(__file__) + '"') # Not 
 COPYING STRING TO THE CLIPBOARD
 =====
 # Ref: https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard
-import subprocess 
+import subprocess
 data = "hello world"
 subprocess.run("clip", universal_newlines=True, input=data)
 
@@ -3907,7 +3916,7 @@ for line in handler:
 		print(line)
 
 # Compared to find()
-# find('Abc') return the index of the 'A' in 'Abc' 
+# find('Abc') return the index of the 'A' in 'Abc'
 handler = open('test.txt')
 
 for line in handler:
@@ -3926,7 +3935,7 @@ re.search() vs str.startswith()
 h = open('test.txt')
 
 for ln in h:
-	ln = ln.rstrip() 
+	ln = ln.rstrip()
 	# '^F' here means starts with the char 'F'
 	if re.search('^From:', ln):
 		print(line)
@@ -3974,19 +3983,19 @@ Extracting Data
 x = 'My 2 favourite numbers are 19 and 42'
 y = re.findall('[0-9]+', x)
 print(y)
->> ['2', '19', '42']
+>>> ['2', '19', '42']
 # Notice that the list is array of strings
 
 # If nothing is found, an empty list is returned
 z = re.findall('[AEIOU]+', x)
 print(z)
->> []
+>>> []
 
 # Example 2
 x = 'I AM tHE beST haha HAHA haZ19Zz' # Never been tbh, or not yet :))
 y = re.findall('[A-Z]+', x)
 print(y)
->> ['I', 'AM', 'HE', 'ST', 'HAHA', 'Z', 'Z']
+>>> ['I', 'AM', 'HE', 'ST', 'HAHA', 'Z', 'Z']
 
 Greeding matching
 =====
@@ -3998,7 +4007,7 @@ Greeding matching
 x = 'From: Using the : character'
 y = re.findall('^F.+:', x)
 print(y)
->> ['From: Using the :']
+>>> ['From: Using the :']
 # Instead of ['From:'], it returns the biggest possible value
 # Both the asterisk '*' and the plus '+' push outwards as far as push as wide as they can.
 
@@ -4013,7 +4022,7 @@ Non-Greedy Matching
 x = 'From: Using the : character'
 y = re.findall('^F.+?:', x)
 print(y)
->> ['From:']
+>>> ['From:']
 
 Fine-Tuning String Extration
 =====
@@ -4021,25 +4030,25 @@ Fine-Tuning String Extration
 x = 'From github@gmail.com Sat Jan 5 09:12:22 2020'
 y = re.findall('\\S+@\\S+', x)
 print(y)
->> ['github@gmail.com']
+>>> ['github@gmail.com']
 # Above is greedy matching to left and to the right
 
 # If use non-greedy matching '?'
 y = re.findall('\\S+@\\S+?', x)
->> ['github@g']
+>>> ['github@g']
 
 y = re.findall('\\S@\\S+?', x)
->> ['b@g']
+>>> ['b@g']
 
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@gmail.com'
 y = re.findall('\\S+@\\S+', x)
->> ['john@gmail.com', 'github@gmail.com']
+>>> ['john@gmail.com', 'github@gmail.com']
 
 y = re.findall('\S?@\S+', x)
->> ['n@gmail.com', 'b@gmail.com']
+>>> ['n@gmail.com', 'b@gmail.com']
 
 y = re.findall('\S+?@\S+?', x)
->> ['john@g', 'github@g']
+>>> ['john@g', 'github@g']
 
 Parenthesis '()'
 =====
@@ -4051,17 +4060,17 @@ Parenthesis '()'
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020'
 y = re.findall('^From (\\S+@\\S+)', x)
 # If the line starts with 'From', extract the data from \S+@\S+
->> ['john@gmail.com']
+>>> ['john@gmail.com']
 
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@gmail.com'
 y = re.findall('^From (\\S+@\\S+)', x)
->> ['john@gmail.com']
+>>> ['john@gmail.com']
 # Notice that github@gmail.com is not included in the list y
 
 # What happens without parenthesis
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@gmail.com'
 y = re.findall('^From \\S+@\\S+', x)
->> ['From john@gmail.com']
+>>> ['From john@gmail.com']
 
 Extracting domain name
 =====
@@ -4070,14 +4079,14 @@ x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@gmail.com'
 atpos = x.find('@')
 sppos = x.find(' ', atpos) # Find the index of the first ' ' after atpos
 domain = x[atpos+1:sppos]
->> 'gmail.com'
+>>> 'gmail.com'
 
 # Using dual split
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@gmail.com'
 email = x.split()[1]
 domain = email.split('@')[1]
 print(domain)
->> 'gmail.com'
+>>> 'gmail.com'
 
 # Using re.findall()
 y = re.findall('^From \\S+@(\\S+)', x)
@@ -4090,42 +4099,42 @@ y = re.findall('^From \\S+@(\\S+)', x)
 
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020'
 y = re.findall('@([^ ]*)', x)
->> ['gmail.com']
+>>> ['gmail.com']
 
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@yahoo.com'
 y = re.findall('@([^ ]*)', x)
->> ['gmail.com', 'yahoo.com']
+>>> ['gmail.com', 'yahoo.com']
 
 # To get the first mail domain only
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@yahoo.com'
 y = re.findall('@([^ ]*)', x)[0]
->> 'gmail.com'
+>>> 'gmail.com'
 
 # Fine-tune this by using startign with 'From'
 # So is the line does not have 'From' on the starting hand, it will skip it
 x = 'From john@gmail.com Sat Jan 5 09:12:22 2020 to github@yahoo.com'
 y = re.findall('^From .*@([^ ]*)', x)
->> ['yahoo.com']
+>>> ['yahoo.com']
 # Get the second domain name
 
 # To get the first domain name, we need to use non-greedy matching = '?'
 y = re.findall('^From .*?@([^ ]*)', x)
->> ['gmail.com']
+>>> ['gmail.com']
 
 Extracting a floating value
 =====
 x = 'X-DSPAM-Confidence: 0.8765'
 y = re.findall('^X-DSPAM-Confidence: ([0-9.]+)', x)
->> 0.8765
+>>> 0.8765
 
 x = 'X-DSPAM-Confidence: 0.8765x5'
 y = re.findall('^X-DSPAM-Confidence: ([0-9.]+)', x)
->> 0.8765
+>>> 0.8765
 # Notice that 'x5' is not included
 
 x = 'X-DSPAM-Confidence: 0.8765'
 y = re.findall('^X-DSPAM-Confidence: ([0-9]+)', x)
->> 0
+>>> 0
 # Notice that '.8765' is not included
 
 x = 'X-DSPAM-Confidence: 10.123'
@@ -4135,13 +4144,13 @@ x = 'X-DSPAM-Confidence: 10.123'
 Escape Character
 =====
 # '\'
-# For eg '\$[0-9.]+' means check if there is a $ sign 
-# As '$' is part of regex as well 
+# For eg '\$[0-9.]+' means check if there is a $ sign
+# As '$' is part of regex as well
 # '$' = Matches the end of the line
 x = 'We bought the gift for $10.00'
 y = re.findall('\$[0-9.]+', x)
 # same as y = re.findall('\\$[0-9.]+', x)
->> ['$10.00']
+>>> ['$10.00']
 
 #########################################################################################
 SOCKETS
@@ -4214,7 +4223,7 @@ Check status
 1. F12
 2. Network
 3. Header
-4. Status Code: 200 
+4. Status Code: 200
 # 200 = Ok
 # 404 = Error
 # 302 = Redirect to another page
@@ -4232,13 +4241,13 @@ Unicode Characters and Strings
 
 # Note that the upper case character has lower ordinal compared to the lower case
 print(ord('H'))
->> 72
+>>> 72
 print(ord('h'))
->> 104
+>>> 104
 
 # '\n' is a new line and '\n' is a single character
 print(ord('\n'))
->> 10
+>>> 10
 
 UTF-8
 =====
@@ -4251,20 +4260,20 @@ Python2 vs Python3
 # Python2
 x = '여보세요'
 type(x)
->> <type 'str'>
+>>> <type 'str'>
 
 x = u'여보세요'
 type(x)
->> <type 'unicode'>
+>>> <type 'unicode'>
 
 # Python3
 x = '여보세요'
 type(x)
->> <type 'str'>
+>>> <type 'str'>
 
 x = u'여보세요'
 type(x)
->> <type 'str'>
+>>> <type 'str'>
 
 Byte Strings
 =====
@@ -4274,16 +4283,16 @@ Byte Strings
 # Python2
 x = b'abc'
 type(x)
->> <type 'str'>
+>>> <type 'str'>
 
 # Python3
 x = b'abc'
 type(x)
->> <type 'bytes'>
+>>> <type 'bytes'>
 
 decode()
 =====
-# By default, Python decodes them to UTF-8 or ASCII 
+# By default, Python decodes them to UTF-8 or ASCII
 
 while True:
 	# Getting 512 characters
@@ -4298,10 +4307,10 @@ while True:
 mysock.close()
 
 type(data)
->> <type 'bytes'>
+>>> <type 'bytes'>
 
 type(mystring)
->> <type 'unicode'>
+>>> <type 'unicode'>
 
 encode()
 =====
@@ -4348,7 +4357,7 @@ PARSING WEB PAGES
 
 # Install Beautiful Soup
 1. Open CMD
-2. Type... 
+2. Type...
 
 # For Python 2
 pip install beautifulsoup4
@@ -4608,11 +4617,11 @@ tree = ET.fromstring(data)
 # Above line could traceback if your XML is bad
 
 print('Name:', tree.find('name').text)
->> Chuck
+>>> Chuck
 
 print('Attr:', tree.find('email').get('hide'))
 # Get the value of the attribute
->> yes
+>>> yes
 
 findall()
 =====
@@ -4670,7 +4679,7 @@ print('Hide:', info["email"]["hide"])
 Saving the dictionary as JSON
 =====
 import json
-   
+
 # Data to be written
 dictionary ={
     "name" : "sathiyajith",
@@ -4678,7 +4687,7 @@ dictionary ={
     "cgpa" : 8.6,
     "phonenumber" : "9976770500"
 }
-   
+
 with open("sample.json", "w") as outfile:
     json.dump(dictionary, outfile)
 
@@ -4921,7 +4930,7 @@ def findIndex(sequence, target):
     for index, element in enumerate(sequence):
         if element == target:
             return index
-    # Return -1 when not found the specified element            
+    # Return -1 when not found the specified element
     return -1
 
 Importing Modules
@@ -4967,7 +4976,7 @@ ARGPARSE
 =====
 # https://linuxhint.com/add_command_line_arguments_to_a_python_script/
 
-# To parse optional argument 
+# To parse optional argument
 import argparse
 parser = argparse.ArgumentParser(description="A test program.")
 parser.add_argument("-p", "--print_int", help="Prints the supplied argument.", type=int, default=123)
@@ -5038,13 +5047,13 @@ import numpy as np
 
 rolls = np.random.randint(low=1, high=6, size=10)
 print(rolls)
->> array([1, 5, 3, 4, 2, 2, 1, 1, 1, 4])
+>>> array([1, 5, 3, 4, 2, 2, 1, 1, 1, 4])
 
 rolls.mean()
->> 2.4
+>>> 2.4
 
 type(rolls)
->> 'numpy.ndarray'
+>>> 'numpy.ndarray'
 
 ls = rolls.tolist()
 print(ls) # [1, 5, 3, 4, 2, 2, 1, 1, 1, 4]
@@ -5086,9 +5095,9 @@ xlist[-1][-1]
 
 NUMPY: WHERE AND ARGWHERE TO MATCH SOMETHING IN THE NP.ARRAY
 =====
-pred = np.array([[0,0,0,0,0,0,0,0], 
-                [0,0,0,1,0,0,0,0], 
-                [0,0,0,1,0,0,0,0], 
+pred = np.array([[0,0,0,0,0,0,0,0],
+                [0,0,0,1,0,0,0,0],
+                [0,0,0,1,0,0,0,0],
                 [0,1,0,1,0,0,0,0]])
 
 # Using np.where
@@ -5153,37 +5162,37 @@ def prettify_graph(graph):
     as dollar amounts using the "$" symbol.)
     """
     graph.set_title("Results of 500 slot machine pulls")
-    
+
     # Complete steps 2 and 3 here
     graph.set_ylim(0)
     graph.set_ylabel('Balance')
     graph.set_xlabel('Number of pulls')
-    
+
     # Formatting
     graph.yaxis.set_major_formatter(mp.ticker.FuncFormatter('${}'.format))
-    
+
     """
     def prettify_graph(graph):
         graph.set_title("Results of 500 slot machine pulls")
-        
+
         # Make the y-axis begin at 0
         graph.set_ylim(bottom=0)
-        
+
         # Label the y-axis
         graph.set_ylabel("Balance")
-        
+
         # Bonus: format the numbers on the y-axis as dollar amounts
         # An array of the values displayed on the y-axis (150, 175, 200, etc.)
         ticks = graph.get_yticks()
-        
+
         # Format those values into strings beginning with dollar sign
         new_labels = ['${}'.format(int(amt)) for amt in ticks]
-        
+
         # Set the new labels
         graph.set_yticklabels(new_labels)
     """
-    
-    
+
+
 graph = jimmy_slots.get_graph()
 prettify_graph(graph)
 graph
@@ -5340,10 +5349,10 @@ import requests
 
 try:
     response = requests.get('http://api.open-notify.org/astros.json', timeout=5)
-    
+
     # Getting the session token
     requests.get(
-        'https://api.github.com/user', 
+        'https://api.github.com/user',
         auth=requests.HTTPBasicAuth('username', 'password')
         )
 
@@ -5356,7 +5365,7 @@ try:
 
     # Update an existing resource
     requests.put('https://httpbin.org/put', data = {'key':'value'})
-    
+
     # Raise for any issue
     response.raise_for_status()
 
@@ -5407,3 +5416,27 @@ content = BeautifulSoup(html_request.text, 'lxml')
 first_paragraph = content.select_one("p")
 
 print(first_paragraph.text)
+
+WEBSERVER
+=====
+# https://stackoverflow.com/questions/19570591/how-do-i-kill-simplehttpserver-from-within-a-python-script
+# Killing your own webserver
+import subprocess
+import requests
+import os
+import signal
+from time import sleep
+
+print("Starting server...")
+cmd = "python -m SimpleHTTPServer"
+proc = subprocess.Popen(cmd, shell=True, preexec_fn=os.setsid)
+
+# Make sure server has a chance to start before making request.
+sleep(1)
+
+url = 'http://localhost:8000/index.html'
+print "Testing request: ", url
+r = requests.get(url)
+print "Status code: ", r.status_code
+
+os.killpg(proc.pid, signal.SIGTERM)
