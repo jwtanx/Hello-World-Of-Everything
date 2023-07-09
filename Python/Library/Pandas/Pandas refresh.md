@@ -135,7 +135,7 @@ df = pd.concat([df1, df2, df3])
 ```py
 # Declare a list that is to be converted into a column
 address = ['Delhi', 'Bangalore', 'Chennai', 'Patna']
-  
+
 # Using 'Address' as the column name
 # and equating it to the list
 df['Address'] = address
@@ -148,18 +148,18 @@ df['Address'] = address
 df = pd.DataFrame({'B': [1, 2, 3], 'C': [4, 5, 6]})
 
 df
-Out: 
+Out:
    B  C
 0  1  4
 1  2  5
 2  3  6
 
 idx = 0
-new_col = [7, 8, 9]  # can be a list, a Series, an array or a scalar   
+new_col = [7, 8, 9]  # can be a list, a Series, an array or a scalar
 df.insert(loc=idx, column='A', value=new_col)
 
 df
-Out: 
+Out:
    A  B  C
 0  7  1  4
 1  8  2  5
@@ -261,9 +261,9 @@ df.loc[0:1, 'Name':'Address']
 
 # Remember that Python does not slice inclusive of the ending index.
 # select all rows select first two column
-df.iloc[:, 0:2] 
+df.iloc[:, 0:2]
 
-# select all rows and 0 to 2 columns 
+# select all rows and 0 to 2 columns
 print(df.ix[:, 0:2])
 ```
 
@@ -372,20 +372,20 @@ df.drop(df.columns[0], inplace=True, axis=1)
 [Reference](https://www.geeksforgeeks.org/how-to-drop-one-or-multiple-columns-in-pandas-dataframe/)
 ```py
 data = {
-    'A':['A1', 'A2', 'A3', 'A4', 'A5'], 
-    'B':['B1', 'B2', 'B3', 'B4', 'B5'], 
-    'C':['C1', 'C2', 'C3', 'C4', 'C5'], 
-    'D':['D1', 'D2', 'D3', 'D4', 'D5'], 
+    'A':['A1', 'A2', 'A3', 'A4', 'A5'],
+    'B':['B1', 'B2', 'B3', 'B4', 'B5'],
+    'C':['C1', 'C2', 'C3', 'C4', 'C5'],
+    'D':['D1', 'D2', 'D3', 'D4', 'D5'],
     'E':['E1', 'E2', 'E3', 'E4', 'E5'] }
 
 # Convert the dictionary into DataFrame
 df = pd.DataFrame(data)
-  
+
 # Remove two columns name is 'C' and 'D'
 df = df.drop(['C', 'D'], axis = 1)
 df = df.drop(columns=['C', 'D'])
 df = df.drop(df.columns[[0, 1, 3]], axis=1) # index starting from 0
-  
+
 # df.drop(columns =['C', 'D'])
 '''
     A   B   E
@@ -416,15 +416,15 @@ df.an_operation(inplace=True)
 
 ```py
 data = {
-    'A':['A1', 'A2', 'A3', 'A4', 'A5'], 
-    'B':['B1', 'B2', 'B3', 'B4', 'B5'], 
-    'C':['C1', 'C2', 'C3', 'C4', 'C5'], 
-    'D':['D1', 'D2', 'D3', 'D4', 'D5'], 
+    'A':['A1', 'A2', 'A3', 'A4', 'A5'],
+    'B':['B1', 'B2', 'B3', 'B4', 'B5'],
+    'C':['C1', 'C2', 'C3', 'C4', 'C5'],
+    'D':['D1', 'D2', 'D3', 'D4', 'D5'],
     'E':['E1', 'E2', 'E3', 'E4', 'E5'] }
 
-# Convert the dictionary into DataFrame 
+# Convert the dictionary into DataFrame
 df = pd.DataFrame(data)
-  
+
 # Remove two columns name is 'C' and 'D'
 df.drop(['C', 'D'], axis=1)
 df
@@ -479,15 +479,15 @@ import pandas as pd
 # First DataFrame
 df1 = pd.DataFrame({'id': ['A01', 'A02', 'A03', 'A04'],
                     'Name': ['ABC', 'PQR', 'DEF', 'GHI']})
-  
+
 # Second DataFrame
 df2 = pd.DataFrame({'id': ['B05', 'B06', 'B07', 'B08'],
                     'Name': ['XYZ', 'TUV', 'MNO', 'JKL']})
-  
+
 df3 = pd.DataFrame({'City': ['MUMBAI', 'PUNE', 'MUMBAI', 'DELHI'],
                     'Age': ['12', '13', '14', '12']})
-  
-  
+
+
 # appending multiple DataFrame
 result = df1.append([df2, df3])
 display(result)
@@ -515,6 +515,35 @@ tol = y.value_counts()
 # y1 / tol ~= y2 / tol according to their classes
 
 ```
+
+## Value counting the specified list of element's occurrence
+```py
+import pandas as pd
+
+# Sample DataFrame
+data = {'Numbers': [1, 2, 3, 4, 5, 2, 3, 4, 1, 2, 3]}
+df = pd.DataFrame(data)
+
+# List of numbers to count
+numbers_to_count = [0, 1, 2, 3]
+
+# Filter the DataFrame for the specified numbers
+filtered_df = df[df['Numbers'].isin(numbers_to_count)]
+
+# Count the occurrences of the numbers in the filtered DataFrame
+counts = filtered_df['Numbers'].value_counts().reindex(numbers_to_count,
+                                                       fill_value=0)
+
+# Display the counts
+print(counts)
+"""
+0    0
+1    2
+2    3
+3    3
+"""
+```
+
 
 ## Saving dataframe to CSV
 [Reference](https://towardsdatascience.com/how-to-export-pandas-dataframe-to-csv-2038e43d9c03?gi=9c65376fa79d)
@@ -670,15 +699,15 @@ df.loc[:,'industry'] = 'yyy'
 ## Different conversion of df to JSON
 [Reference #1](https://stackoverflow.com/questions/28590663/pandas-dataframe-to-json-without-index)
 ```py
-# Method 1: Getting the list of dictionaries for each row: 
+# Method 1: Getting the list of dictionaries for each row:
 # Best converting to dictionary and returning them as a list
-dic = df.to_dict(orient='records') 
+dic = df.to_dict(orient='records')
 # [{'A': 46, 'B': 75, 'C': 94, 'D': 43}, {'A': 32, 'B': 78, 'C': 85, 'D': 61}]
 
 # ============================== #
 
 # Method 2: Getting the list of dictionaries for each row.
-df_dict = df.reset_index().to_dict(orient='index') 
+df_dict = df.reset_index().to_dict(orient='index')
 df_vals = list(df_dict.values())
 # [{'index': 0, 'A': 46, 'B': 75, 'C': 94, 'D': 43}, {'index': 1, 'A': 32, 'B': 78, 'C': 85, 'D': 61}]
 
@@ -700,12 +729,12 @@ json_obj = df.to_json(orient='records') # To remove the index in the dictionary
 ```py
 # dict - the default: column names are keys, values are dictionaries of index:data pairs
 df.to_dict('dict')
-{'a': {0: 'red', 1: 'yellow', 2: 'blue'}, 
+{'a': {0: 'red', 1: 'yellow', 2: 'blue'},
  'b': {0: 0.5, 1: 0.25, 2: 0.125}}
 
 # list - keys are column names, values are lists of column data
 df.to_dict('list')
-{'a': ['red', 'yellow', 'blue'], 
+{'a': ['red', 'yellow', 'blue'],
  'b': [0.5, 0.25, 0.125]}
 
 # series - like 'list', but values are Series
@@ -713,7 +742,7 @@ df.to_dict('series')
 {'a': 0       red
       1    yellow
       2      blue
-      Name: a, dtype: object, 
+      Name: a, dtype: object,
 
  'b': 0    0.500
       1    0.250
@@ -728,8 +757,8 @@ df.to_dict('split')
 
 # records - each row becomes a dictionary where key is column name and value is the data in the cell
 df.to_dict('records')
-[{'a': 'red', 'b': 0.5}, 
- {'a': 'yellow', 'b': 0.25}, 
+[{'a': 'red', 'b': 0.5},
+ {'a': 'yellow', 'b': 0.25},
  {'a': 'blue', 'b': 0.125}]
 
 # index - like 'records', but a dictionary of dictionaries with keys as index labels (rather than a list)
@@ -849,7 +878,7 @@ indexes = df.query("a == 1").index.tolist()
 # Note: You do not need to change the indexes to list to extract the first index
 df.query("a == 1").index[0]
 
-# Method 2: Get the indexes in a numpy array          
+# Method 2: Get the indexes in a numpy array
 df.index.get_indexer(df.query("a == 3").index)
 ```
 
@@ -914,11 +943,11 @@ d       3   1.0           7.0
 ```py
 df0 = pd.DataFrame({'Col':[5,0,-6]})
 
-df0['New Col1'] = np.where((df0['Col'] > 0), 'Increasing', 
+df0['New Col1'] = np.where((df0['Col'] > 0), 'Increasing',
                           np.where((df0['Col'] < 0), 'Decreasing', 'No Change'))
 
 df0['New Col2'] = np.select([df0['Col'] > 0, df0['Col'] < 0],
-                            ['Increasing',  'Decreasing'], 
+                            ['Increasing',  'Decreasing'],
                             default='No Change')
 
 print (df0)
@@ -1068,15 +1097,15 @@ df['Zone'] = np.select([zone1,zone2,zone3,zone4],['Z1','Z2', 'Z3','Z4'])
 ```py
 # dictionary
 record = {'Math': [10, 20, 30, 40, 70],
-          'Science': [40, 50, 60, 90, 50], 
+          'Science': [40, 50, 60, 90, 50],
           'English': [70, 80, 66, 75, 88]}
-  
+
 # give column name
 col_name = "Science"
-  
+
 # find the index no
 index_no = df.columns.get_loc(col_name)
-  
+
 print("Index of {} column in given dataframe is : {}".format(col_name, index_no))
 # Index of Science column in given dataframe is : 1
 ```
@@ -1098,7 +1127,7 @@ simplejson.loads(simplejson.dumps(df_vals, ignore_nan=True))
 
 ## GETTING THE UNIQUE VALUES FROM A COLUMN
 ```py
-df['category'].unique().tolist()    
+df['category'].unique().tolist()
 df.category.unique().tolist()
 ```
 
@@ -1196,7 +1225,7 @@ def reduce_mem_usage(train_data):
                 elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
                     train_data[col] = train_data[col].astype(np.int32)
                 elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
-                    train_data[col] = train_data[col].astype(np.int64)  
+                    train_data[col] = train_data[col].astype(np.int64)
             else:
                 if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
                     train_data[col] = train_data[col].astype(np.float16)
@@ -1227,8 +1256,8 @@ df = df[~df["Comment"].str.contains('|'.join(discard), case=False)] # The ~ mean
 ## MERGING TWO ROWS BASED ON A VALUE IN A COLUMN
 [Reference](https://stackoverflow.com/questions/70248572/how-to-merge-two-rows-with-the-same-value-in-a-given-column)
 ```py
-d = {"Class": ["5S1", "5S1", "U6F", "L6F", "U6F"], 
-    "Number": ["ONE", "TWO", "THREE", "FOUR", "FIVE"], 
+d = {"Class": ["5S1", "5S1", "U6F", "L6F", "U6F"],
+    "Number": ["ONE", "TWO", "THREE", "FOUR", "FIVE"],
     "List": [["val1"], ["val2"], ["val3"], ["val4"], ["val5"]],
     "Category_1": [0, 1, 1, 0, 0],
     "Category_2": [1, 0, 0, 1, 1]}
@@ -1367,3 +1396,8 @@ df.sort_values(by="name", key=lambda x: x.str.len())
 
 Mask: https://stackoverflow.com/questions/19937362/filter-string-data-based-on-its-string-length
 merge: https://www.datasciencemadesimple.com/join-merge-data-frames-pandas-python/
+
+## SETTING THE MAX COLUMNS VIEWING
+```py
+pd.set_option('display.max_columns', None)
+```
