@@ -256,10 +256,14 @@ METRICS = [
 
 ```
 
+# MULTI-CLASS CLASSIFICATION
+
+
 # MULTI-LABEL CLASSIFICATION
 1. Metrics
 a. Confusion Matrics
 [Reference](https://stackoverflow.com/questions/53886370/multi-class-multi-label-confusion-matrix-with-sklearn)
+[Reference](https://www.tensorflow.org/api_docs/python/tf/keras/metrics)
 ```py
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -281,4 +285,29 @@ for label, matrix in conf_mat_dict.items():
     print("Confusion matrix for label {}:".format(label))
     print(matrix)
 ```
+
+2. Threshold
+```py
+preds = model.predict(X)
+
+# Let's say that the preds are in np.array format
+# preds = [0.23234, 0.418237, 0.7273695, 0.56834]
+
+thresh = 0.5
+final_preds = (preds > thresh).astype(int) # [0, 0, 1, 1] This will be 1 because the booleans are converted into 1 (True) / 0 (False)
+
+```
+
+3. Label Smoothing
+```py
+import tensorflow as tf
+
+tf.keras.losses.binary_crossentropy(
+                  y_true, y_pred,
+                  from_logits=False,
+                  label_smoothing=0) # Insert a factor like 0.3 for the label_smoothing parameter
+```
+
+
+Sklearn.classification_report(y_true, y_pred)
 

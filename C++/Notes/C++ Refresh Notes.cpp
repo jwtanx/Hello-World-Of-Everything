@@ -34,7 +34,7 @@ cout << "3" << endl;
 */
 
 #define cout "Printing Variable";
-memer = "Jeff";
+string memer = "Jeff";
 cout << "My name is " << memer << "! POG!" << endl;
 
 /* VARIABLES & DATA TYPES

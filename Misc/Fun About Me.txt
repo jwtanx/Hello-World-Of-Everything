@@ -281,3 +281,18 @@ Yes, I am ||hungry||
 `    sleep(8*60*60)                 `
 `except KenotSleepException as e:   `
 `    count("Timmy sheep", 100)      `
+
+🔥 + 🔍 + 🧈 + 🥚 + 🥓 = 🍳
+💵 > 🤺 + 🔪 + 🥖 = 🍞
+🤏 + 🎄 = 🥬 + 🧅 + 🥕 > 🔪 + 🤺 = 💸
+✈ + 🌎 > 🏖 = 💸
+🌊 + 🌞 = 🧂 > ✈ + 🌎 > 🏠 = 💸
+✅ = 🥪 + 🍴 > 🚽 + 💩 = 🤔 ???
+
+To master a thing, you have to train til I get bald.
+
+`Discord Minesweeper v1.0`
+||:two:|| ||:bomb:|| ||:three:|| ||:bomb:|| ||:one:||
+||:two:|| ||:bomb:|| ||:five:|| ||:four:|| ||:three:||
+||:one:|| ||:two:|| ||:bomb:|| ||:bomb:|| ||:bomb:||
+||:zero:|| ||:one:|| ||:three:|| ||:bomb:|| ||:three:||

@@ -10,3 +10,6 @@ temp
 test.*
 old
 libenv
+*-env
+*.exe
+*Test
