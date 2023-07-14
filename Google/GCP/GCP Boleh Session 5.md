@@ -1,4 +1,4 @@
-Last Updated: 10-07-2023
+Last Updated: 14-07-2023
 
 Link: https://events.withgoogle.com/gcpboleh-2/
 
@@ -24,7 +24,7 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 - [ ] 6 - [Google Cloud Solutions I: Scaling Your Infrastructure](https://www.cloudskillsboost.google/quests/36)
 
 ## Analytics Track:
-## Skill Badges:
+### Skill Badges:
 - [x] [Perform Foundational Data, ML, and AI Tasks in Google Cloud](https://www.cloudskillsboost.google/quests/117)
 - [ ] 6 - [Exploring Data with Looker](https://www.cloudskillsboost.google/quests/165)
 - [x] [Insights from Data with BigQuery](https://www.cloudskillsboost.google/quests/123)
