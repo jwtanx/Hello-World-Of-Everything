@@ -319,7 +319,7 @@ insmod reverseshell_module.ko
 
 Doubt: I don't understand why the author hacked its own host by adding some files into it themselves, maybe I am missing something there.
 
-### Accessing secrets
+### Accessing Docker secrets
 Secrets are usually kept in places such as environment variables or within the source code.
 Anyone with access to the container, can easily read these secrets.
 A user with privileged access on the host, can also access secrets residing inside the container - docker inspect away.
@@ -336,4 +336,158 @@ docker inspect <image-container>
 # Method 3
 docker inspect <image-container> -f "{{json .Config.Env}}"
 
+```
+
+## Automated Assessment
+https://github.com/aquasecurity/trivy is a simple vulnerability scanner for containers.
+
+This tools also fits well in CI/CD pipelines, so it can also be used in DevSecOps pipelines.
+We use trivy to perform a static analysis against Docker Images.
+We are going to use the image tagged as getcapsule8/shellshock:test on docker hub as our target.
+
+### Scanning Docker Image
+```sh
+git clone https://github.com/aquasecurity/trivy
+cd trivy
+docker run --rm -bv `pwd`:/root/.cache aquasec/trivy getcapsule8/shellshock:test
+
+# pwd : print working directory (current directory that you are on)
+# /root/.cache : A directory in the docker container
+# /aquasec/tricy : Image name of the docker scanner
+# getcapsule8/shellshock:test : Target of the image that we are scanning
+
+```
+
+#### Scanned Output
+getcapsule8/shellshock:test (ubuntu 12.10)
+==========================================
+Total: 145 (UNKNOWN: 0, LOW:33, MEDIUM: 106, HIGH: 6, CRITICAL: 0)
+
+| LIBRARY     | VULNERABILITY ID | SEVERITY | INSTALLED VERSION | FIXED VERSION     | TITLE                                                                         |
+| ----------- | ---------------- | -------- | ----------------- | ----------------- | ----------------------------------------------------------------------------- |
+| ...         | ...              | ...      | ...               | ...               | ...                                                                           |
+| libssl1.0.0 | CVE-2014-0160    | HIGH     | 1.0.1c-3ubuntu2   | 1.0.1c-3ubuntu2.7 | openssl: information disclosure in handling of TLS hearbeat extension packets |
+
+### Auditing the environment using Docker Bench Security
+[Docker bencn security](https://github.com/docker/docker-bench-security)
+
+Docker bench security is a script that checks for dozens of common best-practices around deploying Docker containers in production.
+It uses CIS benchmarks.
+
+Terminal 1
+```sh
+docker run -itd --name vulnerable alpine
+
+```
+
+Terminal 2
+```sh
+docker run --rm --net host --pid host --userns host --cap-add audit_control \
+    -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
+    -v /etc:/etc:ro \
+    -v /usr/bin/containerd:/usr/bin/containerd:ro \
+    -v /usr/bin/runc:/usr/bin/runc:ro \
+    -v /usr/lib/systemd:/usr/lib/systemd:ro \
+    -v /var/lib:/var/lib:ro \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    --label docker_bench_security \
+    docker-bench-security
+
+# docker/docker-bench-security:latest will be downloaded
+```
+
+#### Example Output
+```sh
+[NOTE] 5.22 - Ensure docker exec commands are not used with privileged option
+[NOTE] 5.23 - Ensure docker exec commands are not used with user option
+[PASS] 5.24 - Ensure cgroup usage is confirmed
+[WARN] 5.25 - Ensure the container is restricted from acquiring additional privileges
+[WARN]        * Privileges not restricted: vulnerable
+[WARN] 5.26 - Ensure container health is checked at runtime
+[WARN]        * Health check not set: vulnerable
+[INFO] 5.27 - Ensure docker commands always get the latest version of the image
+[WARN] 5.28 - Ensure PIDs cgroup limit is used
+[WARN]      * PIDs limit not set: vulnerable
+[INFO] 5.29 - Ensure Dockers default bridge docker® is not used
+[INFO]      * Container in docker® network: vulnerable
+[PASS] 5.30 - Ensure the hosts user namespaces is not shared
+[PASS] 5.31 - Ensure the Docker socket is not mounted inside any containers
+
+...
+
+[INFO] Checks: 105
+[INFO] Score: 17
+```
+The 5.22, 5.23, ... are the numbering list for the checking
+
+#### Important Warnings
+```sh
+[WARN] 5.10 - Ensure memory usage for container is limited
+[WARN]        * Container running without memory restrcitions: vulnerable
+[WARN] 5.11 - Ensure CPU priority is set appropriately on the container
+[WARN]        * Container runnong without CPU restrictions: vulnerable
+...
+[WARN] 5.28 - Ensure PIDs cgroup limit is used
+[WARN]      * PIDs limit not set: vulnerable
+```
+Hence, we will need to limit the cpu and memory usage along with setting the max max limit of pids
+
+#### Fixing Error
+Let's fix one of the problem about creating a user
+```
+[WARN] 4.1 - Ensure a user for the container has been created
+[WARN]       * RUnning as root: vulnerable
+```
+
+Back to Terminal 1:
+```sh
+# Stop and remove all the container first
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker run -itd --user 1000:1000 --name vulnerable alpine
+
+```
+
+Back to Terminal 2:
+Do the scan again
+```sh
+docker run --rm --net host --pid host --userns host --cap-add audit_control \
+    -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
+    -v /etc:/etc:ro \
+    -v /usr/bin/containerd:/usr/bin/containerd:ro \
+    -v /usr/bin/runc:/usr/bin/runc:ro \
+    -v /usr/lib/systemd:/usr/lib/systemd:ro \
+    -v /var/lib:/var/lib:ro \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    --label docker_bench_security \
+    docker-bench-security
+
+
+# [PASS] 4.1 - Ensure a user for the container has been created
+# ...
+# [INFO] Checks: 105
+# [INFO] Score: 19 
+
+```
+The score increased from 17 to 19 after we set to run the docker as user and not root
+
+If the user flag `--user 1000:1000` is not specified, the user in the container is root and you can get cat anything you want
+```sh
+docker run -it --rm --name vulnerable2 alpine
+id 
+# uid=0(root) gid=0(root) groups=0(root),...
+cat /etc/shadow
+# root:!::0:::::
+# bin:!::0:::::
+# ...
+
+```
+
+As for the image that we set `--user` flag for it
+```sh
+docker exec -it vulnerable sh
+id 
+# uid=1000 gid=1000
+cat /etc/shadow
+# cat: can't open '/etc/shadow': Permission denied
 ```
