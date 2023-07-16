@@ -358,17 +358,18 @@ docker run --rm -bv `pwd`:/root/.cache aquasec/trivy getcapsule8/shellshock:test
 ```
 
 #### Scanned Output
+```
 getcapsule8/shellshock:test (ubuntu 12.10)
 ==========================================
 Total: 145 (UNKNOWN: 0, LOW:33, MEDIUM: 106, HIGH: 6, CRITICAL: 0)
-
+```
 | LIBRARY     | VULNERABILITY ID | SEVERITY | INSTALLED VERSION | FIXED VERSION     | TITLE                                                                         |
 | ----------- | ---------------- | -------- | ----------------- | ----------------- | ----------------------------------------------------------------------------- |
 | ...         | ...              | ...      | ...               | ...               | ...                                                                           |
 | libssl1.0.0 | CVE-2014-0160    | HIGH     | 1.0.1c-3ubuntu2   | 1.0.1c-3ubuntu2.7 | openssl: information disclosure in handling of TLS hearbeat extension packets |
 
 ### Auditing the environment using Docker Bench Security
-[Docker bencn security](https://github.com/docker/docker-bench-security)
+[Docker bench security](https://github.com/docker/docker-bench-security)
 
 Docker bench security is a script that checks for dozens of common best-practices around deploying Docker containers in production.
 It uses CIS benchmarks.
