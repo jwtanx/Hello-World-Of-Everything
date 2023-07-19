@@ -1,5 +1,7 @@
-Last Updated: 14-07-2023
+Started: 14-07-2023
+Last Updated: 20-07-2023
 
+Profile: https://www.cloudskillsboost.google/public_profiles/6f38a2ea-fc11-4794-9def-1fc4817ef26f
 Link: https://events.withgoogle.com/gcpboleh-2/
 
 ## Infra Modernization, App Modernization & Security Track:
