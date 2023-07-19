@@ -9,10 +9,10 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 - [x] [Serverless Firebase Development](https://www.cloudskillsboost.google/quests/153)
 - [x] [Build a Website on Google Cloud](https://www.cloudskillsboost.google/quests/115)
 - [x] [Automating Infrastructure on Google Cloud with Terraform](https://www.cloudskillsboost.google/quests/159)
-- [ ] 3 + Challenge - [Deploy to Kubernetes in Google Cloud](https://www.cloudskillsboost.google/quests/116)
+- [x] [Deploy to Kubernetes in Google Cloud](https://www.cloudskillsboost.google/quests/116)
 - [ ] 4 + Challenge - [Optimize Costs for Google Kubernetes Engine](https://www.cloudskillsboost.google/quests/157)
-- [ ] 5 - [Cloud Architecture: Design, Implement, and Manage](https://www.cloudskillsboost.google/quests/124)
-- [ ] 2 + Challenge - [Implement DevOps in Google Cloud](https://www.cloudskillsboost.google/quests/141)
+- [ ] 4 + Hard challenge - [Cloud Architecture: Design, Implement, and Manage](https://www.cloudskillsboost.google/quests/124)
+- [x] [Implement DevOps in Google Cloud](https://www.cloudskillsboost.google/quests/141)
 - [x] [Set Up and Configure a Cloud Environment in Google Cloud](https://www.cloudskillsboost.google/quests/119)
 - [ ] 5 + Challenge - [Deploy and Manage Cloud Environments with Google Cloud](https://www.cloudskillsboost.google/quests/121)
 - [ ] 6 + Challenge - [Ensure Access & Identity in Google Cloud](https://www.cloudskillsboost.google/quests/150) X
@@ -29,10 +29,10 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 - [ ] 5 + Challenge - [Exploring Data with Looker](https://www.cloudskillsboost.google/quests/165)
 - [x] [Insights from Data with BigQuery](https://www.cloudskillsboost.google/quests/123)
 - [x] [Create ML Models with BigQuery ML](https://www.cloudskillsboost.google/quests/146)
-- [ ] 3 + Challenge - [Engineer Data in Google Cloud](https://www.cloudskillsboost.google/quests/132)
+- [ ] 2 - [Engineer Data in Google Cloud](https://www.cloudskillsboost.google/quests/132)
 
 ### Regular Badges:
-- [ ] 4 - [BigQuery for Marketing Analysts](https://www.cloudskillsboost.google/quests/70)
+- [x] [BigQuery for Marketing Analysts](https://www.cloudskillsboost.google/quests/70)
 - [x] [Intermediate ML: TensorFlow on Google Cloud](https://www.cloudskillsboost.google/quests/83)
 - [x] [Advanced ML: ML Infrastructure](https://www.cloudskillsboost.google/quests/162)
 - [x] [Applying BigQuery ML's Classification, Regression, and Demand Forecasting for Retail Applications](https://www.cloudskillsboost.google/quests/162)
@@ -43,4 +43,4 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 
 Note: If you already have the badge for `QUEST A` but the quest is updated with new labs, doing it will not update the quest completion date, hence no quest is completed.
 
-5/14 Quests Completed
+8/14 Quests Completed
