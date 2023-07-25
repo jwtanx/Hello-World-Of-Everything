@@ -13,17 +13,17 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 - [x] [Automating Infrastructure on Google Cloud with Terraform](https://www.cloudskillsboost.google/quests/159)
 - [x] [Deploy to Kubernetes in Google Cloud](https://www.cloudskillsboost.google/quests/116)
 - [ ] 4 + Challenge - [Optimize Costs for Google Kubernetes Engine](https://www.cloudskillsboost.google/quests/157)
-- [ ] 4 + Hard challenge - [Cloud Architecture: Design, Implement, and Manage](https://www.cloudskillsboost.google/quests/124)
+- [x] [Cloud Architecture: Design, Implement, and Manage](https://www.cloudskillsboost.google/quests/124)
 - [x] [Implement DevOps in Google Cloud](https://www.cloudskillsboost.google/quests/141)
 - [x] [Set Up and Configure a Cloud Environment in Google Cloud](https://www.cloudskillsboost.google/quests/119)
 - [ ] 5 + Challenge - [Deploy and Manage Cloud Environments with Google Cloud](https://www.cloudskillsboost.google/quests/121)
-- [ ] 6 + Challenge - [Ensure Access & Identity in Google Cloud](https://www.cloudskillsboost.google/quests/150) X
+- [ ] 6 + Challenge - [Ensure Access & Identity in Google Cloud](https://www.cloudskillsboost.google/quests/150) ×
 - [x] [Build and Secure Networks in Google Cloud](https://www.cloudskillsboost.google/quests/128)
 - [x] [Networking Fundamentals in Google Cloud](https://www.cloudskillsboost.google/quests/31)
 - [x] [Cloud Engineering](https://www.cloudskillsboost.google/quests/66)
 
 ### Regular Badges:
-- [ ] 6 - [Google Cloud Solutions I: Scaling Your Infrastructure](https://www.cloudskillsboost.google/quests/36)
+- [x] [Google Cloud Solutions I: Scaling Your Infrastructure](https://www.cloudskillsboost.google/quests/36)
 
 ## Analytics Track:
 ### Skill Badges:
@@ -31,7 +31,7 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 - [ ] 5 + Challenge - [Exploring Data with Looker](https://www.cloudskillsboost.google/quests/165)
 - [x] [Insights from Data with BigQuery](https://www.cloudskillsboost.google/quests/123)
 - [x] [Create ML Models with BigQuery ML](https://www.cloudskillsboost.google/quests/146)
-- [ ] 2 - [Engineer Data in Google Cloud](https://www.cloudskillsboost.google/quests/132)
+- [x] [Engineer Data in Google Cloud](https://www.cloudskillsboost.google/quests/132)
 
 ### Regular Badges:
 - [x] [BigQuery for Marketing Analysts](https://www.cloudskillsboost.google/quests/70)
@@ -45,4 +45,4 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 
 Note: If you already have the badge for `QUEST A` but the quest is updated with new labs, doing it will not update the quest completion date, hence no quest is completed.
 
-8/14 Quests Completed
+10/14 Quests Completed
