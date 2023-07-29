@@ -1,9 +1,11 @@
-# Google Cloud Platform CLI Cheat Sheet
+zompute# Google Cloud Platform CLI Cheat Sheet
 
 [Good Reference](https://jayendrapatil.com/google-cloud-gcloud-cheat-sheet)
 
 ## Google Cloud - `gcloud`
 [Complete Reference](https://cloud.google.com/sdk/docs/cheatsheet)
+
+cat ~/.config/gcloud/configurations/config_default
 
 ### Config
 | Command Example                           | Description        | Example          |
@@ -11,6 +13,17 @@
 | gcloud config set compute/region <region> | Set default region | region: us-west1 |
 | gcloud config set compute/zone <zone>     | Set default zone   | zone: us-west1-b |
 
+gcloud --version
+Start a new gcloud configuration for the second user account. Inside the SSH session run:
+gcloud init --no-launch-browser
+Choose create a new configuration and put a config name
+
+How yto switch back to the first user?
+Change back to your first user's configuration (default). Inside the SSH session run:
+gcloud config configurations activate default
+
+Check the list of the users
+gcloud config configurations list
 
 
 ## container clusters
@@ -19,6 +32,14 @@ gcloud container clusters create jenkins-cd \
 --num-nodes 2 \
 --scopes "https://www.googleapis.com/auth/projecthosting,cloud-platform"
 
+delete
+gcloud container clusters delete private-cluster --zone=$ZONE
+
+update
+gcloud container clusters update private-cluster2 \
+    --enable-master-authorized-networks \
+    --zone=$ZONE \
+    --master-authorized-networks [MY_EXTERNAL_RANGE]
 
 ## Google Cloud Storage - `gsutil`
 
@@ -103,7 +124,18 @@ gsutil cp -r ./img ...
 
 
 ## Big Query - `bq`
+bq query --location=us --use_legacy_sql=false --use_cache=false \
+'select CONCAT(departure_airport, "-", arrival_airport) as route, count(*) as numberflights
+ from `bigquery-samples.airline_ontime_data.airline_id_codes` ac,
+ `qwiklabs-resources.qlairline_ontime_data.flights` fl
+ where ac.code = fl.airline_code
+ and regexp_contains(ac.airline ,  r"Alaska")
+ group by 1
+ order by 2 desc
+ LIMIT 10'
 
+## Cloud SQL
+gcloud sql connect postgresql-cloudsql --user=postgres --quiet
 
 
 Google Cloud Config
@@ -117,6 +149,7 @@ Set default region	gcloud config set compute/region us-west
 Set default zone	gcloud config set compute/zone us-west1-b
 List configurations	gcloud config configurations list
 Activate configuration	gcloud config configurations activate
+gcloud compute zones list
 
 Google Cloud IAM
 PURPOSE	COMMAND
@@ -132,6 +165,7 @@ Authenticate client using service account	gcloud auth activate-service-account -
 Auth to GCP Container Registry	gcloud auth configure-docker
 Print token for active account	gcloud auth print-access-token, gcloud auth print-refresh-token
 Revoke previous generated credential	gcloud auth <application-default> revoke
+gcloud auth login
 
 Google Cloud Storage
 PURPOSE	COMMAND
@@ -160,6 +194,13 @@ gcloud config set container/cluster cluster-name
 - resize existing cluster
 gcloud container clusters resize --num-nodes
 
+Creating kubernetes private cluster
+gcloud beta container clusters create private-cluster \
+    --enable-private-nodes \
+    --master-ipv4-cidr 172.16.0.16/28 \
+    --enable-ip-alias \
+    --create-subnetwork ""
+
 Google Cloud Compute Engine
 PURPOSE	COMMAND
 List all instances	gcloud compute instances list , gcloud compute instance-templates list
@@ -169,6 +210,8 @@ Start an instance	gcloud compute instances start instance-name
 Create an instance	gcloud compute instances create vm1 --image image-1 --tags test --zone "<zone>" --machine-type f1-micro
 Create premptible instance	gcloud compute instances create "preempt" --preemptible
 SSH to instance	gcloud compute ssh --project "<project-name>" --zone "<zone-name>" "<instance-name>"
+
+gcloud compute instances create lab-1 --zone us-east4-c --machine-type=e2-standard-2
 
 gcloud compute instances create ad-dc1 --machine-type n1-standard-2 \
     --boot-disk-type pd-ssd \
@@ -194,12 +237,45 @@ gcloud compute networks subnets create private-ad-zone-1 \
     --network ${vpc_name} \
     --range 10.1.0.0/24 \
     --region ${region1}
+gcloud compute networks subnets create my-subnet \
+    --network default \
+    --range 10.0.4.0/22 \
+    --enable-private-ip-google-access \
+    --region=$REGION \
+    --secondary-range my-svc-range=10.0.32.0/20,my-pod-range=10.4.0.0/14
+
+
+gcloud compute networks create taw-custom-network --subnet-mode custom
+export VPC_NAME=vpc-network-oka3
+export SUBNET_A=subnet-a-iclf
+export REGION_A=asia-northeast1
+export SUBNET_B=subnet-b-zm1l
+export REGION_B=europe-west1
+gcloud compute networks create $VPC_NAME --project=$DEVSHELL_PROJECT_ID --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional && gcloud compute networks subnets create $SUBNET_A --project=$DEVSHELL_PROJECT_ID --range=10.10.10.0/24 --stack-type=IPV4_ONLY --network=$VPC_NAME --region=$REGION_A && gcloud compute networks subnets create $SUBNET_B --project=$DEVSHELL_PROJECT_ID --range=10.10.20.0/24 --stack-type=IPV4_ONLY --network=$VPC_NAME --region=$REGION_B
+
+gcloud compute networks subnets create network-a-subnet --network network-a \
+    --range 10.0.0.0/16 --region us-west1 
+
+Listing the subnet
+gcloud compute networks subnets list \
+   --network taw-custom-network
+gcloud compute networks subnets list --network default
+
+Describing the subnet
+gcloud compute networks subnets describe [SUBNET_NAME] --region=$REGION
 
 List all firewall rules	gcloud compute firewall-rules list
 List all forwarding rules	gcloud compute forwarding-rules list
 Describe one firewall rule	gcloud compute firewall-rules describe <rule-name>
 Create firewall rule	gcloud compute firewall-rules create my-rule --network default --allow tcp:22
 Update firewall rule	gcloud compute firewall-rules update default --network default --allow tcp:80
+gcloud compute --project=$DEVSHELL_PROJECT_ID firewall-rules create $FIREWALL_RULE_NAME_1 --direction=INGRESS --priority=65535 --network=$VPC_NAME --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0
+gcloud compute --project=$DEVSHELL_PROJECT_ID firewall-rules create $FIREWALL_RULE_NAME_2 --direction=INGRESS --priority=65535 --network=$VPC_NAME --action=ALLOW --rules=tcp:3389 --source-ranges=0.0.0.0/0
+gcloud compute --project=$DEVSHELL_PROJECT_ID firewall-rules create $FIREWALL_RULE_NAME_3 --direction=INGRESS --priority=65535 --network=$VPC_NAME --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0
+
+gcloud compute firewall-rules create nw101-allow-http \
+--allow tcp:80 --network taw-custom-network --source-ranges 0.0.0.0/0 \
+--target-tags http
 
 Components
 PURPOSE	COMMAND

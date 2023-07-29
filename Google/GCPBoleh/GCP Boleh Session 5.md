@@ -16,8 +16,8 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 - [x] [Cloud Architecture: Design, Implement, and Manage](https://www.cloudskillsboost.google/quests/124)
 - [x] [Implement DevOps in Google Cloud](https://www.cloudskillsboost.google/quests/141)
 - [x] [Set Up and Configure a Cloud Environment in Google Cloud](https://www.cloudskillsboost.google/quests/119)
-- [ ] 5 + Challenge - [Deploy and Manage Cloud Environments with Google Cloud](https://www.cloudskillsboost.google/quests/121)
-- [ ] 6 + Challenge - [Ensure Access & Identity in Google Cloud](https://www.cloudskillsboost.google/quests/150) ×
+- [x] [Deploy and Manage Cloud Environments with Google Cloud](https://www.cloudskillsboost.google/quests/121)
+-  [Ensure Access & Identity in Google Cloud](https://www.cloudskillsboost.google/quests/150) ×
 - [x] [Build and Secure Networks in Google Cloud](https://www.cloudskillsboost.google/quests/128)
 - [x] [Networking Fundamentals in Google Cloud](https://www.cloudskillsboost.google/quests/31)
 - [x] [Cloud Engineering](https://www.cloudskillsboost.google/quests/66)
@@ -28,7 +28,7 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 ## Analytics Track:
 ### Skill Badges:
 - [x] [Perform Foundational Data, ML, and AI Tasks in Google Cloud](https://www.cloudskillsboost.google/quests/117)
-- [ ] 5 + Challenge - [Exploring Data with Looker](https://www.cloudskillsboost.google/quests/165)
+- [x] [Exploring Data with Looker](https://www.cloudskillsboost.google/quests/165)
 - [x] [Insights from Data with BigQuery](https://www.cloudskillsboost.google/quests/123)
 - [x] [Create ML Models with BigQuery ML](https://www.cloudskillsboost.google/quests/146)
 - [x] [Engineer Data in Google Cloud](https://www.cloudskillsboost.google/quests/132)
@@ -45,4 +45,4 @@ Link: https://events.withgoogle.com/gcpboleh-2/
 
 Note: If you already have the badge for `QUEST A` but the quest is updated with new labs, doing it will not update the quest completion date, hence no quest is completed.
 
-10/14 Quests Completed
+14 /14 Quests Completed
