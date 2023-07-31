@@ -3583,6 +3583,16 @@ CREATING A DATETIME WITH TIMEZONE UTC
 from datetime import datetime
 utc_now = datetime.utcnow()
 
+STANDARD TIMEZONE STRING PATTERN
+=====
+# Example: "2023-01-31T10:00:00+08:00" [yyyy-MM-dd'T'HH:mm:ssXXX]
+# Format : %Y-%m-%dT%H:%M:%S%z
+timezone = pytz.timezone("Etc/GMT+8")
+current_time = datetime.now(timezone)
+date_string = "2023-01-31T10:00:00+08:00"
+regex_pattern = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+\-]?\d{2}:\d{2}$"
+re.findall(regex_pattern, date_string)
+datetime_object = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%S%z")
 
 REPLACING THE DATETIME TIMEZONE TO UTC
 =====
