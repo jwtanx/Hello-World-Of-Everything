@@ -10,29 +10,26 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.window import Window
 
 # Setting the spark session
-app_name = 'Insert-Project-Name'
+app_name = "Insert-Project-Name"
 spark = DataFunctions.getSparkSession(app_name)
 ```
 
-
 ## Getting the type of the dataframe
-print(df.)
-
-
+```py
+print(df.dtypes)
+```
 
 ## Casting / Changing the type of the data
-[Reference](https://sparkbyexamples.com/pyspark/pyspark-cast-column-type/)
+https://sparkbyexamples.com/pyspark/pyspark-cast-column-type/
 ```py
 df.withColumn("age", df.age.cast(IntegerType()))
 ```
 
 ## Dropping row with null values
-[Reference](https://sparkbyexamples.com/pyspark/pyspark-drop-rows-with-null-values/)
+Reference: https://sparkbyexamples.com/pyspark/pyspark-drop-rows-with-null-values/
 
 
-
-## Finding the list of the columns which has the different values
-Reference
+## WHEN, OTHERWIRSE Clause - Finding the list of the columns which has the different values
 ```py
 from pyspark.sql.functions import col, array, when, array_remove
 
@@ -54,8 +51,8 @@ df2 = spark.createDataFrame([
 def select_expr(left_df, right_df, on_col):
   conditions_ = [when(left_df[c]!=right_df[c], lit(c)).otherwise("") for c in right_df.columns if c != 'id']
 
-  select_expression = [col(on_col), 
-                      *[left_df[c] for c in left_df.columns if c != 'id'], 
+  select_expression = [col(on_col),
+                      *[left_df[c] for c in left_df.columns if c != 'id'],
                       array_remove(array(*conditions_), "").alias("column_names")
                       ]
 
@@ -63,30 +60,142 @@ def select_expr(left_df, right_df, on_col):
 
 df1.join(df2, "id").select(select_expr(df1, df2, "id")).show()
 ```
-```
+
+```py
 # https://stackoverflow.com/questions/60279160/compare-two-dataframes-pyspark
 def get_df_diff(left_df, right_df, on_col, output_col):
 
   conditions_ = [when(left_df[c]!=right_df[c], lit(c)).otherwise("") for c in left_df.columns if c != on_col]
 
-  select_expression = [col(on_col), 
-                        *[left_df[c] for c in left_df.columns if c != on_col], 
+  select_expression = [col(on_col),
+                        *[left_df[c] for c in left_df.columns if c != on_col],
                         array_remove(array(*conditions_), "").alias(output_col)
                       ]
-  
+
   return left_df.join(right_df, on_col).select(select_expression)
 ```
 
+## WHERE Clause
+https://linuxhint.com/pyspark-where-clause/
+```py
+# Using property
+df = df.where(df.age == 23)
+df = df.where(df["age"] == 23)
+
+# Using col function
+from pyspark.sql.functions import col
+df = df.where(col("age") == 23)
+
+# Using operational to include multiple conditions
+df = df.where( (df.age >= 10) & (df.age <= 21) )
+df = df.where( (df.age >= 10) | (df.age <= 21) )
+
+# Getting the list of the rows from the filtered dataframe
+rows = df.where(df.age == 23).collect()
+
+# Filtering can also be applied to string
+df = df.where(df.address.startswith("h"))
+df = df.where(df.address.endswith("r"))
+df = df.where(df.address.contains("r"))
+
+```
+
+## FILTER Clause
+Similar to `WHERE` clause
+Reference: https://sparkbyexamples.com/pyspark/pyspark-where-filter/
+```py
+# Equal
+df.filter(df.state == "OH")
+df.filter(col("state") == "OH")
+
+# Negation
+df.filter(df.state != "OH")
+df.filter(~(df.state == "OH"))
+
+# Multiple conditions
+df.filter( (df.state == "OH") | (df.gender != "M") )
+
+# Filter in a list
+df.filter(df.state.isin(["OH","CA","DE"]))
+df.filter(~df.state.isin(["OH","CA","DE"]))
+
+# String searching
+df.filter(df.state.startswith("N"))
+df.filter(df.state.endswith("N"))
+df.filter(df.state.contains("N"))
+
+# Regex
+df.filter(df.name.like("%rose%"))
+df.filter(df.name.rlike("(?i)^*rose$"))
+
+```
+
+### FILTER - Advanced
+```py
+# Finding element in array datatype
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField
+from pyspark.sql.types import StringType, IntegerType, ArrayType
+data = [
+    (("James","","Smith"),["Java","Scala","C++"],"OH","M"),
+    (("Anna","Rose",""),["Spark","Java","C++"],"NY","F"),
+    (("Julia","","Williams"),["CSharp","VB"],"OH","F"),
+    (("Maria","Anne","Jones"),["CSharp","VB"],"NY","M"),
+    (("Jen","Mary","Brown"),["CSharp","VB"],"NY","M"),
+    (("Mike","Mary","Williams"),["Python","VB"],"OH","M")
+ ]
+
+schema = StructType([
+     StructField('name', StructType([
+        StructField('firstname', StringType(), True),
+        StructField('middlename', StringType(), True),
+         StructField('lastname', StringType(), True)
+     ])),
+     StructField('languages', ArrayType(StringType()), True),
+     StructField('state', StringType(), True),
+     StructField('gender', StringType(), True)
+ ])
 
 
-https://sparkbyexamples.com/pyspark/pyspark-where-filter/
-https://stackoverflow.com/questions/42983444/filtering-rows-with-empty-arrays-in-pyspark
-https://www.projectpro.io/article/pyspark-joins-for-data-analysis-by-example/564#mcetoc_1fsdoe8mdd
-https://sparkbyexamples.com/pyspark/convert-pyspark-dataframe-column-to-python-list/
-https://sparkbyexamples.com/pyspark/pyspark-convert-array-column-to-string-column/
+spark = SparkSession.builder.appName("app_name").getOrCreate()
+df = spark.createDataFrame(data = data, schema = schema)
 
+from pyspark.sql.functions import array_contains
+df.filter(array_contains(df.languages,"Java")).show()
+
+# +----------------+------------------+-----+------+
+# |name            |languages         |state|gender|
+# +----------------+------------------+-----+------+
+# |[James, , Smith]|[Java, Scala, C++]|OH   |M     |
+# |[Anna, Rose, ]  |[Spark, Java, C++]|NY   |F     |
+# +----------------+------------------+-----+------+
+
+# Filtering nested struct
+df.filter(df.name.lastname == "Williams")
+
+```
+
+## ORDER BY Clause
 https://sparkbyexamples.com/pyspark/pyspark-orderby-and-sort-explained/
+https://spark.apache.org/docs/3.1.1/api/python/reference/api/pyspark.sql.DataFrame.orderBy.html
+```py
+# Sorting only based on a column (defining if the sort should be in descending or ascending)
+df.sort(df.age.desc())
+df.sort("age", ascending=False)
+df.orderBy(df.age.desc())
 
+from pyspark.sql.functions import asc, desc
+df.sort(asc("age"))
+
+# Order by multiple columns
+df.orderBy(desc("age"), "name")
+df.orderBy(["age", "name"], ascending=[0, 1])
+df.sort("age", "name")
+df.sort(col("age"), col("name"))
+df.orderBy(col("age").asc(), col("name").desc())
+
+```
+`.orderBy()` and `.sort()` can be used interchangeably, but `.orderBy()` is actually calling `.sort()`, so might as well just use `.sort()`
 
 ## Getting the first index value of the specified columns
 df.first()['column name']
@@ -111,12 +220,11 @@ schema = StructType([ \
     StructField("gender", StringType(), True), \
     StructField("salary", IntegerType(), True) \
   ])
- 
+
 df = spark.createDataFrame(data=data2,schema=schema)
 df.printSchema()
 df.show(truncate=False)
 ```
-
 
 ## Converting PySpark Dataframe to Dict
 https://stackoverflow.com/questions/41206255/convert-pyspark-sql-dataframe-dataframe-type-dataframe-to-dictionary
@@ -168,14 +276,14 @@ https://sparkbyexamples.com/pyspark/pyspark-withcolumn/
 ```py
 df.withColumn('local_ts', date_format(df.date_time, "yyyy-MM-dd HH:mm:ss.SSSX")) \
   .withColumn("timestamp_utc",to_utc_timestamp(to_timestamp(df.date_time, "yyyy-MM-dd HH:mm:ss.SSSX"), 'America/New_York')) \
-  .show(10, False) 
+  .show(10, False)
 
 # America/New_York is machine's timezone
 ```
-|Col1|date_time                    |local_ts                  |timestamp_utc          |
-|----|-----------------------------|--------------------------|-----------------------|
-|a   |2020-09-08 14:00:00.917+02:00|2020-09-08 08:00:00.917-04|2020-09-08 12:00:00.917|
-|b   |2020-09-08 14:00:00.900+01:00|2020-09-08 09:00:00.900-04|2020-09-08 13:00:00.9  |
+| Col1 | date_time                     | local_ts                   | timestamp_utc           |
+| ---- | ----------------------------- | -------------------------- | ----------------------- |
+| a    | 2020-09-08 14:00:00.917+02:00 | 2020-09-08 08:00:00.917-04 | 2020-09-08 12:00:00.917 |
+| b    | 2020-09-08 14:00:00.900+01:00 | 2020-09-08 09:00:00.900-04 | 2020-09-08 13:00:00.9   |
 
 
 ## Update a columnd with updated value
@@ -193,7 +301,7 @@ df.withColumn('flag', F.when((F.col("a") <= 2) | (F.col("b") <= 2), 1).otherwise
 ## Checking if the column data is null
 ```py
 df.withColumn("concat_custom", concat(
-  when(df.a.isNull(), lit('_')).otherwise(df.a), 
+  when(df.a.isNull(), lit('_')).otherwise(df.a),
   when(df.b.isNull(), lit('_')).otherwise(df.b))
 )
 ```
@@ -205,7 +313,6 @@ from pyspark.sql.functions import trim
 df = df.withColumn("Product", trim(df.Product))
 
 ```
-
 
 ## Deep copy dataframe
 ```py
@@ -219,3 +326,56 @@ https://stackoverflow.com/questions/44667565/pyspark-dataframe-changing-two-colu
 ```py
 dfTaskResults.select("state").distinct().toPandas()["state"].tolist()
 ```
+
+## Creating your schema manually
+This is an optional script when you would like to manually set the datatype you want, often time, this is not needed because you can always use the mergeSchema option from pyspark to merge the schema which is fairly easy.
+```py
+df.write.format("parquet").mode("append").option("mergeSchema", "true").save(delta_directory)
+```
+
+But if you insist of manually setting it, below is the simple example:
+```py
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructField, StructType
+from pyspark.sql.types import StringType, LongType, DoubleType
+
+SCHEMAS = {
+    "user-engagement": {
+        "newVsReturning": StringType,
+        "dauPerWau": DoubleType,
+        "engagedSessions": LongType,
+    }
+}
+
+def create_schema(category):
+  data_types = SCHEMAS.get(category, None)
+  if data_types == None:
+    raise NotImplementedError(f"Category is not implemented: {category}")
+
+  return StructType([StructField(k, v(), True) for k, v in data_types.items()])
+
+spark = SparkSession \
+        .builder \
+        .appName(dataSource) \
+        .config("spark.driver.memory", "8g") \
+        .config("spark.sql.legacy.timeParserPolicy", "LEGACY") \
+        .config("spark.sql.caseSensitive", True) \
+        .getOrCreate()
+
+filepaths = ["../sample/data_1.json", "../sample/data_2.json"]
+
+df_schema = create_schema("user-engagement")
+df = (spark.read \
+      .option("multiline",True) \
+      .schema(df_schema) \
+      .json(filepaths))
+
+
+```
+
+### Upcoming notes
+https://stackoverflow.com/questions/42983444/filtering-rows-with-empty-arrays-in-pyspark
+https://www.projectpro.io/article/pyspark-joins-for-data-analysis-by-example/564#mcetoc_1fsdoe8mdd
+https://sparkbyexamples.com/pyspark/convert-pyspark-dataframe-column-to-python-list/
+https://sparkbyexamples.com/pyspark/pyspark-convert-array-column-to-string-column/
+https://linuxhint.com/pyspark-data-preprocessing/
