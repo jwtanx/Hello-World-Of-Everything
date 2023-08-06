@@ -10,7 +10,7 @@ Reference: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 uname -m
 # x86-64 or ARM64
 ```
-- Download according to the type
+2. Download according to the type
 ```bash
 # x86-64
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -19,12 +19,12 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 # ARM64
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
 ```
-- You can also download the specific version, for example: `v1.27.4`
+3. You can also download the specific version, for example: `v1.27.4`
 ```bash
 curl -LO "https://dl.k8s.io/release/v1.27.4/bin/linux/amd64/kubectl"
 ```
 
-- Optional: Validate the checksum
+4. Optional: Validate the checksum
 ```bash
 # x86-64
 curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
@@ -33,11 +33,11 @@ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 # If there is an error, just make sure the version you are installing for both binary file is the same version
 ```
 
-- Installing kubectl with the binary file you have downloaded
+5. Installing kubectl with the binary file you have downloaded
 ```bash
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 ```
-- If you do not have root access
+6. If you do not have root access
 ```bash
 chmod +x kubectl
 mkdir -p ~/.local/bin
@@ -51,7 +51,7 @@ export PATH=$PATH:~/.local/bin
 
 ```
 
-- Check installation completion
+7. Check installation completion
 ```bash
 kubectl version --client
 # If there is error, make sure you are installing the correct CPU's architecture
@@ -61,8 +61,8 @@ kubectl version --client
 Check the guide here: https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/
 
 ## References
-Documentation: https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
-Cheat Sheet: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+- Documentation: https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
+- Cheat Sheet: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
 ## Most frequently used commands
 ### Cluster
@@ -130,24 +130,24 @@ Cheat Sheet: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 | kubectl -n my-ns delete pod,svc --all        | Delete all pods and services in namespace my-ns,           |
 
 ## Other
-`kubectl --namespace default port-forward <path/to/svc> 8080:8080 >> /dev/null & Port forwarding the service to a port number`
-`kubectl get nodes --output wide`
-`kubectl get nodes --output yaml | grep -A4 addresses`
-`kubectl exec --namespace default -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo`
-`kubectl run -it --rm alpine --image=alpine:3.6 --restart=Never nslookup mycache-memcached.default.svc.cluster.local`
+- `kubectl --namespace default port-forward <path/to/svc> 8080:8080 >> /dev/null & Port forwarding the service to a port number`
+- `kubectl get nodes --output wide`
+- `kubectl get nodes --output yaml | grep -A4 addresses`
+- `kubectl exec --namespace default -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo`
+- `kubectl run -it --rm alpine --image=alpine:3.6 --restart=Never nslookup mycache-memcached.default.svc.cluster.local`
 
 To confirm that the locust-master pod is created, run the following command:
-`kubectl get pods -l app=locust-master`
-`kubectl create deployment hello-server --image=gcr.io/google-samples/hello-app:1.0`
-`kubectl expose deployment hello-server --name orca-hello-service --type LoadBalancer --port 80 --target-port 8080`
+- `kubectl get pods -l app=locust-master`
+- `kubectl create deployment hello-server --image=gcr.io/google-samples/hello-app:1.0`
+- `kubectl expose deployment hello-server --name orca-hello-service --type LoadBalancer --port 80 --target-port 8080`
 
 ## Differences
-| Left term                                                                                                              |      Comparison       | Right term                                                                                       |
-| ---------------------------------------------------------------------------------------------------------------------- | :-------------------: | ------------------------------------------------------------------------------------------------ |
-| Concerned with defining the desired state of the application and ensuring the specified number of replicas are running | Deployment × Services | Focuses on defining how external or internal clients can access the pods running the application |
+| First term                                                                                                             |       Comparison       | Second term                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------- | :--------------------: | ------------------------------------------------------------------------------------------------ |
+| Concerned with defining the desired state of the application and ensuring the specified number of replicas are running | Deployment vs Services | Focuses on defining how external or internal clients can access the pods running the application |
 
 ## Basic Scripts
-### Service
+### 1. Service
 ```yaml
 apiVersion: v1
 kind: Service
@@ -170,7 +170,7 @@ spec:
 | `ports`    | Specifies the port configuration for the service. The service listens on port 80 and forwards traffic to the pods' port 8080            |
 | `type`     | Determines the type of service. Here, it is set to "ClusterIP," which means the service will only be accessible from within the cluster |
 
-### Deployment
+### 2. Deployment
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
