@@ -1,6 +1,6 @@
 # Kubernetes
 
-ChatGPT: https://chat.openai.com/share/f9edbb11-4fab-47e5-91b3-c427d44a4653
+ChatGPT: https://chat.openai.com/share/9f718e8d-c552-4f62-98ae-7fc6d03bfd27
 
 ## Installation
 ### Ubuntu
@@ -98,36 +98,36 @@ Check the guide here: https://kubernetes.io/docs/tasks/tools/install-kubectl-win
 | `kubectl delete service SERVICE_NAME`                                               | Delete a service                           |
 
 ### Scaling
-| Commands                                                          | Description                                               |
-| ----------------------------------------------------------------- | --------------------------------------------------------- |
-| kubectl scale deployment DEPLOYMENT_NAME --replicas=REPLICA_COUNT | Scale the number of replicas for a deployment             |
-| kubectl autoscale deployment DEPLOYMENT_NAME --min=2 --max=10     | Auto scale the deployment with replica of min 2 to max 10 |
+| Commands                                                            | Description                                               |
+| ------------------------------------------------------------------- | --------------------------------------------------------- |
+| `kubectl scale deployment DEPLOYMENT_NAME --replicas=REPLICA_COUNT` | Scale the number of replicas for a deployment             |
+| `kubectl autoscale deployment DEPLOYMENT_NAME --min=2 --max=10`     | Auto scale the deployment with replica of min 2 to max 10 |
 
 ### Updating Resources / Rolling Updates
-| Commands                                                                  | Description                                                               |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| kubectl set image deployment DEPLOYMENT_NAME CONTAINER_NAME=NEW_IMAGE:TAG | Perform a rolling update by updating the container image for a deployment |
-| kubectl rollout history deployment DEPLOYMENT_NAME                        | Check the history of deployments including the revision                   |
-| kubectl rollout undo deployment DEPLOYMENT_NAME                           | Rollback to the previous deployment                                       |
-| kubectl rollout undo deployment DEPLOYMENT_NAME --to-revision=2           | Rollback to a specific revision                                           |
-| kubectl rollout status -w deployment DEPLOYMENT_NAME                      | Watch rolling update status of "frontend" deployment until completion     |
-| kubectl rollout restart deployment DEPLOYMENT_NAME                        | Rolling restart of the "frontend" deployment                              |
+| Commands                                                                    | Description                                                               |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `kubectl set image deployment DEPLOYMENT_NAME CONTAINER_NAME=NEW_IMAGE:TAG` | Perform a rolling update by updating the container image for a deployment |
+| `kubectl rollout history deployment DEPLOYMENT_NAME`                        | Check the history of deployments including the revision                   |
+| `kubectl rollout undo deployment DEPLOYMENT_NAME`                           | Rollback to the previous deployment                                       |
+| `kubectl rollout undo deployment DEPLOYMENT_NAME --to-revision=2`           | Rollback to a specific revision                                           |
+| `kubectl rollout status -w deployment DEPLOYMENT_NAME`                      | Watch rolling update status of "frontend" deployment until completion     |
+| `kubectl rollout restart deployment DEPLOYMENT_NAME`                        | Rolling restart of the "frontend" deployment                              |
 
 ### Port Forwarding
-| Commands                                             | Description                                           |
-| ---------------------------------------------------- | ----------------------------------------------------- |
-| kubectl port-forward POD_NAME LOCAL_PORT:REMOTE_PORT | Forward a local port to a specific pod in the cluster |
+| Commands                                               | Description                                           |
+| ------------------------------------------------------ | ----------------------------------------------------- |
+| `kubectl port-forward POD_NAME LOCAL_PORT:REMOTE_PORT` | Forward a local port to a specific pod in the cluster |
 
 ### Deleting REsources
-| Commands                                     | Description                                                |
-| -------------------------------------------- | ---------------------------------------------------------- |
-| kubectl delete deployment DEPLOYMENT_NAME    | Delete a deployment                                        |
-| kubectl delete service SERVICE_NAME          | Delete a service                                           |
-| kubectl delete -f ./pod.json                 | Delete a pod using the type and name specified in pod.json |
-| kubectl delete pod unwanted --now            | Delete a pod with no grace period                          |
-| kubectl delete pod,service baz foo           | Delete pods and services with same names "baz" and "foo"   |
-| kubectl delete pods,services -l name=myLabel | Delete pods and services with label name=myLabel           |
-| kubectl -n my-ns delete pod,svc --all        | Delete all pods and services in namespace my-ns,           |
+| Commands                                       | Description                                                |
+| ---------------------------------------------- | ---------------------------------------------------------- |
+| `kubectl delete deployment DEPLOYMENT_NAME`    | Delete a deployment                                        |
+| `kubectl delete service SERVICE_NAME`          | Delete a service                                           |
+| `kubectl delete -f ./pod.json`                 | Delete a pod using the type and name specified in pod.json |
+| `kubectl delete pod unwanted --now`            | Delete a pod with no grace period                          |
+| `kubectl delete pod,service baz foo`           | Delete pods and services with same names "baz" and "foo"   |
+| `kubectl delete pods,services -l name=myLabel` | Delete pods and services with label name=myLabel           |
+| `kubectl -n my-ns delete pod,svc --all`        | Delete all pods and services in namespace my-ns,           |
 
 ## Other
 - `kubectl --namespace default port-forward <path/to/svc> 8080:8080 >> /dev/null & Port forwarding the service to a port number`
