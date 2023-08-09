@@ -93,10 +93,13 @@ df = df.where( (df.age >= 10) | (df.age <= 21) )
 # Getting the list of the rows from the filtered dataframe
 rows = df.where(df.age == 23).collect()
 
+# Getting the list of the names without the PySpark's Row object using flatMap
+value_rows = df.where(df.age == 23).select("name").rdd.flatMap(lambda x: x).collect()
+
 # Filtering can also be applied to string
-df = df.where(df.address.startswith("h"))
-df = df.where(df.address.endswith("r"))
-df = df.where(df.address.contains("r"))
+df = df.where(df.name.startswith("h"))
+df = df.where(df.name.endswith("r"))
+df = df.where(df.name.contains("r"))
 
 ```
 
@@ -325,6 +328,15 @@ https://stackoverflow.com/questions/44667565/pyspark-dataframe-changing-two-colu
 ## Getting the distinct value in a list
 ```py
 dfTaskResults.select("state").distinct().toPandas()["state"].tolist()
+```
+
+## Getting the list of raw values without the PySpark's row using flatMap
+```py
+# Method 1: rdd + flatMap
+name_list = df.select("name").rdd.flatMap(lambda x: x).collect()
+
+# Method 2: List comprehension
+name_list = [row.name for row in df.select("name").collect()]
 ```
 
 ## Creating your schema manually
