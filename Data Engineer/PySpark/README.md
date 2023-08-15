@@ -11,7 +11,15 @@ from pyspark.sql.window import Window
 
 # Setting the spark session
 app_name = "Insert-Project-Name"
-spark = SparkSession.builder.appName("app_name").getOrCreate()
+spark = SparkSession.builder.appName(app_name).getOrCreate()
+
+# Creating your first pyspark's dataframe
+df = spark.createDataFrame([
+      [1, "ABC", 5000, "US"],
+      [2, "DEF", 4000, "UK"],
+      [3, "GHI", 3000, "JPN"],
+      [4, "JKL", 4500, "CHN"]
+    ], ["id", "name", "sal", "address"])
 ```
 
 ## Getting the type of the dataframe
