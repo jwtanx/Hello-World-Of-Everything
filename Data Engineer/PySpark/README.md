@@ -11,7 +11,15 @@ from pyspark.sql.window import Window
 
 # Setting the spark session
 app_name = "Insert-Project-Name"
-spark = DataFunctions.getSparkSession(app_name)
+spark = SparkSession.builder.appName(app_name).getOrCreate()
+
+# Creating your first pyspark's dataframe
+df = spark.createDataFrame([
+      [1, "ABC", 5000, "US"],
+      [2, "DEF", 4000, "UK"],
+      [3, "GHI", 3000, "JPN"],
+      [4, "JKL", 4500, "CHN"]
+    ], ["id", "name", "sal", "address"])
 ```
 
 ## Getting the type of the dataframe
@@ -26,8 +34,21 @@ df.withColumn("age", df.age.cast(IntegerType()))
 ```
 
 ## Dropping row with null values
-Reference: https://sparkbyexamples.com/pyspark/pyspark-drop-rows-with-null-values/
+https://sparkbyexamples.com/pyspark/pyspark-drop-rows-with-null-values/
 
+
+## Drop one or multiple columns
+https://sparkbyexamples.com/pyspark/pyspark-drop-column-from-dataframe/
+```py
+# One column
+df = df.drop("firstname")
+df = df.drop(col("firstname"))
+df = df.drop(df.firstname)
+
+# Multiple columns
+cols = ("firstname", "middlename", "lastname")
+df = df.drop(*cols)
+```
 
 ## WHEN, OTHERWIRSE Clause - Finding the list of the columns which has the different values
 ```py
@@ -105,11 +126,12 @@ df = df.where(df.name.contains("r"))
 
 ## FILTER Clause
 Similar to `WHERE` clause
-Reference: https://sparkbyexamples.com/pyspark/pyspark-where-filter/
+https://sparkbyexamples.com/pyspark/pyspark-where-filter/
 ```py
+import pyspark.sql.functions as F
 # Equal
 df.filter(df.state == "OH")
-df.filter(col("state") == "OH")
+df.filter(F.col("state") == "OH")
 
 # Negation
 df.filter(df.state != "OH")
@@ -126,6 +148,9 @@ df.filter(~df.state.isin(["OH","CA","DE"]))
 df.filter(df.state.startswith("N"))
 df.filter(df.state.endswith("N"))
 df.filter(df.state.contains("N"))
+
+# String length
+df.filter(F.length("name") > 5)
 
 # Regex
 df.filter(df.name.like("%rose%"))
@@ -159,12 +184,11 @@ schema = StructType([
      StructField('gender', StringType(), True)
  ])
 
-
 spark = SparkSession.builder.appName("app_name").getOrCreate()
 df = spark.createDataFrame(data = data, schema = schema)
 
 from pyspark.sql.functions import array_contains
-df.filter(array_contains(df.languages,"Java")).show()
+df.filter(array_contains(df.languages, "Java")).show()
 
 # +----------------+------------------+-----+------+
 # |name            |languages         |state|gender|
@@ -292,6 +316,7 @@ df.withColumn('local_ts', date_format(df.date_time, "yyyy-MM-dd HH:mm:ss.SSSX"))
 ## Update a columnd with updated value
 https://sparkbyexamples.com/pyspark/pyspark-update-a-column-with-value/
 ```py
+from pyspark.sql.functions import when
 df3 = df.withColumn("gender", when(df.gender == "M","Male") \
       .when(df.gender == "F","Female") \
       .otherwise(df.gender))
@@ -303,6 +328,8 @@ df.withColumn('flag', F.when((F.col("a") <= 2) | (F.col("b") <= 2), 1).otherwise
 
 ## Checking if the column data is null
 ```py
+from pyspark.sql.functions import when
+
 df.withColumn("concat_custom", concat(
   when(df.a.isNull(), lit('_')).otherwise(df.a),
   when(df.b.isNull(), lit('_')).otherwise(df.b))
@@ -321,9 +348,6 @@ df = df.withColumn("Product", trim(df.Product))
 ```py
 df2 = df.alias('df2')
 ```
-
-https://stackoverflow.com/questions/58310246/how-to-concatenate-to-a-null-column-in-pyspark-dataframe
-https://stackoverflow.com/questions/44667565/pyspark-dataframe-changing-two-columns-at-the-same-time-based-on-condition
 
 ## Getting the distinct value in a list
 ```py
@@ -381,8 +405,47 @@ df = (spark.read \
       .option("multiline",True) \
       .schema(df_schema) \
       .json(filepaths))
+```
+
+## Maths: SUM (+)
+https://sparkbyexamples.com/pyspark/pyspark-sum/
+```py
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("testing").getOrCreate()
+
+simpleData = (("Java",4000,5), \
+              ("Python", 4600,10), \
+              ("Scala", 4100,15), \
+              ("Scala", 4500,15), \
+              ("PHP", 3000,20), \
+             )
+columns= ["CourseName", "fee", "discount %"]
+df = spark.createDataFrame(data=simpleData, schema=columns)
 
 
+from pyspark.sql.functions import sum
+df.select(sum(df.fee)).show()
+
+# Group and sum every column
+df.groupBy("CourseName").sum().show()
+# +----------+--------+---------------+
+# |CourseName|sum(fee)|sum(discount %)|
+# +----------+--------+---------------+
+# |      Java|    4000|              5|
+# |     Scala|    8600|             30|
+# |       PHP|    3000|             20|
+# +----------+--------+---------------+
+
+# Group and only sum the selecte columns
+df.groupBy("CourseName").sum("fee")
+# +----------+--------+
+# |CourseName|sum(fee)|
+# +----------+--------+
+# |      Java|    4000|
+# |     Scala|    8600|
+# |       PHP|    3000|
+# +----------+--------+
 ```
 
 ### Upcoming notes
@@ -391,3 +454,5 @@ https://www.projectpro.io/article/pyspark-joins-for-data-analysis-by-example/564
 https://sparkbyexamples.com/pyspark/convert-pyspark-dataframe-column-to-python-list/
 https://sparkbyexamples.com/pyspark/pyspark-convert-array-column-to-string-column/
 https://linuxhint.com/pyspark-data-preprocessing/
+https://stackoverflow.com/questions/58310246/how-to-concatenate-to-a-null-column-in-pyspark-dataframe
+https://stackoverflow.com/questions/44667565/pyspark-dataframe-changing-two-columns-at-the-same-time-based-on-condition
