@@ -325,13 +325,13 @@ func main() {
 }
 ```
 
-## Loops
-Mainly for looping through an array, slice or a map
+## For Loops
+1. Mainly for looping through an array, slice or a map
 ```go
 names := [3]string{"Ali", "Abu", "Muthu"}
 
 // Method 1: Most basic for loop like Java
-for i := 0; i < len(names); i ++ {
+for i := 0; i < len(names); i++ {
     fmt.Println(names[i])
 }
 /*
@@ -358,9 +358,42 @@ for i, name := range names {
     fmt.Println(name)
 }
 
-// To solve this, use a blank variable
-for _, name := range names {
+// Note that the `name` is thought as index by Golang and not the string itself 
+for name := range names {
     fmt.Println(name)
 }
 
+// To solve these two problems, use a blank variable
+for _, name := range names {
+    fmt.Println(name)
+}
+```
+
+2. Making range like Python range(integer)
+```go
+func main() {
+	nums1 := makeRangeUsingArray(0, 4)
+	nums2 := makeRangeUsingSlice(0, 4)
+	fmt.Print(nums1) // [0 1 2 3 4]
+	fmt.Print(nums2) // [0 1 2 3 4]
+}
+
+func makeRangeUsingArray(min int, max int) []int {
+	// a := [max - min + 1]int{} // Error: The value inside the [] must be constant
+	a := make([]int, max-min+1) // [0 0 0 ... 0 0 0]
+
+	for i := range a {
+		a[i] = min + i
+	}
+	return a
+}
+
+func makeRangeUsingSlice(min int, max int) []int {
+	a := []int{}
+
+	for i := min; i <= max; i++ {
+		a = append(a, i)
+	}
+	return a
+}
 ```
