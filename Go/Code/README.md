@@ -30,7 +30,6 @@ func main() {
 
     // There is no new line created like fmt.Print too, we can add the `\n` to the next line
     fmt.Printf("My name is %s\n", name)
-    
 }
 ```
 ### Printing Formats
@@ -175,7 +174,7 @@ func main() {
     fmt.Println("var8 = ", reflect.ValueOf(var8).Kind()) // var8 =  complex128
 }
 ```
-| Type      | Deccription                                   | Declaration                                                     | Example value                   |
+| Type      | Description                                   | Declaration                                                     | Example value                   |
 | --------- | --------------------------------------------- | --------------------------------------------------------------- | ------------------------------- |
 | `string`  | Words, sentence                               | `name := "John Cena"`                                           | `"John Cena"`                   |
 | `int`     | Number, integer                               | `year := 1999`                                                  | `1999`                          |
@@ -190,9 +189,9 @@ DRY: Don't Repeat Yourself
 ```go
 // Main function
 func main() {
-	shoutPizza() // Pizza!
-	fmt.Println(getPizza()) // Your pizza is served
-	fmt.Println(getPizzaWithName("Salmon Blazing"))
+    shoutPizza() // Pizza!
+    fmt.Println(getPizza()) // Your pizza is served
+    fmt.Println(getPizzaWithName("Salmon Blazing"))
 }
 
 // Normal function just to process something like Java's void function: This will not return any value
@@ -269,6 +268,61 @@ names = append(names, "Cena")
 fmt.Println(names)
 // [John Karen Smith Cena]
 
+```
+
+## Custom Type: There is no classes in Golang
+Instead of OOP, Golang uses type that "inherits" the base data type.
+```go
+// main.go
+package main
+
+func main() {
+    // deck here is the custom data type that we will initialize it in the deck.go
+	cards := deck{"Ace of Diamonds", newCard()}
+	cards = append(cards, "Six of Spades")
+	cards.print()
+}
+
+func newCard() string {
+	return "Five of Diamonds"
+}
+```
+```go
+// deck.go
+package main
+
+import "fmt"
+
+// Custom type "extended" from the base string
+type deck []string // This can be imagined as like the type of deck == slice
+
+// Receiver function named print which only allow the custom type to use this function
+// This is like adding a new method to the custom data type
+func (d deck) print() { // The one letter param is the naming convention for the custom data type
+	for i, card := range d {
+		fmt.Println(i, card)
+	}
+}
+```
+To run: `go run main.go deck.go`
+
+> Note: It is unnecessary to split out the deck and the main
+```go
+// This works too
+package main
+
+import "fmt"
+
+type book string
+
+func (b book) printTitle() {
+	fmt.Println(b)
+}
+
+func main() {
+	var b book = "Harry Potter"
+	b.printTitle()
+}
 ```
 
 ## Loops
