@@ -209,6 +209,18 @@ func getPizzaWithName(pizzaName string) string {
     return pizzaName + " Pizza"
 }
 ```
+### Returns multiple value like Python's tuple
+```go
+func getFullNameAndLengthOfName(firstName string, lastName string) (string, int) {
+	fullName := firstName + " " + lastName
+	return fullName, len(fullName)
+}
+
+func main() {
+	name, nameLength := getFullNameAndLengthOfName("John", "Wick")
+	fmt.Println(name, nameLength)
+}
+```
 
 ## Data Structures
 ### Array: Fixed number of elements
@@ -238,6 +250,15 @@ fibs := [5]int{1, 1, 2, 3, 5}
 
 fibs[5] = 100 // Cannot because `index out of bound`, once you have set the initial size of the array, you cannot grow / shrink the size of the array anymore, max index is from 0 to 4 for an array with size 5
 
+// Slicing
+nums := [5]int{100, 200, 300, 400, 500}
+// Index:        0    1    2    3    4
+fmt.Println(nums[2])    // 300
+fmt.Println(nums[:2])   // [100 200]
+fmt.Println(nums[2:])   // [300 400 500]
+fmt.Println(nums[2:4])  // [300 400]
+fmt.Println(nums[2:5])  // [300 400 500]
+fmt.Println(nums[:100]) // Error: Index out of bound
 ```
 
 #### Two Dimensional Array
@@ -322,6 +343,24 @@ func (b book) printTitle() {
 func main() {
 	var b book = "Harry Potter"
 	b.printTitle()
+}
+```
+Receiver function that returns
+```go
+package main
+ 
+import "fmt"
+ 
+func main() {
+   c := color("Red")
+   fmt.Println(c.describe("is an awesome color"))
+}
+ 
+type color string
+ 
+func (c color) describe(description string) (string) {
+    // Data type casting
+    return string(c) + " " + description
 }
 ```
 
