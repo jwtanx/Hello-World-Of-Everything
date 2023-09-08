@@ -113,42 +113,42 @@ import (
 )
 
 func main() {
-  
+
     // string type
     var1 := "hello world"
-  
+
     // integer
     var2 := 10
-  
+
     // float
     var3 := 1.55
-  
+
     // boolean
     var4 := true
-  
+
     // shorthand string slice declaration
     var5 := []string{"foo", "bar", "baz"}
 
     // string array declaration
     var6 := [3]string{"foo", "bar", "baz"}
-  
+
     // map is reference datatype
     var7 := map[int]string{100: "Ana", 101: "Lisa", 102: "Rob"}
-  
+
     // complex64 and complex128 is basic datatype
     var8 := complex(9, 15)
-  
+
     // using %T format specifier to determine the datatype of the variables
     fmt.Println("Using Percent T with Printf")
     fmt.Printf("var1 = %T\n", var1) // var1 = string
     fmt.Printf("var2 = %T\n", var2) // var2 = int
     fmt.Printf("var3 = %T\n", var3) // var3 = float64
     fmt.Printf("var4 = %T\n", var4) // var4 = bool
-    fmt.Printf("var5 = %T\n", var5) // var5 = []string 
+    fmt.Printf("var5 = %T\n", var5) // var5 = []string
     fmt.Printf("var6 = %T\n", var6) // var6 = [3]string
     fmt.Printf("var7 = %T\n", var7) // var7 = map[int]string
     fmt.Printf("var8 = %T\n", var8) // var8 = complex128
-  
+
     // using TypeOf() method of reflect package to determine the datatype of the variables
     fmt.Println("Using reflect.TypeOf Function")
     fmt.Println("var1 = ", reflect.TypeOf(var1)) // var1 =  string
@@ -159,7 +159,7 @@ func main() {
     fmt.Println("var6 = ", reflect.TypeOf(var6)) // var6 =  [3]string
     fmt.Println("var7 = ", reflect.TypeOf(var7)) // var7 =  map[int]string
     fmt.Println("var8 = ", reflect.TypeOf(var8)) // var8 =  complex128
-  
+
     // using ValueOf() method of reflect package to determine the value of the variable
     // Kind() method returns the datatype of the value fetched by the ValueOf() method
     fmt.Println("Using reflect.ValueOf.Kind() Function")
@@ -184,6 +184,14 @@ func main() {
 | `slice`   | List that can grow / shrink in size           | `students := []string{"Ali", "Abu", "Muthu"}`                   | `[Ali Abu Muthu]`               |
 | `map `    | Like Python's dictionary with a key and value | `prices := map[string]int{"orange": 5, "apple": 3, "lemon": 4}` | `map[apple:3 lemon:4 orange:5]` |
 
+## Type Conversion
+```go
+func main() {
+    greeting := "Hi there!"
+    fmt.Println([]byte(greeting)) // [72 105 32 116 104 101 114 101]
+}
+```
+
 ## Functions
 DRY: Don't Repeat Yourself
 ```go
@@ -200,7 +208,7 @@ func shoutPizza() {
 }
 
 // Function returning value
-func getPizza() string { // <-- data type is required to tell 
+func getPizza() string { // <-- data type is required to tell
     return "Your pizza is served"
 }
 
@@ -348,16 +356,16 @@ func main() {
 Receiver function that returns
 ```go
 package main
- 
+
 import "fmt"
- 
+
 func main() {
    c := color("Red")
    fmt.Println(c.describe("is an awesome color"))
 }
- 
+
 type color string
- 
+
 func (c color) describe(description string) (string) {
     // Data type casting
     return string(c) + " " + description
@@ -397,7 +405,7 @@ for i, name := range names {
     fmt.Println(name)
 }
 
-// Note that the `name` is thought as index by Golang and not the string itself 
+// Note that the `name` is thought as index by Golang and not the string itself
 for name := range names {
     fmt.Println(name)
 }
