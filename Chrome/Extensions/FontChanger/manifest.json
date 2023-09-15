@@ -7,6 +7,20 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "activeTab"
-  ]
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "commands": {
+    "change-font": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      },
+      "description": "Change font"
+    }
+  }
 }
