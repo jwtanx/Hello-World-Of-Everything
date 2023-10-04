@@ -160,6 +160,39 @@ alias.ac !git add -A && git commit -m
 
 ## Rebase
 - `git rebase master`: Rebase the current branch on top of master
-- `git rebase old-changes new-changes`: Rebase `old-changes` branch with `new-changes` branch
+- `git rebase old-changes`: Make sure you are at the new feature branch that is depending on `old-changes`: the `new-changes` branch will be updated with the `old-changes` feature below it
+- `git rebase old-changes new-changes`: Rebase `old-changes` branch with `new-changes` branch, place `new-changes` on top of `old-changes` branch
 - Merge the conflict manually and then `git rebase --continue`
 - Merging the conflict is a very tedious work, might as well just copy the file to the point of the change log where you want to add the new changes
+
+
+## Git Fork
+1. Checking the list of branches
+```sh
+git branch -a
+# remotes/origin/feature-a
+```
+
+2. Git clonning the specific branch
+Reference: https://www.freecodecamp.org/news/git-clone-branch-how-to-clone-a-specific-branch/
+```sh
+git clone --branch <branchname> <remote-repo-url>
+git clone -b <branchname> <remote-repo-url>
+git clone -b feature-a https://jwtanx@github.com/jwtanx/Hello-World-Of-Everything
+```
+
+3. Pulling the latest patch for your forked repo from the original repo
+Reference: https://levelup.gitconnected.com/how-to-update-fork-repo-from-original-repo-b853387dd471
+```sh
+# Adding the upstream remote first (Original repo remote url)
+git remote add upstream <original repo>
+
+# Pulling from the upstream main branch
+git pull upstream master
+
+# Rebase the fetched patches to your own main branch
+git rebase upstream/main
+
+# Push to your own forked repo
+git push -f origin master
+```
