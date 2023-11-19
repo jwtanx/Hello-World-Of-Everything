@@ -27,6 +27,29 @@ df = spark.createDataFrame([
 print(df.dtypes)
 ```
 
+## Showing the pyspark dataframe
+```py
+df.show()
+
+# Vertical parquet format
+df.show(vertical=True)
+
+# Avoid truncating the data
+df.show(truncate=False)
+
+# Showing only few data
+df.show(5)
+
+```
+
+## Limitting the row
+```py
+df = df.limit(10)
+
+# Limit then only show, faster than df.show(1)
+df.limit(1).show()
+```
+
 ## Casting / Changing the type of the data
 https://sparkbyexamples.com/pyspark/pyspark-cast-column-type/
 ```py
@@ -48,6 +71,32 @@ df = df.drop(df.firstname)
 # Multiple columns
 cols = ("firstname", "middlename", "lastname")
 df = df.drop(*cols)
+```
+
+## Selecting only certain columns
+https://sparkbyexamples.com/pyspark/select-columns-from-pyspark-dataframe/
+```py
+
+# By name
+df.select("firstname", "lastname").show()
+
+# By columns index
+df.select(df.columns[2:7]).show()
+
+# By using col() function
+from pyspark.sql.functions import col
+df.select(col("firstname"), col("lastname")).show()
+
+# By nested column
+df2.select("name.firstname", "name.lastname").show(truncate=False)
+
+```
+## Selecting all columns
+```py
+df.select("*").show()
+
+# Also can check deep copy
+df2 = df.alias("df2")
 ```
 
 ## WHEN, OTHERWIRSE Clause - Finding the list of the columns which has the different values
@@ -363,6 +412,40 @@ name_list = df.select("name").rdd.flatMap(lambda x: x).collect()
 name_list = [row.name for row in df.select("name").collect()]
 ```
 
+## Saving dataframe into csv
+```py
+# Option: CSV
+df.write.csv("DATA_PATH")
+
+# https://sparkbyexamples.com/spark/spark-write-dataframe-single-csv-file
+# Option: Singular CSV
+df.coalesce(1).write.csv("DATA_PATH")
+df.repartition(1).write.csv("DATA_PATH")
+
+```
+
+## Saving dataframe into JSON
+https://www.geeksforgeeks.org/dataframe-to-json-array-in-spark-in-python/
+```py
+# Into a folder list of json files
+df.write.json("json_folder")
+
+# Into a singular json in a folder
+df.coalesce(1).write.json("data_merged")
+df.repartition(1).write.json("data_merged")
+```
+
+## Saving dataframe into parquet
+```py
+# Option: Merging
+df.write \
+  .format("parquet") \
+  .mode("append") \
+  .option("mergeSchema", "true") \
+  .save("DATA_PATH")
+
+```
+
 ## Creating your schema manually
 This is an optional script when you would like to manually set the datatype you want, often time, this is not needed because you can always use the mergeSchema option from pyspark to merge the schema which is fairly easy.
 ```py
@@ -456,3 +539,7 @@ https://sparkbyexamples.com/pyspark/pyspark-convert-array-column-to-string-colum
 https://linuxhint.com/pyspark-data-preprocessing/
 https://stackoverflow.com/questions/58310246/how-to-concatenate-to-a-null-column-in-pyspark-dataframe
 https://stackoverflow.com/questions/44667565/pyspark-dataframe-changing-two-columns-at-the-same-time-based-on-condition
+https://stackoverflow.com/questions/73746974/pyspark-prevent-column-value-from-changing-once-calculated
+https://spark.apache.org/docs/3.1.1/api/python/_modules/pyspark/sql/dataframe.html#DataFrame.checkpoint
+https://stackoverflow.com/questions/37332434/concatenate-two-pyspark-dataframes
+https://www.programmingfunda.com/how-to-convert-pyspark-row-to-dictionary/
