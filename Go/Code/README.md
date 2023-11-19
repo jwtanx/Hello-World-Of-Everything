@@ -70,6 +70,7 @@ age = 123
 ```go
 // Simplest declaration
 name := "John"
+// With the help of the := symbols, it is telling the go interpreter to go and search what kind of data type is this
 
 // Reassigning the value
 name = "John Cena"
@@ -182,7 +183,7 @@ func main() {
 | `bool`    | True or false                                 | `isChecked := true`                                             | `true`, `false`                 |
 | `array`   | List with fixed size                          | `nums := [3]int{10,20,30}`                                      | `[10 20 30]`                    |
 | `slice`   | List that can grow / shrink in size           | `students := []string{"Ali", "Abu", "Muthu"}`                   | `[Ali Abu Muthu]`               |
-| `map `    | Like Python's dictionary with a key and value | `prices := map[string]int{"orange": 5, "apple": 3, "lemon": 4}` | `map[apple:3 lemon:4 orange:5]` |
+| `map`     | Like Python's dictionary with a key and value | `prices := map[string]int{"orange": 5, "apple": 3, "lemon": 4}` | `map[apple:3 lemon:4 orange:5]` |
 
 ## Type Conversion
 ```go
@@ -208,7 +209,7 @@ func shoutPizza() {
 }
 
 // Function returning value
-func getPizza() string { // <-- data type is required to tell
+func getPizza() string { // <-- data type is required to tell the compile that we are returning a string data for this function
     return "Your pizza is served"
 }
 
@@ -288,6 +289,9 @@ fmt.Println(twoDimArray)
 ### Slices: Array but the size can grow / shrink
 - Every element in the slice must of the same data type
 ```go
+// Initialization
+ages := []int{}
+
 // Declaration
 names := []string{"John", "Karen", "Smith"}
 
@@ -297,6 +301,22 @@ names = append(names, "Cena")
 fmt.Println(names)
 // [John Karen Smith Cena]
 
+```
+
+#### Joining Slices
+strings.Join(slices, concatenation characters)
+
+```go
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	characters := []string{"a", "b", "c"}
+	fmt.Println(strings.Join(characters, ", "))
+    // a, b, c
+}
 ```
 
 ## Custom Type: There is no classes in Golang
@@ -325,7 +345,7 @@ import "fmt"
 // Custom type "extended" from the base string
 type deck []string // This can be imagined as like the type of deck == slice
 
-// Receiver function named print which only allow the custom type to use this function
+// Receiver function named print which only allow any variables with this custom type to use this function
 // This is like adding a new method to the custom data type
 func (d deck) print() { // The one letter param is the naming convention for the custom data type
 	for i, card := range d {
@@ -360,8 +380,8 @@ package main
 import "fmt"
 
 func main() {
-   c := color("Red")
-   fmt.Println(c.describe("is an awesome color"))
+    c := color("Red")
+    fmt.Println(c.describe("is an awesome color"))
 }
 
 type color string

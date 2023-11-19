@@ -66,9 +66,11 @@ func main() {
 
 ```
 
-### `go build`: Compiles files
+### `go build`: Compiles files only
 ```bash
 go build main.go
+
+# Then a main executable will be created, to run it, do:
 ./main
 ```
 
