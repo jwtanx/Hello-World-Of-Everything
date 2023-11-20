@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 )
@@ -32,9 +33,13 @@ func (d deck) print() {
 }
 
 // Function 3: Shuffle all cards in the deck
-func (d deck) shuffle() deck {
-	// WIP
-	return d
+// Note that we are not returning anything, instead the deck of cards are replaced inplace
+// There is no prebuilt shuffle function in goland, we will need to create our own
+func (d deck) shuffle() {
+	for i := range d {
+		new_index := rand.Intn(len(d) - 1)
+		d[i], d[new_index] = d[new_index], d[i]
+	}
 }
 
 // Function 4: Create a hand of cards

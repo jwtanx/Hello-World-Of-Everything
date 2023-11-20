@@ -13,7 +13,8 @@ func main() {
 
 	// Function 3: Shuffle all cards in the deck
 	fmt.Println("\nFunction 3")
-	// cards := cards.shuffle()
+	cards.shuffle()
+	cards.print()
 
 	// Function 4: Create a hand of cards
 	fmt.Println("\nFunction 4")
