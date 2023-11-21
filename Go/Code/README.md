@@ -319,6 +319,17 @@ func main() {
 }
 ```
 
+#### Splitting string into slices
+```go
+import "strings"
+
+func main() {
+    groceries := "banana,apple,flour"
+    // Split by string and separators
+    groceryList := strings.Split(groceries, ",")
+}
+```
+
 ## Custom Type: There is no classes in Golang
 Instead of OOP, Golang uses type that "inherits" the base data type.
 ```go
@@ -464,3 +475,60 @@ func makeRangeUsingSlice(min int, max int) []int {
 	return a
 }
 ```
+
+## Dealing with file
+### Saving to file
+> func WriteFile(name string, data []byte, perm FileMode) error
+```go
+
+import "os"
+
+func main() {
+    err := os.WriteFile("filename", []byte("content"), 0666)
+    if err != nil {
+        panic(err)
+    }
+}
+```
+
+### Reading from file
+> func ReadFile(name string) ([]byte, error)
+```go
+import "os"
+
+func main() {
+    byteslice, err := os.ReadFile("filename")
+    if err != nil {
+        panic(err)
+    } else {
+        content = string(byteslice)
+    }
+}
+```
+
+## Random
+### Intn: Getting a random integer from a range of number
+```go
+import "math/rand"
+
+func main() {
+	count := rand.Intn(5)
+}
+```
+
+### Creating own random number generator
+```go
+import (
+	"math/rand"
+	"time"
+)
+
+func main() {
+    // time.Now().UnixNano() returns a int64, we use this as the seed
+    // Then in every second, the seed is different thus then random number too
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+	num := r.Intn(5)
+}
+```
+

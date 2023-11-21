@@ -81,17 +81,44 @@ go fmt
 ```
 
 ### `go install`: Compile and install a package
+
 ### `go get`: Download raw source code of someone's package
+
 ### `go test`: Run test on the current project
+Note: Need to run `go mod init` once, or else error: `go: go.mod file not found in current directory or any parent directory; see 'go help modules'`
+- File name of the must be suffix with `_test.go`
+- To run all test in the package, run `go test`
+- Example of a test file: `deck_test.go`
+```
+package main
+
+import "testing"
+
+// We will tell the variable t here if something went wrong
+func TestNewDeck(t *testing.T) {
+	cards := newDeck()
+	totalDeckCards := 52
+	if len(cards) != totalDeckCards {
+		t.Errorf("Expected deck leng of %v, but got %v", totalDeckCards, len(cards))
+	}
+}
+```
 
 ### `go mod init`: Initialize the workspace
+This is required before you ca run go test
 ```bash
+# Example 1
 go mod init example.com/a
+
+# Example 2
+go mod init cards
 ```
+
 #### Creating a workspace
 - https://go.dev/doc/tutorial/workspaces
 
 ### `go mod tidy`: Update / adding module requirements and checksum
+
 ### `go list`
 
 ## FAQs
