@@ -183,6 +183,7 @@ db.posts.deleteMany({title: null})
 ### UPDATE RECORDS
 > Parameters: (query, update, options)
 Update Operators
+
 | Operator       | Description                                                                             | Example                                                                          |
 | -------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `$set`         | Sets the value of a field in a document.                                                | `db.posts.updateOne({ postId: 3015 }, { $set: { shared: true } })`               |
