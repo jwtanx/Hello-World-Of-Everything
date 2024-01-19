@@ -3719,6 +3719,24 @@ main()
 
 print(f'The time taken: {(time.time() - start)*1000:.2f} ms')
 
+Timing Decorator
+=====
+# https://stackoverflow.com/questions/1622943/timeit-versus-timing-decorator
+import time
+
+def timeit(f):
+  def timed(*args, **kw):
+    ts = time.time()
+    result = f(*args, **kw)
+    te = time.time()
+    print(f"func:{f.__name__} args:[{args}, {kw}] took: {te-ts:.4f} sec")
+    return result
+  return timed
+
+@timeit
+def compute_magic(n):
+  #function definition
+
 #############################################
 PSUTIL: GET CPU LOAD
 =====
@@ -4342,6 +4360,35 @@ sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
 print u"Stöcker"                # works
 print "Stöcker".decode("utf-8") # works
 print "Stöcker"                 # fails
+
+GETTING THE URL INFO
+=====
+from urllib.parse import urlsplit
+
+url_info = urlsplit("http://127.0.0.1/asdf/login.php?q=abc#stackoverflow")
+# SplitResult(scheme='http', netloc='127.0.0.1', path='/asdf/login.php', query='q=abc', fragment='stackoverflow')
+
+# Unsplit the url
+urlunsplit(url_info)
+# http://127.0.0.1/asdf/login.php?q=abc#stackoverflow
+
+GETTING LOCAL IP ADDRESS
+=====
+# https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib
+# Method 1
+import socket
+
+def getNetworkIp():
+  s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+  s.connect(('<broadcast>', 0))
+  return s.getsockname()[0]
+
+print(getNetworkIp())
+
+# Method 2
+from subprocess import check_output
+ip = check_output(['hostname', '-I']).decode().split(" ")[0]
 
 RETRIEVING WEB PAGES
 =====
@@ -5237,6 +5284,20 @@ import base64
 with open("image.ext", "rb") as image_file:
     encoded_string = base64.b64encode(image_file.read())
 
+BASE64 String Encode
+=====
+import base64
+password = "your_password"
+encoded_password = base64.b64encode(password.encode('utf-8')).decode('utf-8')
+print(encoded_password)
+# eW91cl9wYXNzd29yZA==
+
+BASE64 String Decode
+=====
+import base64
+decoded_string = base64.b64decode('eW91cl9wYXNzd29yZA==').decode('utf-8')
+print(decoded_string)
+# your_password
 
 # Decode it
 import cStringIO
