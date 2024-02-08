@@ -490,6 +490,20 @@ df = (spark.read \
       .json(filepaths))
 ```
 
+## Convert json string into struct
+```py
+from pyspark.sql import types as T
+from pyspark.sql import functions as F
+
+value_schema = T.StructType([
+    T.StructField("ringId", T.StringType(), True),
+    T.StructField("name", T.StringType(), True),
+])
+
+df = df.withColumn("value", F.from_json(df.value, value_schema))
+df.show(truncate=False, vertical=True)
+```
+
 ## Maths: SUM (+)
 https://sparkbyexamples.com/pyspark/pyspark-sum/
 ```py
@@ -529,6 +543,180 @@ df.groupBy("CourseName").sum("fee")
 # |     Scala|    8600|
 # |       PHP|    3000|
 # +----------+--------+
+```
+
+## Separate Struct into individual column
+Sometimes, when the schema of a column is not array, we cannot use explode, but we have to separate the internal struct into individual column sometimes
+Example data
+```py
++-------+-----------+--------------------+----+--------------------+---------+--------------------+
+|  $type|description|              leader|name|              ringId|shortName|                team|
++-------+-----------+--------------------+----+--------------------+---------+--------------------+
+|Project|       null|{User, d3f521f0-6...|abcd|da1a3245-76a7-4e9...|      abc|{UserGroup, abcd ...|
++-------+-----------+--------------------+----+--------------------+---------+--------------------+
+
+# Schema
+root
+|-- $type: string (nullable = true)
+|-- description: string (nullable = true)
+|-- leader: struct (nullable = true)
+|    |-- $type: string (nullable = true)
+|    |-- ringId: string (nullable = true)
+|-- name: string (nullable = true)
+|-- ringId: string (nullable = true)
+|-- shortName: string (nullable = true)
+|-- team: struct (nullable = true)
+|    |-- $type: string (nullable = true)
+|    |-- name: string (nullable = true)
+|    |-- ringId: string (nullable = true)
+|    |-- usersCount: long (nullable = true)
+```
+
+To seperate them:
+```py
+def _get_camel_case(self, column_name):
+  final_column_name = ""
+  words = column_name.split()
+
+  if len(words) == 1:
+      if column_name == column_name.upper():
+          return column_name
+      else:
+          return column_name[0].lower() + column_name[1:]
+
+  for word in words:
+      final_column_name += word if word == word.upper() else word.title()
+
+  if words[0] != words[0].upper():
+      final_column_name = final_column_name[0].lower() + final_column_name[1:]
+
+  return final_column_name
+
+def _get_combined_camel_case(self, column_name, nested_field_name):
+  nested_field_name = self._get_camel_case(nested_field_name)
+  nested_field_name = nested_field_name[0].upper() + nested_field_name[1:]
+  column_name = self._get_camel_case(column_name)
+  return f"{column_name}{nested_field_name}"
+
+def _separate_struct(self, df, column, add_prefix):
+  for nested_field in df.select(f"{column}.*").schema.fields:
+    if (not nested_field.name.startswith("$") and
+        nested_field.name != "type"):
+      if add_prefix:
+        column_name = self._get_combined_camel_case(column, nested_field.name)
+      else:
+        column_name = nested_field.name
+      df = df.withColumn(column_name, df[f"{column}.{nested_field.name}"])
+  df = df.drop(column)
+  return df
+
+def _explode_array_columns(self, df: DataFrame) -> DataFrame:
+  for field in df.schema.fields:
+    if (isinstance(field.dataType, T.ArrayType) and
+        field.name not in self.ARRAY_COLUMN_NO_EXPLODE):
+      df = df.withColumn(field.name, F.explode(field.name))
+  return df
+
+def _check_and_separate_struct(self, df: DataFrame) -> DataFrame:
+  for field in df.schema.fields:
+    if isinstance(field.dataType, T.StructType):
+      add_prefix = field.name not in self.COLUMN_WITHOUT_PREFIX
+      df = self._separate_struct(df, field.name, add_prefix)
+  return df
+```
+
+Final result:
+```
+-RECORD 0-------------------------------
+ $type          | Project
+ description    | null
+ name           | 10+3
+ ringId         | da1a3245-76b7-4e9...
+ shortName      | 103
+ leaderRingId   | d3f521f0-6633-4e7...
+ teamName       | 10+3 Team
+ teamRingId     | 12eadb31-12b4-4f0...
+ teamUsersCount | 28
+```
+
+## Pivot
+### Group by 1 column
+```py
+from pyspark.sql import SparkSession
+
+# Create a SparkSession
+spark = SparkSession.builder.getOrCreate()
+
+# Sample data
+data = [("Jill", "Marketing", 1000),
+        ("Jill", "Sales", 2000),
+        ("Jack", "Marketing", 3000),
+        ("Jack", "Sales", 4000)]
+
+# Create DataFrame
+df = spark.createDataFrame(data, ["Name", "Department", "Revenue"])
+
+# Pivot DataFrame
+pivotDF = df.groupBy("Name").pivot("Department").sum("Revenue")
+
+# Show pivoted DataFrame
+pivotDF.show()
+
++----+---------+-----+
+|Name|Marketing|Sales|
++----+---------+-----+
+|Jack|     3000| 4000|
+|Jill|     1000| 2000|
++----+---------+-----+
+```
+
+### Group by multiple columns
+```py
+from pyspark.sql import SparkSession
+
+# Create a SparkSession
+spark = SparkSession.builder.getOrCreate()
+
+# Sample data
+data = [("Jill", "Marketing", 1000, "Q1"),
+        ("Jill", "Sales", 2000, "Q1"),
+        ("Jack", "Marketing", 3000, "Q1"),
+        ("Jack", "Sales", 4000, "Q1"),
+        ("Jill", "Marketing", 1500, "Q2"),
+        ("Jill", "Sales", 2500, "Q2"),
+        ("Jack", "Marketing", 3500, "Q2"),
+        ("Jack", "Sales", 4500, "Q2")]
+
+# Create DataFrame
+df = spark.createDataFrame(data, ["Name", "Department", "Revenue", "Quarter"])
+
++----+----------+-------+-------+
+|Name|Department|Revenue|Quarter|
++----+----------+-------+-------+
+|Jill| Marketing|   1000|     Q1|
+|Jill|     Sales|   2000|     Q1|
+|Jack| Marketing|   3000|     Q1|
+|Jack|     Sales|   4000|     Q1|
+|Jill| Marketing|   1500|     Q2|
+|Jill|     Sales|   2500|     Q2|
+|Jack| Marketing|   3500|     Q2|
+|Jack|     Sales|   4500|     Q2|
++----+----------+-------+-------+
+
+# Pivot DataFrame
+pivotDF = df.groupBy("Name", "Quarter").pivot("Department").sum("Revenue")
+
+# Show pivoted DataFrame
+pivotDF.show()
+
++----+-------+---------+-----+
+|Name|Quarter|Marketing|Sales|
++----+-------+---------+-----+
+|Jack|     Q1|     3000| 4000|
+|Jill|     Q1|     1000| 2000|
+|Jack|     Q2|     3500| 4500|
+|Jill|     Q2|     1500| 2500|
++----+-------+---------+-----+
 ```
 
 ### Upcoming notes
