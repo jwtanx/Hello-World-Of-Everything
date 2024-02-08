@@ -159,11 +159,18 @@ alias.ac !git add -A && git commit -m
 | `git ac "mesage"`           | `git config --global alias.ac !git add -A && git commit -m` | Adding all the changes / untracked files and commit with a message |
 
 ## Rebase
-- `git rebase master`: Rebase the current branch on top of master
+- `git rebase master`: Update the current branch with the code from the master branch
 - `git rebase old-changes`: Make sure you are at the new feature branch that is depending on `old-changes`: the `new-changes` branch will be updated with the `old-changes` feature below it
 - `git rebase old-changes new-changes`: Rebase `old-changes` branch with `new-changes` branch, place `new-changes` on top of `old-changes` branch
 - Merge the conflict manually and then `git rebase --continue`
 - Merging the conflict is a very tedious work, might as well just copy the file to the point of the change log where you want to add the new changes
+
+### GERRIT: Rebasing a patch
+# Go to the branch you are working on and pull the latest patch
+git pull https://username@gerrit.domain.com/a/demo/hello_world refs/changes/08/22308/<new-patch-#> --rebase
+
+# Add new files and commit the new change
+git commit --amend
 
 
 ## Git Fork
