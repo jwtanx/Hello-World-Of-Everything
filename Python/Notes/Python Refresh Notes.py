@@ -1249,6 +1249,34 @@ print(uri_validator(c)) # False
 print(uri_validator(d)) # False
 print(uri_validator(e)) # True
 
+Parsing URL
+=====
+from urllib.parse import urlparse
+
+def parse_url(url):
+  parsed_url = urlparse(url)
+  return parsed_url
+
+url = 'http://www.cwi.nl:80/%7Eguido/Python.html'
+parsed_url = parse_url(url)
+# ParseResult(scheme='http', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html', params='', query='', fragment='')
+
+Quote URL
+=====
+from urllib.parse import quote
+
+url = 'https://www.google.com/search?q=python'
+quoted_url = quote(url, safe=':/')
+# https://www.google.com/search%3Fq%3Dpython
+
+Unquote URL
+=====
+from urllib.parse import unquote
+
+quoted_url = 'https://www.google.com/search%3Fq%3Dpython'
+unquoted_url = unquote(quoted_url)
+# https://www.google.com/search?q=python
+
 DISPLAY ALL THE METHODS AVAILABLE FOR VARIABLE
 =====
 dir(tmp)
