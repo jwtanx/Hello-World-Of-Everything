@@ -5539,3 +5539,29 @@ r = requests.get(url)
 print "Status code: ", r.status_code
 
 os.killpg(proc.pid, signal.SIGTERM)
+
+UNITTEST: MOCKING
+=====
+# Mocking requests.response: https://stackoverflow.com/a/65437794
+import json
+from unittest.mock import patch
+from requests.models import Response
+
+def mocked_requests_get(*args, **kwargs):
+  response_content = None
+  request_url = kwargs.get('url', None)
+  if request_url == 'aurl':
+    response_content = json.dumps('a response')
+  elif request_url == 'burl':
+    response_content = json.dumps('b response')
+  elif request_url == 'curl':
+    response_content = json.dumps('c response')
+  response = Response()
+  response.status_code = 200
+  response._content = str.encode(response_content)
+  return response
+
+@mock.patch('requests.get', side_effect=mocked_requests_get)
+def test_fetch(self, mock_get):
+  response = requests.get(url='aurl')
+  assert ...
