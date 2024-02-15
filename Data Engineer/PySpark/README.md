@@ -201,6 +201,9 @@ df.filter(df.state.contains("N"))
 # String length
 df.filter(F.length("name") > 5)
 
+# List size
+df.filter(F.size(F.col("available_sizes")) > 10)
+
 # Regex
 df.filter(df.name.like("%rose%"))
 df.filter(df.name.rlike("(?i)^*rose$"))
@@ -717,6 +720,15 @@ pivotDF.show()
 |Jack|     Q2|     3500| 4500|
 |Jill|     Q2|     1500| 2500|
 +----+-------+---------+-----+
+```
+
+### Filling null values
+https://sparkbyexamples.com/pyspark/pyspark-fillna-fill-replace-null-values/
+```py
+columns_to_fill = ["city", "type"]
+df = df.fillna(value="abc", subset=columns_to_fill)
+df.na.fill(value=123)
+df.na.fill({"city": "unknown", "type": ""})
 ```
 
 ### Upcoming notes
