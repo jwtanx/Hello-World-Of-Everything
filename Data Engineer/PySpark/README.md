@@ -304,11 +304,52 @@ df = spark.createDataFrame(data=data2,schema=schema)
 df.printSchema()
 df.show(truncate=False)
 ```
+Another example
+```py
+data = [(1706082429568, "ABC-201", [
+    {
+        "value": {
+            "name": "Normal",
+            "$type": "EnumBundleElement"
+        },
+        "name": "Priority",
+        "$type": "SingleEnumIssueCustomField"
+    },
+    {
+        "value": {
+            "name": "Git Review",
+            "$type": "StateBundleElement"
+        },
+        "name": "Stage",
+        "$type": "StateIssueCustomField"
+    },
+])]
+schema = T.StructType([
+    T.StructField("created", T.LongType(), True),
+    T.StructField("idReadable", T.StringType(), True),
+    T.StructField(
+        "customFields",
+        T.ArrayType(
+            T.StructType([
+                T.StructField("name", T.StringType(), True),
+                T.StructField("$type", T.StringType(), True),
+                T.StructField(
+                    "value",
+                    T.StructType([
+                        T.StructField("name", T.StringType(), True),
+                        T.StructField("$type", T.StringType(), True)
+                    ]), True)
+            ])), True)
+])
+self.df = self.spark.createDataFrame(data, schema)
+```
+
 
 ## Converting PySpark Dataframe to Dict
 https://stackoverflow.com/questions/41206255/convert-pyspark-sql-dataframe-dataframe-type-dataframe-to-dictionary
 ```py
-list_persons = map(lambda row: row.asDict(), df.collect())
+list_persons = list(map(lambda row: row.asDict(), df.collect()))
+# [{'id': 0, 'created_at': '2024-02-22'}, {'id': 1, 'created_at': '2023-12-23'}, {'id': None, 'created_at': '2024-01-15'}]
 ```
 
 ## Converting Nested PySpark Dataframe into Dict
@@ -364,6 +405,15 @@ df.withColumn('local_ts', date_format(df.date_time, "yyyy-MM-dd HH:mm:ss.SSSX"))
 | a    | 2020-09-08 14:00:00.917+02:00 | 2020-09-08 08:00:00.917-04 | 2020-09-08 12:00:00.917 |
 | b    | 2020-09-08 14:00:00.900+01:00 | 2020-09-08 09:00:00.900-04 | 2020-09-08 13:00:00.9   |
 
+
+## Convert timestamp to datetime
+```py
+# Without timezone
+df.withColumn("date_time", F.to_date(F.from_unixtime(F.col("date_time") / 1000)))
+
+# With timezone
+df.withColumn("date_time", F.to_date(F.from_utc_timestamp((F.col("date_time") / 1000).cast(T.TimestampType()), "Asia/Kuala_Lumpur")))
+```
 
 ## Update a columnd with updated value
 https://sparkbyexamples.com/pyspark/pyspark-update-a-column-with-value/
@@ -731,9 +781,17 @@ df.na.fill(value=123)
 df.na.fill({"city": "unknown", "type": ""})
 ```
 
+### JOINS
+https://www.projectpro.io/article/pyspark-joins-for-data-analysis-by-example/564#mcetoc_1fsdoe8mdd
+| Join Type            | PySpark Code                         | Description                                                                                                                                            |
+| -------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Inner Join (DEFAULT) | `df3 = df1.join(df2, "id", "inner")` | Returns rows that have matching values in both dataframes.                                                                                             |
+| Left Join            | `df3 = df1.join(df2, "id", "left")`  | Returns all rows from the left dataframe, and the matched rows from the right dataframe. If there is no match, the result is `null` on the right side. |
+| Right Join           | `df3 = df1.join(df2, "id", "right")` | Returns all rows from the right dataframe, and the matched rows from the left dataframe. If there is no match, the result is `null` on the left side.  |
+| Full Outer Join      | `df3 = df1.join(df2, "id", "outer")` | Returns all rows from both dataframes, and fills in `null` for missing matches on either side.                                                         |
+
 ### Upcoming notes
 https://stackoverflow.com/questions/42983444/filtering-rows-with-empty-arrays-in-pyspark
-https://www.projectpro.io/article/pyspark-joins-for-data-analysis-by-example/564#mcetoc_1fsdoe8mdd
 https://sparkbyexamples.com/pyspark/convert-pyspark-dataframe-column-to-python-list/
 https://sparkbyexamples.com/pyspark/pyspark-convert-array-column-to-string-column/
 https://linuxhint.com/pyspark-data-preprocessing/
@@ -743,3 +801,4 @@ https://stackoverflow.com/questions/73746974/pyspark-prevent-column-value-from-c
 https://spark.apache.org/docs/3.1.1/api/python/_modules/pyspark/sql/dataframe.html#DataFrame.checkpoint
 https://stackoverflow.com/questions/37332434/concatenate-two-pyspark-dataframes
 https://www.programmingfunda.com/how-to-convert-pyspark-row-to-dictionary/
+https://archive.is/UbMmY (Using pyarrow.parquet to read the internal stats of the data)
