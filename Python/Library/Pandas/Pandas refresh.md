@@ -794,6 +794,20 @@ df.to_json(orient='table')
 
 ```
 
+## Generating a list of datetime
+```py
+# Method 1: Provide start and end
+date_range = pd.date_range(start="2022-01-01", end="2024-02-27")
+pd_date = pd.DataFrame(date_range, columns=["Date"])
+
+# Method 2: Giving a days
+base = datetime.datetime.today()
+date_list = [base - datetime.timedelta(days=x) for x in range(numdays)]
+
+# Method 3: Pandas period
+datelist = pd.date_range(datetime.today(), periods=100).tolist()
+```
+
 ## Setting the datetime format for the dataframe before converting to json
 [Reference](https://stackoverflow.com/questions/52730953/pandas-to-json-output-date-format-in-specific-form)
 ```py
