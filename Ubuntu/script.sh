@@ -1,0 +1,2 @@
+# Adding spark doris connector
+cd $(which python | sed 's/bin\/python/lib\/python3.10\/site-packages\/pyspark\/jars/g') && curl -L -O https://repo1.maven.org/maven2/org/apache/doris/spark-doris-connector-2.3_2.11/1.1.0/spark-doris-connector-2.3_2.11-1.1.0.jar
