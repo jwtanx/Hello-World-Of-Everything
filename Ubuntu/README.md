@@ -10,6 +10,11 @@ watch -n 1 nvidia-smi
 find . -type f -name *_done.csv
 ```
 
+## Remove the list of files with suffix
+```bash
+rm $(find . -type f -name *.cache)
+```
+
 ## Getting the full path of the current files that ends with .csv
 ```bash
 realpath *.csv
@@ -21,3 +26,6 @@ https://unix.stackexchange.com/questions/11238/how-to-get-over-device-or-resourc
 lsof +D /path
 lsof +D ./ | awk '{print $2}' | tail -n +2 | xargs -r kill -9
 ```
+
+## Linking symbolic link for the folder
+ln -s /original/data/path /path/to/add/link
