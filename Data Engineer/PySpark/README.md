@@ -413,6 +413,22 @@ df_new.show()
 +----+-----+------+-----+--------------+
 ```
 
+### Creating a dataframe with array of nested column
+```py
+data = [([{"id": 1, "value": "a"}, {"id": 2, "value": "b"}],)]
+schema = T.StructType([
+    T.StructField(
+        "tasks",
+        T.ArrayType(
+            T.StructType([
+                T.StructField("id", T.IntegerType(), False),
+                T.StructField("value", T.StringType(), False),
+            ])))
+])
+
+df = self.spark.createDataFrame(data, schema)
+```
+
 ### Creating a dataframe with only one nested column
 ```py
 from pyspark.sql import Row
@@ -420,8 +436,8 @@ from pyspark.sql import types as T
 
 # Create a dataframe using json data
 data = [
-    (82510293, "Hard rubbish", "Waste Disposal Collection"),
-    (12311231, "Dog grooming at home", "Mobile Pet Services"),
+    ((82510293, "Hard rubbish", "Waste Disposal Collection"),),
+    ((12311231, "Dog grooming at home", "Mobile Pet Services"),),
 ]
 
 schema = T.StructType([
@@ -434,9 +450,11 @@ schema = T.StructType([
         ]))
 ])
 
-# df = spark.createDataFrame(data, schema)
+df = spark.createDataFrame(data, schema)
 # ^^^^^ Does not work even if we put double parenthesis
 # as such ((82510293, "Hard rubbish", "Waste Disposal Collection"))
+# Need to put another comma --------------------------------------v
+# as such ((82510293, "Hard rubbish", "Waste Disposal Collection"),)
 # because pyspark will reshape the dimension into a list when there
 # is no other column (Refer: ## Creating nested pyspark dataframe with struct)
 
@@ -447,7 +465,7 @@ df = spark.createDataFrame(map(lambda x: Row(tasks=x), data), schema)
 df.show()
 ```
 
-### Creating a dataframe with struct only with selected columns
+### Creating a dataframe with struct only with selected columns (Reference only)
 ```py
 from pyspark.sql import Row, SparkSession
 import pyspark.sql.types as T
@@ -480,7 +498,7 @@ df = spark.createDataFrame(
 df.show()
 ```
 
-Example 2:
+Example 2 (Reference only):
 ```py
 import pyspark.sql.types as T
 from pyspark.sql import Row, SparkSession
