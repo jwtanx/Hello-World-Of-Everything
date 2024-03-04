@@ -384,6 +384,150 @@ df2.printSchema()
 df2.show(truncate=False)
 ```
 
+### Parallelize data into dataframe
+```py
+import pyspark.sql.functions as f
+
+df = spark._sc.parallelize([
+    [0, 1.0, 0.71, 0.143],
+    [1, 0.0, 0.97, 0.943],
+    [0, 0.123, 0.27, 0.443],
+    [1, 0.67, 0.3457, 0.243],
+    [1, 0.39, 0.7777, 0.143]
+]).toDF(['col1', 'col2', 'col3', 'col4'])
+
+df_new = df.withColumn(
+    'tada',
+    f.struct(*[f.col('col2').alias('subcol_1'), f.col('col3').alias('subcol_2')])
+)
+
+df_new.show()
++----+-----+------+-----+--------------+
+|col1| col2|  col3| col4|          tada|
++----+-----+------+-----+--------------+
+|   0|  1.0|  0.71|0.143|   [1.0, 0.71]|
+|   1|  0.0|  0.97|0.943|   [0.0, 0.97]|
+|   0|0.123|  0.27|0.443| [0.123, 0.27]|
+|   1| 0.67|0.3457|0.243|[0.67, 0.3457]|
+|   1| 0.39|0.7777|0.143|[0.39, 0.7777]|
++----+-----+------+-----+--------------+
+```
+
+### Creating a dataframe with only one nested column
+```py
+from pyspark.sql import Row
+from pyspark.sql import types as T
+
+# Create a dataframe using json data
+data = [
+    (82510293, "Hard rubbish", "Waste Disposal Collection"),
+    (12311231, "Dog grooming at home", "Mobile Pet Services"),
+]
+
+schema = T.StructType([
+    T.StructField(
+        "tasks",
+        T.StructType([
+            T.StructField("id", T.LongType(), False),
+            T.StructField("name", T.StringType(), False),
+            T.StructField("carl_category_name", T.StringType(), False)
+        ]))
+])
+
+# df = spark.createDataFrame(data, schema)
+# ^^^^^ Does not work even if we put double parenthesis
+# as such ((82510293, "Hard rubbish", "Waste Disposal Collection"))
+# because pyspark will reshape the dimension into a list when there
+# is no other column (Refer: ## Creating nested pyspark dataframe with struct)
+
+# Convert the data to a DataFrame
+df = spark.createDataFrame(map(lambda x: Row(tasks=x), data), schema)
+
+# Show the DataFrame
+df.show()
+```
+
+### Creating a dataframe with struct only with selected columns
+```py
+from pyspark.sql import Row, SparkSession
+import pyspark.sql.types as T
+
+spark = SparkSession.builder.getOrCreate()
+
+json_data = [
+    ((82510293, "Hard rubbish", "Waste Disposal Collection")),
+    ((12311231, "Dog grooming at home", "Mobile Pet Services")),
+]
+
+schema = T.StructType([
+    T.StructField(
+        "tasks",
+        T.StructType([
+            T.StructField("id", T.LongType(), False),
+            T.StructField("name", T.StringType(), False),
+        ])
+    ),
+    T.StructField("carl_category_name", T.StringType(), False)
+])
+
+# Convert the data to a DataFrame
+df = spark.createDataFrame(
+    map(lambda x: Row(tasks=x[:2], carl_category_name=x[2]), json_data),
+    schema
+)
+
+# Show the DataFrame
+df.show()
+```
+
+Example 2:
+```py
+import pyspark.sql.types as T
+from pyspark.sql import Row, SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+
+json_data = [
+    ((82510293, "Hard rubbish", "Waste Disposal Collection")),
+    ((12311231, "Dog grooming at home", "Mobile Pet Services")),
+]
+
+schema = T.StructType([
+    T.StructField(
+        "tasks",
+        T.StructType([
+            T.StructField("id", T.LongType(), False),
+            T.StructField("carl_category_name", T.StringType(), False)
+        ])
+    ),
+    T.StructField("name", T.StringType(), False)
+])
+
+# Convert the data to a DataFrame
+df = spark.createDataFrame(
+    map(lambda x: Row(tasks=Row(id=x[0], carl_category_name=x[2]), name=x[1]), json_data),
+    schema
+)
+
+# Show the DataFrame
+df.show()
+
++--------------------+--------------------+
+|               tasks|                name|
++--------------------+--------------------+
+|{82510293, Waste ...|        Hard rubbish|
+|{12311231, Mobile...|Dog grooming at home|
++--------------------+--------------------+
+```
+
+### Another way of creating a new column with struct
+```py
+df = df.withColumn(
+    "new_column_with_struct",
+    F.struct("col_1", "col_2")
+)
+```
+
 ## PySpark Data type
 https://sparkbyexamples.com/pyspark/pyspark-sql-types-datatype-with-examples/
 
