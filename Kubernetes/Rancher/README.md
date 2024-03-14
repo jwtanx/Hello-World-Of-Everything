@@ -27,3 +27,14 @@ docker logs <CONTAINER-ID-OR-NAME> 2>&1 | grep "Bootstrap Password:"
 ![alt text](src/image-2.png)
 
 8. Continue with [minikube setup](../Minikube/README.md)
+
+9. Stopping rancher container
+```sh
+docker stop my-rancher
+```
+
+10. Restarting rancher container
+```sh
+docker start my-rancher
+# Need to wait for quite a bit and then browse back the your ip address
+```
