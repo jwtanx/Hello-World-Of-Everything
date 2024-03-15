@@ -29,3 +29,15 @@ lsof +D ./ | awk '{print $2}' | tail -n +2 | xargs -r kill -9
 
 ## Linking symbolic link for the folder
 ln -s /original/data/path /path/to/add/link
+
+## Base64: Encode and Decoding
+```bash
+# Encoding
+echo -n "password" | base64
+# cGFzc3dvcmQ=
+
+# Decoding
+echo -n "cGFzc3dvcmQ=" | base64 -d
+# password
+```
+-n: no new line
