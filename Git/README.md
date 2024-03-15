@@ -207,6 +207,6 @@ git push -f origin master
 ## Remote
 ### Change remote link
 ```sh
-git remote set-url origin https://jwtanx@github.com/new-repo-name
+git remote set-url origin https://jwtanx@github.com/jwtanx/new-repo-name
 git remote set-url origin  $(echo $(git config --get remote.origin.url) | sed 's/old-domain/new-domain/g')
 ```
