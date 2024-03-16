@@ -61,18 +61,19 @@ paplay /usr/share/sounds/Yaru/stereo/desktop-login.ogg
 ## Adding logoff / shutdown sound
 https://ubuntuforums.org/showthread.php?t=2485860
 1. Change directory to /usr/lib/systemd/system-shutdown
-2. Add the following code to a script named "windows.shutdown"
+2. Add the following code to a script named "windows-shutdown.sh"
 3. Script content
 ```bash
-#!/bin/bash
-/usr/bin/canberra-gtk-play --id="desktop-logout" --description="GNOME logout"
-/usr/bin/canberra-gtk-play --id="windows-xp-shutdown" --description="GNOME logout"
+#!/bin/sh
+mpv /usr/share/sounds/Yaru/stereo/windows-xp-shutdown.ogg
 ```
 > To add a new sound, you can use the following command
 ```sh
 sudo cp /path/to/windows-xp-shutdown.ogg /usr/share/sounds/Yaru/stereo
 ```
+You may download here [windows-xp-shutdown.ogg](../Windows%20CMD/src/windows-xp-shutdown.ogg)
+
 4. Make it executable
 ```bash
-sudo chmod +x windows.shutdown
+sudo chmod +x windows-shutdown.sh
 ```
