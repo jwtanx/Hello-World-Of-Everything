@@ -57,3 +57,35 @@ https://askubuntu.com/questions/1450618/how-to-enable-startup-sound-in-ubuntu-22
 paplay /usr/share/sounds/ubuntu/stereo/desktop-login.ogg
 paplay /usr/share/sounds/Yaru/stereo/desktop-login.ogg
 ```
+
+## Adding logoff / shutdown sound
+https://ubuntuforums.org/showthread.php?t=2485860
+1. Change directory to /usr/lib/systemd/system-shutdown
+2. Add the following code to a script named fwupd.shutdown
+3. Script content
+```bash
+#!/bin/bash
+/usr/bin/canberra-gtk-play --id="desktop-logout" --description="GNOME logout"
+/usr/bin/canberra-gtk-play --id="windows-xp-shutdown" --description="GNOME logout"
+```
+> To add a new sound, you can use the following command
+```sh
+sudo cp /path/to/windows-xp-shutdown.ogg /usr/share/sounds/Yaru/stereo
+```
+4. Final content
+```bash
+#!/bin/sh
+
+# Shutdown sound
+/usr/bin/canberra-gtk-play --id="windows-xp-shutdown" --description="GNOME logout"
+
+# no history database exists
+[ -f /var/lib/fwupd/pending.db ] || exit 0
+
+# activate firmware when we have a read-only filesysten
+if ! /usr/bin/fwupdtool activate; then
+        ret=$?
+        [ "$ret" -eq "2" ] && exit 0
+        exit $ret
+fi
+```
