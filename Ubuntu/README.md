@@ -41,3 +41,19 @@ echo -n "cGFzc3dvcmQ=" | base64 -d
 # password
 ```
 -n: no new line
+
+## Adding startup sound
+https://askubuntu.com/questions/1450618/how-to-enable-startup-sound-in-ubuntu-22-04-1-lts
+1. Search Startup Applications
+2. Add a new entry
+3. Name: Startup Sound
+4. Windows XP file can be found [here](../Windows%20CMD/src/windows-xp-startup.ogg)
+5. Possible commands:
+```bash
+# For this to work, you have to copy the ogg sound file and place in /usr/share/sounds/Yaru/stereo
+/usr/bin/canberra-gtk-play --id="desktop-login" --description="GNOME login"
+/usr/bin/canberra-gtk-play --id="windows-xp-startup" --description="GNOME login"
+
+paplay /usr/share/sounds/ubuntu/stereo/desktop-login.ogg
+paplay /usr/share/sounds/Yaru/stereo/desktop-login.ogg
+```
