@@ -197,4 +197,149 @@ Characteristics:
 - More about data governance and data ownership
 - Main idea: Individual teams own their own data, and they are responsible maintaining and managing their own data and also offering it as a data product to other teams
 - Domain-based data management
--
+- How is the data distributed and how is the data managed
+
+## ETL Pipeline
+Definition: A set of processes that extract data from one system, transform it and load it into data warehouse or data lake
+ETL: Extract, Transform, Load to data warehouse
+ELT: Extract, Load, Transform to data lake
+
+### Extract
+- Can be from source systems (databases, customer relationship management, flat files, APIs, logs, data repositories)
+- Ensure data integrity and consistency during extraction (What happends if one of the API is corrupted, do we retry it, and how often will we retry it)
+- Real-time or batch extraction (depending on the requirement)
+
+### Transform
+- Convert extracted data into suitabnle format before loading into target data warehouse
+- Various operations:
+  - Data cleansing (Remove duplication, correct the corrupted data)
+  - Data enrichment (Add more data to the existing data from other sources)
+  - Formatting (Data formatting, string manipulation, date formatting)
+  - Aggregation (Summarize the data, group by, count, average)
+  - Encoding (Convert data into different encoding format)
+  - Decoding (Convert data from different encoding format to human readable format)
+  - Handling null values (Reject all the rows with null values? Replace null values with default values? Or just keep the null values)
+
+### Load
+- Load the transformed data into the target data warehouse or another data repository
+- Can be real-time (streaming manner) or batch loading
+- Must ensure data integrity and consistency during loading
+
+### Pipeline Management
+- AWS Glue (Automatically do ETL or ELT when data is received)
+- Process must be automated in reliable way
+- Monitoring and logging (Monitor the pipeline, log the pipeline, alert when the pipeline is down)
+- Orchestration services
+  - EventBridge
+  - Amazon Managed Workflows for Apache Airflow [Amazon MWAA]
+  - AWS Step Functions
+  - Lambda
+  - Glue Workflows
+
+## Common Data Sources and Data Formats
+### Data Sources
+- JDBC (Relational databases)
+  - Java Database Connectivity
+  - Platform-independent
+  - Database-independent
+  - Connectivity-independent
+  - Language-dependent (Require Java coding to access the data)
+- ODBC (Relational databases)
+  - Object Database Connectivity
+  - If you are not using Java, this is an intermediary layer
+  - Platform-dependent (Need specific driver to access your database with ODBC)
+  - Language-independent (Because not built explicitly on Java)
+- Raw Logs
+- APIs
+- Streams (Some data sources provide your data in real time as it's received)
+  - Kafka
+  - Kinesis
+
+### Common Data Formats
+1. CSV (Common-Separated Values)
+   - Text-based format
+   - Data in tabular form where each line is a row and each values are separated with a separator/delimiter (comma, tab, etc.)
+   - TSV file stands for Tab-Separated Values
+   - When to use:
+     - Small to medium-sized data
+     - Data is simple and does not have complex structure
+     - Data is not sensitive
+     - Data interchange between systems with different technologies (Many systems can handle CSV)
+     - Human-readable and editable data storage (Easier to read)
+     - Importing and exporting data from databases and spreadsheets
+     - Do not require encoding and decoding
+   - Systems:
+     - Databases (SQL-based)
+     - Excel
+     - Pandas
+     - R
+
+2. JSON (JavaScript Object Notation)
+   - Text-based format
+   - Lightweight
+   - Human-readable data interchange format
+   - Data is in key-value pairs
+   - Data is in a hierarchical structure
+   - When to use:
+     - Data interchange between web server and web client
+     - Config and settings for software application
+     - Want a flexible schema and nested data structure
+   - Systems:
+     - Web browsers
+     - RESTful APIs
+     - NoSQL databases (MongoDB, CouchDB)
+     - JavaScript
+     - Python
+     - Java
+
+3. Avro (Apache Avro)
+   - Binary format with both schema and data
+   - Compact, fast and efficient
+   - Data serialization system
+   - Data is in a schema
+   - When to use:
+     - Big data systems (Hadoop, Kafka, Spark, Hive, Pig)
+     - Real-time data processing
+     - Schema change is frequent (change in data structure) [This is the real use case because there is no point of saving the fixed schema]
+     - Efficient for serialization and deserialization (Faster than JSON) for data transport between two systems because it is binary nature and the information of how it is decoded is also included in the format as well
+   - Systems:
+     - Hadoop
+     - Apache Kafka
+     - Apache Spark
+     - Apache Flink
+
+4. Parquet
+   - Columnar storage format (optimized for analytics) instead of row-based storage
+   - Binary format
+   - Efficient for analytics (When doing query, we often only interested in the specified column instead of row)
+   - Efficient compression and encoding schemes (Column is in a same format, allow easy compression and encoding)
+   - When to use:
+     - Big data systems (Hadoop, Spark, Hive, Impala)
+     - Analyze large datasets
+     - Reading specified columns instead of entire rows
+     - Storing data on distributed system where I/O operations and storage required optimization because with parquer, we can split things out based on the columns which are being queried, maybe I want to store some columns on different server. Trying to minizise the overhead of the I/O operations / storage
+     - Efficient for analytics
+     - Efficient for query performance
+     - When we have alot of columns but we only want to query a few columns
+   - Systems:
+     - Hadoop
+     - Apache Spark
+     - Apache Hive
+     - Apache Impala
+     - AWS Redshift Spectrum
+
+5. XML (eXtensible Markup Language)
+   - Text-based format
+   - Human-readable
+   - Data is in a hierarchical structure
+   - When to use:
+     - Data interchange between web server and web client
+     - Config and settings for software application
+     - Want a flexible schema and nested data structure
+   - Systems:
+     - Web browsers
+     - RESTful APIs
+     - NoSQL databases (MongoDB, CouchDB)
+     - JavaScript
+     - Python
+     - Java
