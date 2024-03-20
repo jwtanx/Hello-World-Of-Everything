@@ -343,3 +343,87 @@ ELT: Extract, Load, Transform to data lake
      - JavaScript
      - Python
      - Java
+
+
+## Data Modelling
+1. Star Schema
+- Fact table in the middle
+- Dimension tables surrounding the fact table
+- Foreign keys in the fact table
+- Primary keys in the dimension tables
+- Below shows the ERD (Entity Relationship Diagram)
+
+```
+ +------------+                 +-------------+
+ | Dim_Course |                 | Dim_Student |
+ +------------+                 +-------------+
+ | CourseID   |                 | StudentID   |
+ | Name       |                 | Name        |
+ | Summary    |                 | Address     |
+ | Instructor |                 | Email       |
+ | Price      |                 | Class       |
+ +------------+                 +-------------+
+              |                 |
+              +-----------------+
+              | Fact_Enrollment |
+              +-----------------+
+              | CourseID        |
+              | StudentID       |
+              | PaymentID       |
+              | Date            |
+              +-----------------+
+                       |
+                +-------------+
+                | Dim_Payment |
+                +-------------+
+                | PaymentID   |
+                | PaymentType |
+                | Amount      |
+                +-------------+
+```
+
+## Data Lineage
+Definition: Visual representation that shows the flow and transformation of data through its lifecycle from its origin to its final destination
+
+Characteristics:
+- Some sort of records of what is done to the data along the way of the transformation
+- Why do we need this? When there is problem, we can track back to troubleshoot the problem
+- This is require for compliance and auditing purposes where data is really sensitive or secure data when you are dealing with law
+- Gives a clear understanding of the data flow and transformation, and consumed within the system
+- Data lineage can be created using Spline agent (Apache Spark tool) attached to Glue
+- Ingesting data using AWS Glue from S3
+- Glue is transporting data from S3 raw data into Glue Data Catalog, Spline agent attached to Glue is capturing what it is doing along the way, it has the Lineage API (Alternative: SageMaker Lineage)
+- Using AWS Lambda to consume the lineage data information from Spline and then writing into Amazon Neptune (Graph database) to visualize the data lineage, then we can query the Amazon Neptune to see the data lineage
+
+## Schema Revolution
+Definition: Ability to adapt and change the schema of a dataset over time without disrupting the existing process or systems (Like data lake where we can change the schema on the fly)
+
+Importance:
+- Ensure data system can adapt to new changes according to business requirements (Happens alot and we don't want to go back and deal with data migration every time we change the schema)
+- Allow for flexibility and agility in data management (Addition, removal, modification of fields)
+- Maintain backward compatibility with older data records
+
+Example:
+- Glue Schema Registry (AWS Glue DataBrew) - Schema discovery, compatibility, validation, registration
+- So that Glue can manage different versions of the schema over time and ensure backward compatibility with older data records
+
+## Database Performance Optimization
+- Optimization techniques and tools that make the database perform faster and more efficiently
+
+1. Indexing
+- Avoid full table scans
+- Understand what indexes you can build to make sure that we can access the data we need quickly
+- Enforce data uniqueness and integrity (Primary key, unique key)
+
+2. Partitioning
+- Divide large tables into smaller and more manageable pieces
+- Reduce the amount of data that needs to be scanned (Eg: Partition by date, region, etc.)
+- Enable parallelism and improve query performance
+- Helps with data lifecycle management (If we are partitioning based on time, we can take those older partitions and move them to a cheaper storage or archive them)
+
+3. Compression
+- Speed up data transfer and reduce storage usage and disk reads
+- Lot of the time, database is held back by disk I/O, so if we can compress the data, we can read more data at once
+- Common compression format which is supported by Amazon Redshift (LZOP, Zstandard - ZSTD, BZIP2, GZIP)
+- All of the format comes with different trade-offs (Compression ratio, speed of compression, speed of decompression) Avoid going from IO bound to CPU bound because the compression format is too complicated
+- Columnar compression (Example: Parquet, ORC)
