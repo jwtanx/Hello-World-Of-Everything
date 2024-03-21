@@ -1,6 +1,6 @@
 # Hacking and Securing Docker Containers v2.0
 
-Some of the notes that is specially outside from the [general notes](../Notes.md). 
+Some of the notes that is specially outside from the [general notes](../Notes.md).
 
 Things that we will be looking at are:
 - Introduction to Docker
@@ -225,7 +225,7 @@ To code a kernel module, you'll need a good understanding of C programming, Linu
 8. Unload the Module:
    - When you're done testing, use the `rmmod` command to unload the module from the kernel.
 
-##### Example for loading and unloading the module: 
+##### Example for loading and unloading the module:
 1. `docker_module.c` file
 ```c
 #include <linux/init.h>
@@ -357,6 +357,11 @@ docker run --rm -bv `pwd`:/root/.cache aquasec/trivy getcapsule8/shellshock:test
 
 ```
 
+### Scanning Docker Image Using Trivy
+```sh
+trivy image <IMAGE_TAG> --scanners vuln
+```
+
 #### Scanned Output
 ```
 getcapsule8/shellshock:test (ubuntu 12.10)
@@ -466,7 +471,7 @@ docker run --rm --net host --pid host --userns host --cap-add audit_control \
 # [PASS] 4.1 - Ensure a user for the container has been created
 # ...
 # [INFO] Checks: 105
-# [INFO] Score: 19 
+# [INFO] Score: 19
 
 ```
 The score increased from 17 to 19 after we set to run the docker as user and not root
@@ -474,7 +479,7 @@ The score increased from 17 to 19 after we set to run the docker as user and not
 If the user flag `--user 1000:1000` is not specified, the user in the container is root and you can get cat anything you want
 ```sh
 docker run -it --rm --name vulnerable2 alpine
-id 
+id
 # uid=0(root) gid=0(root) groups=0(root),...
 cat /etc/shadow
 # root:!::0:::::
@@ -486,7 +491,7 @@ cat /etc/shadow
 As for the image that we set `--user` flag for it
 ```sh
 docker exec -it vulnerable sh
-id 
+id
 # uid=1000 gid=1000
 cat /etc/shadow
 # cat: can't open '/etc/shadow': Permission denied
@@ -739,7 +744,7 @@ capsh --print
 ```
 
 ### Docker Content Trust
-A feature to force the docker client to download only signed images.  
+A feature to force the docker client to download only signed images.
 Not guaranteed to be safe as anyone can sign an image and push it to docker hub.
 It is recommended to pull:
 - official images
@@ -766,7 +771,7 @@ docker pull alpine@sha256:9b2a28eb47540823042a2ba401386845089bb7b62a9637d5581613
 ```
 Con: You have to download the image first in order to find out the sha256 of the image. This is because the digest is computed based on the image content and it is stored in that image manifest, which is stored in the Docker registry.
 
-Hence, docker content trust is used.  
+Hence, docker content trust is used.
 The system, which is in Docker engine, automatically verifies the publisher of images and handles named resolution from image tags to image Digest's under the hood.
 Additionally, Docker will verify the signatures and expiration dates in the metadata.
 
