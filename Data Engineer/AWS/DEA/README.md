@@ -427,3 +427,79 @@ Example:
 - Common compression format which is supported by Amazon Redshift (LZOP, Zstandard - ZSTD, BZIP2, GZIP)
 - All of the format comes with different trade-offs (Compression ratio, speed of compression, speed of decompression) Avoid going from IO bound to CPU bound because the compression format is too complicated
 - Columnar compression (Example: Parquet, ORC)
+
+## Data Sampling Techniques
+Definition: Process of selecting a subset of data from a larger dataset to gain insights and make inferences about the larger dataset
+
+Why?
+- Large datasets can be time-consuming and resource-intensive to process
+- Sampling can be used to test hypothesis, validate models, and make predictions
+- Sampling can be used to understand the characteristics of the larger dataset
+
+### Random Sampling
+- Each item in the dataset has an equal chance of being selected
+- Only works when the data is not sorted
+
+### Stratified Sampling
+- Choose this instead of random sampling when have large dataset but have different classification within the dataset
+- Divide the population into homogeneous subgroups (strata) and then take a random sample from each stratum
+- Ensure that we have good representation from each stratum (subgroup), don't need to worry about missing an entire category
+- Example: Selecting a same amount of students from each grade level
+
+### Systemic Sampling
+- Select a random starting point and then select every nth item in the population
+- Example: Select every 10th person in a list of names
+- Ensure that we are not missing any data
+
+### Cluster Sampling
+- Divide the population into clusters and then randomly select some of the clusters
+- Example: Selecting a random sample of schools and then surveying all the students in those schools
+- Useful when the population is large and spread out
+- Useful when the population is in a cluster, group, community, region
+
+### Convenience Sampling
+- Selecting a sample that is convenient to access
+- Example: Surveying people in a shopping mall
+- Not a good representation of the population, dataset
+
+### Judgmental Sampling
+- Selecting a sample based on the judgment of the researcher
+- Example: Selecting a sample of people who are known to have a particular characteristic
+- Not a good representation of the population, dataset
+
+## Data Skew Mechanisms
+Definition: Imbalance in the distribution of data across partitions or nodes in a distributed system
+- Problem: In a distributed database, some nodes may have more data than others, causing performance issues
+- Sometimes we call this celebrity problem where one node is getting all the data and it is getting overwhelmed
+- Partitioning is a data optimization technique that divides large tables into smaller and more manageable pieces so we can process them in parallel
+- But partitioning does not work when data is not evenly distributed / incoming traffic is uneven
+- Example: In IMDB, Tom Cruise has a lot of movies, so the whatever partition he is mapped to, will have alot more traffic than some other actor in films from 30 years ago
+
+### Consequences
+- Non-uniform data distribution
+- Partitioning strategy is inadequate / inefficient
+- Temporal skew (Data is skewed based on time, data partitioned 5 years ago is much smaller than data partitioned today, where most recent partition is way larger than older partition)
+- Performance degradation
+
+### Solutions
+- Monitor data distribution and create alert when data skew is detected (CloudWatch)
+- Adaptive partitioning
+  - Dynamically adjust the partition based on the observed distribution over time
+  - Automatically repartitioning in real time based on the data distribution
+  - Example: If we know that the data is skewed based on the date, we can partition the data based on the date
+  - How: We can use the AWS Glue to do the adaptive partitioning
+- Salting
+  - Add a random number to the partition key to distribute the data more evenly
+  - Example: If we know that the data is skewed based on the user ID, we can add a random number to the user ID
+- Repartitioning periodically (very destruptive)
+  - Very distruptive: Go back and reshuffle all the data while you are still trying to read the data (Try to avoid)
+  - Manually repartition the data based on the skewness of the data
+  - Example: If we know that the data is skewed based on the region, we can repartition the data based on the region
+- Sampling
+  - Sample the data and analyze the distribution to identify the skewness and adjust the partitioning accordingly
+  - Example: If we know that the data is skewed based on the user ID, we can add a random number to the user ID
+  - Part of adaptive partitioning
+- Custom partitioning
+  - Define custom rules and functions to partition the data based on the skewness
+  - Example: We know upfront that Tom Cruise will have more data, he can have his own partition
+  - Hacky method but it's a solution
