@@ -359,6 +359,11 @@ row = df.collect()[0]
 row.asDict(True)
 ```
 
+## Converting whole PySpark Dataframe to Dict
+```py
+df.toPandas().to_dict(orient="records")
+```
+
 ## Creating nested pyspark dataframe with struct
 ```py
 structureData = [
@@ -427,6 +432,39 @@ schema = T.StructType([
 ])
 
 df = self.spark.createDataFrame(data, schema)
+```
+
+### Creating a dataframe with multiple columns where one of the column is an array of struct
+```py
+schema = T.StructType([
+    T.StructField("id", T.StringType(), False),
+    T.StructField(
+        "teamOwnUsers",
+        T.ArrayType(
+        T.StructType([
+            T.StructField("id", T.IntegerType(), False),
+            T.StructField("type", T.StringType(), True),
+        ])))
+])
+data = [("02f083d9", [{"id": 1, "type": "user"}, {"id": 2, "type": "user"}],)]
+df_youtrack_projects = spark.createDataFrame(
+    map(lambda x: Row(id = x[0], teamOwnUsers=x[1]), data), schema)
+```
+
+### Get the dictionary from PySpark Dataframe
+```py
+json_data = df.toPandas().to_dict(orient='records')
+```
+
+### Replace all nan value to None
+```py
+# Create a new dataframe
+df = pd.DataFrame({
+    'A': [1, 2, np.nan, 4],
+    'B': [np.nan, 2, 3, 4],
+    'C': [1, 2, 3, 4]
+})
+json_data = df.toPandas().replace({np.nan: None}).to_dict(orient="records")
 ```
 
 ### Creating a dataframe with only one nested column
