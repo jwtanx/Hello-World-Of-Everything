@@ -61,6 +61,14 @@ Once you revert, the added files / changes for the commit will be reverted, adde
 - This will save all the uncommited but tracked files into a stash, after you reset to a checkpoint, you can `git stash pop` it back and continue working.
 ```git stash pop```
 
+## Git reset
+```
+git reset <option>
+--soft: uncommit changes, changes are left staged (index).
+--mixed (default): uncommit + unstage changes, changes are left in working tree.
+--hard: uncommit + unstage + delete changes, nothing left.
+```
+
 ## Hard reset to undo the tracked files that has changes
 ```git reset --hard```
 
