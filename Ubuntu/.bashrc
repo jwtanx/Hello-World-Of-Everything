@@ -4,8 +4,9 @@ REMINDER="\n`date`\n\n==================\nGOOD DAY J.W. TAN!\n==================
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-# ln -s /home/junwei/Desktop/company/data_platform/.ivy2 /tmp 2>/dev/null
-cp -r /home/junwei/Desktop/company/data_platform/.ivy2 /tmp
+# Link /home/junwei/Desktop/projects/data_platform/.ivy2 /tmp
+# ln -s /home/junwei/Desktop/projects/data_platform/.ivy2 /tmp 2>/dev/null
+cp -r /home/junwei/Desktop/projects/data_platform/.ivy2 /tmp
 
 # If not running interactively, don't do anything
 case $- in
@@ -93,9 +94,9 @@ fi
 # export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # Temporary
-alias tbuild="cd ~/Desktop/company && ./bazelisk-linux run //data_platform/data_services/airflow:test_image_publish --verbose_failures && docker pull harbor.company.com/cnx/data_platform/dp-airflow:latest && docker run -d harbor.company.com/cnx/data_platform/dp-airflow:latest sh -c 'sleep infinity'"
-alias bbase="cd ~/Desktop/company/data_platform && docker build -f data_services/airflow_build_dev_new.dockerfile -t harbor.company.com/cnx/data_platform/dp-airflow:testing_new --progress=plain --no-cache ."
-alias btoml="cp ~/Desktop/company/data_platform/pyproject.toml ~/Desktop/company/ && cd ~/Desktop/company && rm -rf data_platform/data_services/opt && p -m build -w -o data_platform/data_services/opt . && rm ~/Desktop/company/pyproject.toml"
+alias tbuild="cd ~/Desktop/projects && ./bazelisk-linux run //data_platform/data_services/airflow:test_image_publish --verbose_failures && docker pull harbor.projects.com/cnx/data_platform/dp-airflow:latest && docker run -d harbor.projects.com/cnx/data_platform/dp-airflow:latest sh -c 'sleep infinity'"
+alias bbase="cd ~/Desktop/projects/data_platform && docker build -f data_services/airflow_build_dev_new.dockerfile -t harbor.projects.com/cnx/data_platform/dp-airflow:testing_new --progress=plain --no-cache ."
+alias btoml="cp ~/Desktop/projects/data_platform/pyproject.toml ~/Desktop/projects/ && cd ~/Desktop/projects && rm -rf data_platform/data_services/opt && p -m build -w -o data_platform/data_services/opt . && rm ~/Desktop/projects/pyproject.toml"
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -107,8 +108,8 @@ alias gp="git push origin HEAD:refs/for/master"
 alias gb="git branch"
 alias yf='yapf -i "--style={based_on_style: google, column_limit: 80, indent_width: 2}" -r'
 alias yf2='yapf -i "--style={based_on_style: google, column_limit: 80, indent_width: 2, spaces_before_comment: 2, split_before_logical_operator: true}" -r'
-alias yfq='~/Desktop/company/data_platform/.venv/3.10/yapf-3.10/bin/python -m yapf -i "--style={based_on_style: google, column_limit: 80, indent_width: 2}" --fixers quotes --force-quote-type double -r'
-alias format_bazel='~/Desktop/company/bazelisk-linux run //:buildifier_format'
+alias yfq='~/Desktop/projects/data_platform/.venv/3.10/yapf-3.10/bin/python -m yapf -i "--style={based_on_style: google, column_limit: 80, indent_width: 2}" --fixers quotes --force-quote-type double -r'
+alias format_bazel='~/Desktop/projects/bazelisk-linux run //:buildifier_format'
 alias shit='shutdown -P 0'
 alias findnewjob='shutdown -P 0'
 alias de='deactivate'
@@ -118,50 +119,49 @@ alias filesize='du -sh | sort -h'
 alias cd..='cd ..'
 alias chmod777dir='find . -type d -exec chmod 777 {} \;'
 alias cmd='gnome-terminal'
-alias cdc='cd /home/junwei/Desktop/company/data_platform'
-alias cdcd='cd /home/junwei/Desktop/company/data_platform/data_services'
+alias cdc='cd /home/junwei/Desktop/projects/data_platform'
+alias cdcd='cd /home/junwei/Desktop/projects/data_platform/data_services'
 alias mlserver='ssh junwei@192.168.xxx.xxx'
 alias base='base64 -w 0'
 alias ddownr='docker compose down ; git restore docker-compose.yaml'
 alias ddown='docker compose down'
 alias dup='docker compose up -d'
-alias ddup='cd /home/junwei/Desktop/company/data_platform/data_services && cat "temp/ref/docker-compose - full.yaml" > docker-compose.yaml && docker compose up -d'
+alias ddup='cd /home/junwei/Desktop/projects/data_platform/data_services && cat "temp/ref/docker-compose - full.yaml" > docker-compose.yaml && docker compose up -d'
 alias dp='docker ps'
 alias dpa='docker ps -a'
 alias dclear='docker builder prune'
 alias dsize='docker system df'
 alias dback='docker images --no-trunc --format "{\"name\": \"{{.Repository}}\", \"tag\": \"{{.Tag}}\", \"size\": \"{{.Size}}\", \"digest\": \"{{.ID}}\"}" | jq -s "." > docker_images.json'
 alias drmimage='docker rmi $(docker images -f "dangling=true" -q)'
-alias linkfolder='find ~/Desktop/company/data_platform/data_pipelines/ -type f -name "*.py" -exec ln -s -t ~/airflow/dags/ {} +'
-alias actmix='. /home/junwei/Desktop/company/data_platform/.venv/3.10/mix-3.10/bin/activate'
-alias actcog='. /home/junwei/Desktop/company/data_platform/.venv/3.10/cogdata-env/bin/activate'
+alias linkfolder='find ~/Desktop/projects/data_platform/data_pipelines/ -type f -name "*.py" -exec ln -s -t ~/airflow/dags/ {} +'
 alias pid='ps aux'
 alias di='docker images'
-alias adl='rm -rf ~/airflow/dags/* ; find ~/Desktop/company/data_platform/data_pipelines/ -type f -name "*.py" -exec ln -s -t ~/airflow/dags/ {} + &> /dev/null; airflow dags list'
+alias adl='rm -rf ~/airflow/dags/* ; find ~/Desktop/projects/data_platform/data_pipelines/ -type f -name "*.py" -exec ln -s -t ~/airflow/dags/ {} + &> /dev/null; airflow dags list'
+alias adli='airflow dags list-import-errors'
 alias hfcache="cd ~/.cache/huggingface/hub"
 alias robo="DISABLE_WAYLAND=1 robo3t-snap"
 # alias robo="WAYLAND_DISPLAY=wayland-1 ; robo3t-snap"
 alias k='kubectl'
 alias mk='minikube'
 alias myip="ip addr | grep noprefix | grep -oP 'inet \K\S+' | cut -d'/' -f1"
+alias test_all='~/Desktop/projects/bazelisk-linux test data_platform/... --local_test_jobs=1 --test_output=all'
 
 # Bazel test the current folder
 test_bazel() {
     if [ -n "$1" ]; then
-        cur_dir=$(realpath $1 | sed 's/home\/junwei\/Desktop\/company//g')
+        cur_dir=$(realpath $1 | sed 's/home\/junwei\/Desktop\/projects//g')
     else
-        cur_dir=$(pwd | sed 's/home\/junwei\/Desktop\/company//g')
+        cur_dir=$(pwd | sed 's/home\/junwei\/Desktop\/projects//g')
     fi
 
     if [ -z "$2" ]; then
-        ~/Desktop/company/bazelisk-linux test $cur_dir/... --test_output=all
+        ~/Desktop/projects/bazelisk-linux test $cur_dir/... --test_output=all --local_test_jobs=1
     else
-        ~/Desktop/company/bazelisk-linux test $cur_dir/... --test_output=all --cache_test_results=no
+        ~/Desktop/projects/bazelisk-linux test $cur_dir/... --test_output=all --cache_test_results=no --local_test_jobs=1
     fi
 }
 
 # Docker services: User variables
-AIRFLOW_UID=1001
 export PATH=$PATH:$(go env GOPATH)/bin
 export MLFLOW_SERVER_URI=http://127.0.0.1:5000
 export MLFLOW_API_HOST=127.0.0.1
@@ -263,3 +263,5 @@ stty werase \^H
 
 bash ~/shrunner.sh
 echo -e $REMINDER
+
+complete -C /usr/bin/terraform terraform

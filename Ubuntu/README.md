@@ -77,3 +77,11 @@ You may download here [windows-xp-shutdown.ogg](../Windows%20CMD/src/windows-xp-
 ```bash
 sudo chmod +x windows-shutdown.sh
 ```
+
+## Shortcut to copy password to clipboard
+1. Create a new profile in the terminal
+2. Set the profile to have small windows size
+3. Go to shortcut and add the following command with your special combination of key press
+```
+gnome-terminal --window-with-profile=Background -x sh -c 'echo -n YOUR_PASSWORD | xclip -sel clip ; sleep 0.1'
+```
