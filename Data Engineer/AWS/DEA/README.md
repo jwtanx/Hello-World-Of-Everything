@@ -363,7 +363,9 @@ ELT: Extract, Load, Transform to data lake
  | Instructor |                 | Email       |
  | Price      |                 | Class       |
  +------------+                 +-------------+
-              |                 |
+       |                               |
+       +---------------+---------------+
+                       |
               +-----------------+
               | Fact_Enrollment |
               +-----------------+
@@ -503,3 +505,562 @@ Definition: Imbalance in the distribution of data across partitions or nodes in 
   - Define custom rules and functions to partition the data based on the skewness
   - Example: We know upfront that Tom Cruise will have more data, he can have his own partition
   - Hacky method but it's a solution
+
+## Data Validation and Profiling
+- Data Validation: Process of ensuring that data is accurate, complete, and consistent
+- Data Profiling: Process of examining datasets to understand their structure, content, relationships, and quality
+
+### Data Validation
+#### Data Completeness
+- Definition: Ensure that all the required data is present
+- Checks: Missing values, null counts, percentage of populated fields (Does this percentage fall within the acceptable range)
+- Importance: Incomplete data can lead to inaccurate analysis and decision-making
+
+#### Data consistency
+- Definition: Ensure that data is consistent across different sources and systems, and they do not contradict/overlap each other
+- Checks: Cross-field validation, comparing data from different sources/periods, duplicate records, conflicting data, data integrity constraints (Foreign key, unique key)
+- Importance: Inconsistent data can lead to confusion and errors in analysis
+- Example: One table with movie ratings from 1 - 5 and another table has a rating from 1 - 10, when we try to combine them, we will have confusion and incorect conclusion
+
+#### Data Accuracy
+- Definition: Ensure that data is accurate and free from errors, ensures data is correct, reliable and represent what it supposed to do
+- Checks: Comparing with trusted sources, validation using known standards or rules, pass through sanity check (does the overall distribution of the data matches what we expect from the real world or not), data type validation, range validation, format validation, data integrity constraints
+- Importance: Inaccurate data can lead to incorrect analysis and decision-making
+
+#### Data Integrity
+- Definition: Ensures data maintains its correctness and consistency over its lifecycle and across different systems
+- Checks: Referential integrity (foreign key checks in database), relationship validation, entity integrity, domain integrity, business rules, data integrity constraints
+- Importance: Ensure relationships between data are maintained and data is not corrupted, and data remain trustworthy over time
+
+#### Difference between data accuracy and data integrity
+https://www.ibm.com/blog/data-accuracy-vs-data-integrity/
+- Data accuracy focuses on the correctness of data values, ensuring that they are free from errors and accurately represent real-world entities
+- Data integrity refers to the consistency, reliability, and trustworthiness of data throughout its lifecycle.
+- Data accuracy is primarily concerned with identifying and eliminating errors in data values, such as transcription mistakes, duplicate entries, and incorrect values.
+- Data integrity is concerned with maintaining the accuracy and consistency of data over time, even as it is transferred between systems or manipulated for various purposes.
+
+##### Methods to ensure data accuracy
+- Data validation: This involves implementing predefined rules or algorithms to detect errors, inconsistencies, and inaccuracies in data. It can be done at the time of data entry or afterward.
+- Data cleansing: This involves identifying and correcting (or removing) errors and inconsistencies in datasets. It often includes removing duplicates, correcting misspellings, and standardizing data.
+- Data profiling: It involves examining datasets to identify patterns, trends, and anomalies. These insights can be used to detect potential inaccuracies or inconsistencies.
+
+##### Methods to ensure data integrity
+- Access controls: These are used to prevent unauthorized access to data. Access controls can include usernames and passwords, encryption, and network firewalls.
+- Backups and recovery: Regular backups are crucial for maintaining data integrity. In the event of data loss or corruption, backups allow data to be restored to its original state.
+- Error detection and correction techniques: These include checksums, cyclic redundancy checks, and digital signatures. These techniques are used to identify and correct errors that may have occurred during data transmission or storage.
+- Data governance: Implementing strong data governance practices helps ensure data integrity by defining who is responsible for maintaining different aspects of data, including its accuracy, consistency, and reliability.
+
+## SQL
+### Aggregation
+COUNT
+```
+SELECT COUNT(*) AS total_rows FROM employees;
+```
+SUM
+```
+SELECT SUM(salary) AS total_salary FROM employees;
+```
+AVG
+```
+SELECT AVG(salary) AS average_salary FROM employees;
+```
+MAX / MIN
+```
+SELECT MAX(salary) AS highest_salary FROM employees;
+```
+
+### Aggregation with CASE
+Filter on one thing at a time using WHERE clauses after the aggregation
+```
+SELECT COUNT(*) AS high_salary_count
+FROM employees
+WHERE salary > 70000;
+```
+Filter on multiple things at once using CASE
+```
+SELECT
+COUNT(CASE WHEN salary > 70000 THEN 1 END) AS high_salary_count,
+COUNT(CASE WHEN salary BETWEEN 50000 AND 70000 THEN 1 END) AS medium_salary_count,
+COUNT(CASE WHEN salary < 50000 THEN 1 END) AS low_salary_count
+FROM employees;
+```
+
+### GROUP BY: Grouping
+Definition: Split things up by a given field
+Example: Count how many employees in a department
+```
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees
+WHERE join_date > '2020-01-01'
+GROUP BY department_id;
+```
+
+### GROUP BY: Grouping by multiple fields (Nested grouping)
+```
+SELECT YEAR(sale_date) AS sale_year, product_id, SUM(amount) AS total_sales
+FROM sales
+GROUP BY sale_year, product_id
+ORDER BY sale_year, total_sales DESC;
+```
+
+### ORDER BY: Sorting
+```sql
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees
+ORDER BY employee_count DESC;
+-- ORDER BY employee_count ASC;
+-- ORDER BY employee_count; -- same as ASC
+```
+
+### HAVING: Filtering after grouping
+Definition: Filter the results that has been grouped using an aggregation
+```
+SELECT department FROM employees
+GROUP BY department
+HAVING COUNT(*) > 1;
+```
+
+### PIVOT: Transform rows into columns
+Definition: Turning row-lvel data into columnar data
+Example: Table with sales amounts and salesperson each row but we want to see the sales amount by salesperson
+- Only works with SQL Server, Oracle, MySQL, PostgreSQL
+```
+SELECT salesperson, [Jan] AS Jan_sales, [Feb] AS Feb_sales
+FROM
+(SELECT salesperson, month, sales FROM sales) AS sourceTable
+PIVOT
+(
+  SUM (sales)
+  FOR month IN ([Jan], [Feb])
+) AS PivotTable;
+```
+Output
+```
+| salesperson | Jan_sales | Feb_sales |
+| ----------- | --------- | --------- |
+| Alice       | 1000      | 2000      |
+| Bob         | 1500      | 2500      |
+```
+
+- Without pivoting
+```
+SELECT
+  salesperson,
+  SUM(CASE WHEN month = 'Jan' THEN sales ELSE O END) AS Jan_sales,
+  SUM(CASE WHEN month = 'Feb' THEN sales ELSE O END) AS Feb_sales
+FROM sales
+GROUP BY salesperson;
+```
+
+### When is the square bracket used?
+1. When the column name has space
+```
+SELECT salesperson, [monthly sales] AS Jan_sales
+FROM sales
+```
+2. When the column name is same as the SQL keyword
+```
+SELECT id, [user]
+FROM users
+```
+
+### UNPIVOT: Transform columns into rows
+Definition: Turning columnar data into row-level data
+Example: Table with sales amount by month and we want to see the sales amount by month
+- Only works with SQL Server, Oracle, MySQL, PostgreSQL
+```
+SELECT month, salesperson, sales
+FROM
+(SELECT salesperson, [Jan], [Feb] FROM sales) AS sourceTable
+UNPIVOT
+(
+  sales FOR month IN ([Jan], [Feb])
+) AS UnpivotTable;
+```
+Output
+```
+| month | salesperson | sales |
+| ----- | ----------- | ----- |
+| Jan   | Alice       | 1000  |
+| Feb   | Alice       | 2000  |
+| Jan   | Bob         | 1500  |
+| Feb   | Bob         | 2500  |
+```
+
+### Table alias
+Definition: Short name for a table
+Example: Using table alias to simplify the query
+```
+SELECT e.name
+FROM employees e
+```
+
+### JOIN: Combining data from multiple tables
+#### INNER JOIN (Default join)
+Definition: Return rows when the condition we are joining on exists in both tables
+```
+SELECT e.name, e.department_id, d.department_name
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.department_id;
+```
+Output
+```
+| name  | department_id | department_name |
+| ----- | ------------- | --------------- |
+| Alice | 1             | Sales           |
+| Bob   | 2             | Marketing       |
+```
+
+#### LEFT JOIN (Outer join)
+Definition: Return all rows from the left table, and the matched rows from the right table
+```
+SELECT e.name, e.department_id, d.department_name
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.department_id;
+```
+Output
+```
+| name  | department_id | department_name |
+| ----- | ------------- | --------------- |
+| Alice | 1             | Sales           |
+| Bob   | 2             | Marketing       |
+| Carol | 3             | NULL            |
+```
+
+#### RIGHT JOIN (Outer join)
+Definition: Return all rows from the right table, and the matched rows from the left table
+```
+SELECT e.name, e.department_id, d.department_name
+FROM employees e
+RIGHT JOIN departments d ON e.department_id = d.department_id;
+```
+Output
+```
+| name  | department_id | department_name |
+| ----- | ------------- | --------------- |
+| Alice | 1             | Sales           |
+| Bob   | 2             | Marketing       |
+| NULL  | NULL          | HR              |
+```
+
+#### FULL JOIN (Outer join)
+Definition: Return all rows from left and right tables whether or not there is a match
+- Normally use for data comparison and debugging
+- To get a good picture when we have mismatched data where we do not have matching keys
+```
+SELECT e.name, e.department_id, d.department_name
+FROM employees e
+FULL JOIN departments d ON e.department_id = d.department_id;
+```
+Output
+```
+| name  | department_id | department_name |
+| ----- | ------------- | --------------- |
+| Alice | 1             | Sales           |
+| Bob   | 2             | Marketing       |
+| Carol | 3             | NULL            |
+| NULL  | NULL          | HR              |
+```
+
+#### CROSS OUTER JOIN
+Definition: Return all possible combinations between the two tables
+```
+SELECT e.name, d.department_name
+FROM employees e
+CROSS JOIN departments d;
+```
+Output
+```
+| name  | department_name |
+| ----- | --------------- |
+| Alice | Sales           |
+| Bob   | Sales           |
+| Carol | Sales           |
+| Alice | Marketing       |
+| Bob   | Marketing       |
+| Carol | Marketing       |
+| Alice | HR              |
+| Bob   | HR              |
+| Carol | HR              |
+```
+
+### UNION
+Definition: Combine the result set of two or more SELECT statements
+- UNION: Combine the result set of two or more SELECT statements, remove duplicates
+- UNION ALL: Combine the result set of two or more SELECT statements, include duplicates
+```
+SELECT name FROM employees
+UNION
+SELECT name FROM contractors;
+```
+
+### INTERSECT
+Definition: Return common rows between two SELECT statements
+```
+SELECT name FROM employees
+INTERSECT
+SELECT name FROM contractors;
+```
+
+### EXCEPT
+Definition: Return rows that are in the first SELECT statement but not in the second SELECT statement
+```
+SELECT name FROM employees
+EXCEPT
+SELECT name FROM contractors;
+```
+
+### Subquery
+Definition: Query within another query
+```
+SELECT name, department_id
+FROM employees
+WHERE department_id IN
+(
+  SELECT department_id
+  FROM departments
+  WHERE department_name = 'Sales'
+);
+```
+
+### SQL Regular Expression
+Definition: For pattern matching
+Example
+```sql
+-- Select any rows where the name starts with 'fire' or 'ice' (case-insensitive)
+SELECT * FROM name WHERE name ~*'^(fire|ice)';
+```
+| Symbol   | Description                                                             |
+| -------- | ----------------------------------------------------------------------- |
+| ~        | Regular expression operator (case-sensitive)                            |
+| ~*       | Case-insensitive regular expression operator                            |
+| !~*      | Not match expression, case-insensitive                                  |
+| ^        | Caret - Match a pattern at start of the string                          |
+| $        | Match a pattern at end of the string (boo$ will match boo but not book) |
+| \|       | Alternation (OR) (sit\|sat matches both sit and sat)                    |
+| []       | Any character inside the brackets                                       |
+| [a-z]    | Matches any lower case letter between a and z                           |
+| [a-z]{4} | Matches any lower case letter between a and z with 4 characters         |
+| [^]      | Any character not inside the brackets                                   |
+| [^a-z]   | Does not match any lower case letter between a and z                    |
+| \d       | Matches any digit                                                       |
+| \w       | Matches any letter, digit or underscore                                 |
+| \s       | Matches any whitespace character                                        |
+| \t       | Matches a tab character                                                 |
+| .        | Any character                                                           |
+| *        | Zero or more occurrences                                                |
+| +        | One or more occurrences                                                 |
+| ?        | Zero or one occurrence                                                  |
+
+## SQL Coding Best Practices
+1. Use meaningful table and column names
+```sql
+SELECT employee_name, department_name
+FROM employees
+```
+2. Use consistent and clear formatting
+```sql
+SELECT
+  employee_name,
+  department_name
+FROM
+  employees
+```
+3. Use comments to explain complex queries
+```sql
+-- Get the total number of employees in each department
+SELECT department_name, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department_name;
+```
+4. Use aliases for tables and columns
+```sql
+SELECT e.employee_name, d.department_name
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id;
+```
+5. Use subqueries for complex queries
+```sql
+SELECT employee_name, department_name
+FROM employees
+WHERE department_id IN
+(
+  SELECT department_id
+  FROM departments
+  WHERE department_name = 'Sales'
+);
+```
+6. Use UNION, INTERSECT, EXCEPT for combining results
+```sql
+SELECT name FROM employees
+UNION
+SELECT name FROM contractors;
+```
+7. Use JOIN for combining data from multiple tables
+```sql
+SELECT e.employee_name, d.department_name
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id;
+```
+8. Use GROUP BY for grouping data
+```sql
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department_id;
+```
+9. Use ORDER BY for sorting data
+```sql
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees
+ORDER BY employee_count DESC;
+```
+10. Use HAVING for filtering after grouping
+```sql
+SELECT department_id, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department_id
+HAVING COUNT(*) > 1;
+```
+11. Use CASE for conditional logic
+```sql
+SELECT
+  employee_name,
+  CASE
+    WHEN salary > 70000 THEN 'High'
+    WHEN salary BETWEEN 50000 AND 70000 THEN 'Medium'
+    ELSE 'Low'
+  END AS salary_category
+FROM employees;
+```
+12. Use PIVOT and UNPIVOT for transforming data
+```sql
+SELECT salesperson, [Jan] AS Jan_sales, [Feb] AS Feb_sales
+FROM
+(SELECT salesperson, month, sales FROM sales) AS sourceTable
+PIVOT
+(
+  SUM (sales)
+  FOR month IN ([Jan], [Feb])
+) AS PivotTable;
+```
+13. Use SQL Regular Expression for pattern matching
+```sql
+SELECT * FROM name WHERE name ~*'^(fire|ice)';
+```
+14. Use SQL functions for data manipulation
+```sql
+SELECT
+  employee_name,
+  UPPER(employee_name) AS uppercase_name,
+  LOWER(employee_name) AS lowercase_name,
+  LENGTH(employee_name) AS name_length
+FROM employees;
+```
+15. Use SQL transactions for data integrity
+```sql
+BEGIN TRANSACTION;
+INSERT INTO employees (employee_name, department_id) VALUES ('Alice', 1);
+INSERT INTO employees (employee_name, department_id) VALUES ('Bob', 2);
+COMMIT;
+```
+16. Use SQL views for reusable queries
+```sql
+CREATE VIEW employee_details AS
+SELECT employee_name, department_name
+FROM employees
+JOIN departments ON employees.department_id = departments.department_id;
+```
+Using the view
+```sql
+SELECT * FROM employee_details;
+```
+17. Use SQL indexes for performance optimization
+```sql
+CREATE INDEX idx_employee_name ON employees (employee_name);
+```
+18. Use SQL constraints for data integrity
+```sql
+ALTER TABLE employees
+ADD CONSTRAINT fk_department_id
+FOREIGN KEY (department_id)
+REFERENCES departments (department_id);
+```
+19. Use SQL triggers for automating tasks
+```sql
+CREATE TRIGGER update_salary
+AFTER UPDATE ON employees
+FOR EACH ROW
+BEGIN
+  INSERT INTO salary_history (employee_id, old_salary, new_salary)
+  VALUES (OLD.employee_id, OLD.salary, NEW.salary);
+END;
+```
+Using the trigger
+```sql
+UPDATE employees SET salary = 50000 WHERE employee_id = 1;
+```
+20. Use SQL stored procedures for reusable code
+```sql
+CREATE PROCEDURE get_employee_details
+AS
+BEGIN
+  SELECT employee_name, department_name
+  FROM employees
+  JOIN departments ON employees.department_id = departments.department_id;
+END;
+```
+Using the stored procedure
+```sql
+EXEC get_employee_details;
+```
+
+### SQL Exercises
+1. Practicing aggregation queries in SQL
+You probably know the story of the Titanic, an ocean liner that tragically sank in 1912. A famous policy of the time was "women and children first" when loading up the lifeboats in such a situation. Does the data show this is what actually happened on the Titanic? We've loaded up a sample of 100 passengers on the Titanic, which includes their age in years, whether they survived, and their self-reported gender, into a table named titanic. Explore this data, and compute:
+- A listing of the first ten rows in the titanic table, to help you understand its structure and column names.
+```sql
+SELECT * FROM titanic LIMIT 10;
+```
+- The overall survival rate of the passengers in this data set. This result should be labeled overall_rate.
+```sql
+SELECT AVG(Survived) AS overall_rate FROM titanic;
+```
+- The overall survival rate of "women and children," identified by a gender of 'female' or age of 12 or younger. This result should be labeled women_children_rate.
+```
+SELECT AVG(Survived) AS women_children_rate FROM titanic
+WHERE Sex == 'female' OR Age <= 12;
+```
+- The overall survival rate of everyone else who does not fit our definition of "women and children." This result should be labeled others_rate.
+```sql
+-- Using subquery
+SELECT AVG(Survived) AS others_rate FROM titanic
+WHERE PassengerId NOT IN (
+  SELECT PassengerId FROM titanic
+  WHERE Sex == 'female' OR Age <= 12
+) AND Age IS NOT NULL; -- Due to the reason that there are data without age, we will exclude them
+
+-- Using logic
+SELECT AVG(Survived) AS others_rate FROM titanic
+WHERE Sex == 'male' AND Age > 12;
+```
+
+2. Practicing grouping queries in SQL
+Did class matter? We have the same sample of 100 passengers on the Titanic, but this time we want to explore if the passenger class of their ticket (first, second, or third class) affected their odds of survival.
+- Your sample dataset is in a table named titanic. This contains a column named Survived, which is 1 if they survived and 0 if not. There is also a Pclass column indicating their passenger class (1, 2, or 3.)
+- Your task is to use GROUP BY in SQL to produce the survival rate for each passenger class in our dataset. Your output should contain a table with two columns named Pclass and survival_rate. The results should be sorted in ascending order by passenger class.
+```sql
+SELECT Pclass, AVG(Survived) AS survival_rate FROM titanic
+GROUP BY Pclass
+ORDER BY Pclass;
+```
+
+3. Practicing join queries in SQL
+We've loaded up a couple of tables of data from a fictional retailer: Products, containing information about the products sold by the company, and Suppliers, containing information about the companies that provided those products. These two tables are connected by columns named SupplierID.
+- Create a report of every ProductName in the Products table, together with the CompanyName associated with each product's supplier.
+This query should be written in such a way that every product is listed in your report, even if no match exists in the Suppliers table for its SupplierID. Your final results should be sorted alphabetically by ProductName.
+```sql
+SELECT p.ProductName, s.CompanyName
+FROM Products p
+FULL JOIN Suppliers s ON p.SupplierID = s.SupplierID
+ORDER BY ProductName
+```
