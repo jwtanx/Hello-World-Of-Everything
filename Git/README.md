@@ -218,3 +218,8 @@ git push -f origin master
 git remote set-url origin https://jwtanx@github.com/jwtanx/new-repo-name
 git remote set-url origin  $(echo $(git config --get remote.origin.url) | sed 's/old-domain/new-domain/g')
 ```
+
+## Git maintenance and data recovery
+- git fsck: Check the database for errors.
+- git gc: Clean up and optimize the local repository.
+- git reflog: Record when refs were updated in the local repository, useful for recovering lost commits.
