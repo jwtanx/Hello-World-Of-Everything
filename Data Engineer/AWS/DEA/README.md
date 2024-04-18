@@ -293,6 +293,7 @@ ELT: Extract, Load, Transform to data lake
      - Java
 
 3. Avro (Apache Avro)
+   - For evolving schema and high compatibility, Avro should be chosen for downstream analytics
    - Binary format with both schema and data
    - Compact, fast and efficient
    - Data serialization system
@@ -1064,3 +1065,32 @@ FROM Products p
 FULL JOIN Suppliers s ON p.SupplierID = s.SupplierID
 ORDER BY ProductName
 ```
+
+# Section 3: Storage
+## Amazon S3
+Definition: Scalable, secure, durable, and highly available object storage service
+
+Characteristics:
+- Main building blocks of AWS
+- Infinitely scalable
+- Many websites uses S3 as a backbone
+- It is used as an integration as well
+
+Use Cases:
+- Backup and storage
+- Disaster recovery - Move data into another region and in case on side is going down, you have a backup
+- Data archiving - Retrieve at later stage for much cheaper
+- Hybrid cloud storage - Store data on-premises and in the cloud
+- To host application
+- To host media - Videos, images, etc.
+- Data lake to store a lot of data to perform big data analytics
+- Deliver software updates
+- Static website hosting
+
+Example:
+- Nasdaq uses S3 to store 7 years of data into S3 Glacier (Archival service of Amazon S3)
+- Sysco runs analytics on dat anad gain business insights
+
+### Amazon S3 - Buckets
+- Buckets can be seen as top level directory like root folder
+- Files in S3 are called objects
