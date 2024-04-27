@@ -1,24 +1,59 @@
-zompute# Google Cloud Platform CLI Cheat Sheet
+# Google Cloud Platform CLI
 
-[Good Reference](https://jayendrapatil.com/google-cloud-gcloud-cheat-sheet)
+## Reference
+- https://jayendrapatil.com/google-cloud-gcloud-cheat-sheet
+- https://cloud.google.com/sdk/docs/cheatsheet
+
+## Installation
+
 
 ## Google Cloud - `gcloud`
-[Complete Reference](https://cloud.google.com/sdk/docs/cheatsheet)
-
-cat ~/.config/gcloud/configurations/config_default
+Getting the list of the configuration
+```cat ~/.config/gcloud/configurations/config_default```
 
 ### Config
-| Command Example                           | Description        | Example          |
-| ----------------------------------------- | ------------------ | ---------------- |
-| gcloud config set compute/region <region> | Set default region | region: us-west1 |
-| gcloud config set compute/zone <zone>     | Set default zone   | zone: us-west1-b |
+| Command Example                             | Description            |
+| ------------------------------------------- | ---------------------- |
+| `gcloud config set compute/region <region>` | Set default region     |
+| `gcloud config set compute/zone <zone>`     | Set default zone       |
+| `gcloud config list`                        | List projects          |
+| `gcloud config list project`                | List projects          |
+| `gcloud compute project-info describe`      | Show project info      |
+| `gcloud config set project <project_id>`    | Switch project         |
+| `gcloud config set account <account>`       | Set the active account |
+| `gcloud config configurations list`         | List configurations    |
+| `gcloud config configurations activate`     | Activate configuration |
+
+### Compute
+| Command Example                                                                                         | Description                |
+| ------------------------------------------------------------------------------------------------------- | -------------------------- |
+| `gcloud compute instances list`, `gcloud compute instance-templates list`                               | List all instances         |
+| `gcloud compute instances describe "<instance_name>" --project "<project_name>" --zone <zone>`          | Show instance info         |
+| `gcloud compute instances stop instance-name`                                                           | Stop an instance           |
+| `gcloud compute instances start instance-name`                                                          | Start an instance          |
+| `gcloud compute instances create lab-1 --zone us-east4-c --machine-type=e2-standard-2`                  | Basic instance creation    |
+| `gcloud compute instances create vm1 --image image-1 --tags test --zone <zone> --machine-type f1-micro` | Create an instance         |
+| `gcloud compute instances create "preempt" --preemptible`                                               | Create premptible instance |
+| `gcloud compute ssh --project "<project_name>" --zone "<zone>" "<instance_name>"`                       | SSH to instance            |
+| `gcloud compute images list`                                                                            | List all images            |
+
+
+gcloud compute instances create ad-dc1 --machine-type n1-standard-2 \
+    --boot-disk-type pd-ssd \
+    --boot-disk-size 50GB \
+    --image-family windows-2016 --image-project windows-cloud \
+    --network ${vpc_name} \
+    --zone ${zone_1} --subnet private-ad-zone-1 \
+    --private-network-ip=10.1.0.100
+
+gcloud compute zones list
 
 gcloud --version
 Start a new gcloud configuration for the second user account. Inside the SSH session run:
 gcloud init --no-launch-browser
 Choose create a new configuration and put a config name
 
-How yto switch back to the first user?
+How to switch back to the first user?
 Change back to your first user's configuration (default). Inside the SSH session run:
 gcloud config configurations activate default
 
@@ -138,18 +173,7 @@ bq query --location=us --use_legacy_sql=false --use_cache=false \
 gcloud sql connect postgresql-cloudsql --user=postgres --quiet
 
 
-Google Cloud Config
-PURPOSE	COMMAND
-List projects	gcloud config list, gcloud config list project
-List projects	gcloud config list, gcloud config list project
-Show project info	gcloud compute project-info describe
-Switch project	gcloud config set project <project-id>
-Set the active account	gcloud config set account <ACCOUNT>
-Set default region	gcloud config set compute/region us-west
-Set default zone	gcloud config set compute/zone us-west1-b
-List configurations	gcloud config configurations list
-Activate configuration	gcloud config configurations activate
-gcloud compute zones list
+
 
 Google Cloud IAM
 PURPOSE	COMMAND
@@ -201,27 +225,7 @@ gcloud beta container clusters create private-cluster \
     --enable-ip-alias \
     --create-subnetwork ""
 
-Google Cloud Compute Engine
-PURPOSE	COMMAND
-List all instances	gcloud compute instances list , gcloud compute instance-templates list
-Show instance info	gcloud compute instances describe "<instance-name>" --project "<project-name>" --zone "us-west2-a"
-Stop an instance	gcloud compute instances stop instance-name
-Start an instance	gcloud compute instances start instance-name
-Create an instance	gcloud compute instances create vm1 --image image-1 --tags test --zone "<zone>" --machine-type f1-micro
-Create premptible instance	gcloud compute instances create "preempt" --preemptible
-SSH to instance	gcloud compute ssh --project "<project-name>" --zone "<zone-name>" "<instance-name>"
 
-gcloud compute instances create lab-1 --zone us-east4-c --machine-type=e2-standard-2
-
-gcloud compute instances create ad-dc1 --machine-type n1-standard-2 \
-    --boot-disk-type pd-ssd \
-    --boot-disk-size 50GB \
-    --image-family windows-2016 --image-project windows-cloud \
-    --network ${vpc_name} \
-    --zone ${zone_1} --subnet private-ad-zone-1 \
-    --private-network-ip=10.1.0.100
-
-Images list	gcloud compute images list
 
 Virtual Private Network
 PURPOSE	COMMAND
@@ -302,3 +306,5 @@ gcloud builds submit --tag gcr.io/$PROJECT/locust-tasks:latest docker-image/.
 
 Deploy the app to your project
 gcloud app deploy sample-webapp/app.yaml
+
+### List of regions & zones
