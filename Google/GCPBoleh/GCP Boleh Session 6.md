@@ -6,20 +6,20 @@ Link: https://events.withgoogle.com/gcpboleh-s6/
 
 ## AI/ML:
 ### Skill Badges
-- [ ] 5 + Challenge [Get Started with TensorFlow on Google Cloud](https://www.cloudskillsboost.google/course_templates/646)
-- [ ] 4 + Challenge [Build LookML Objects in Looker](https://www.cloudskillsboost.google/course_templates/639)
+- [ ] 4 + Challenge [Get Started with TensorFlow on Google Cloud](https://www.cloudskillsboost.google/course_templates/646)
+- [x] 4 + Challenge [Build LookML Objects in Looker](https://www.cloudskillsboost.google/course_templates/639)
 - [ ] 4 + Challenge [Detect Manufacturing Defects using Visual Inspection AI](https://www.cloudskillsboost.google/course_templates/644)
-- [~] 3 + Challenge [Analyze Speech and Language with Google APIs](https://www.cloudskillsboost.google/course_templates/634)
-- [~] 3 + Challenge [Analyze Images with the Cloud Vision API](https://www.cloudskillsboost.google/course_templates/633)
-- [~] 3 + Challenge [Analyze Sentiment with Natural Language API](https://www.cloudskillsboost.google/course_templates/667)
+- [x] 3 + Challenge [Analyze Speech and Language with Google APIs](https://www.cloudskillsboost.google/course_templates/634)
+- [x] 3 + Challenge [Analyze Images with the Cloud Vision API](https://www.cloudskillsboost.google/course_templates/633)
+- [x] 3 + Challenge [Analyze Sentiment with Natural Language API](https://www.cloudskillsboost.google/course_templates/667)
 - [ ] 4 + Challenge [Predict Soccer Match Outcomes with BigQuery ML](https://www.cloudskillsboost.google/course_templates/656)
-- [x] [Create ML Models with BigQuery ML](https://www.cloudskillsboost.google/course_templates/626)
+- [ ] ~~[Create ML Models with BigQuery ML](https://www.cloudskillsboost.google/course_templates/626)~~
  
 ### Regular Badges
-- [~] 1 + 1 Quiz [Integrating Applications with Gemini 1.0 Pro on Google Cloud](https://www.cloudskillsboost.google/paths/19/course_templates/980)
-- [x] [Intro to ML: Language Processing](https://www.cloudskillsboost.google/course_templates/740)
-- [x] [Intro to ML: Image Processing](https://www.cloudskillsboost.google/course_templates/739)
-- [x] [Generative AI Explorer - Vertex AI](https://www.cloudskillsboost.google/course_templates/723)
+- [x] 1 + 1 Quiz [Integrating Applications with Gemini 1.0 Pro on Google Cloud](https://www.cloudskillsboost.google/paths/19/course_templates/980)
+- [ ] ~~[Intro to ML: Language Processing](https://www.cloudskillsboost.google/course_templates/740)~~
+- [ ] ~~[Intro to ML: Image Processing](https://www.cloudskillsboost.google/course_templates/739)~~
+- [ ] ~~[Generative AI Explorer - Vertex AI](https://www.cloudskillsboost.google/course_templates/723)~~
 - [ ] 37 Video + 4 Lab + 4 Quiz [Introduction to AI and Machine Learning on Google Cloud](https://www.cloudskillsboost.google/course_templates/593)
 - [ ] 47 Video + 4 Lab + 5 Quiz [Google Cloud Big Data and Machine Learning Fundamentals](https://www.cloudskillsboost.google/course_templates/3)
 - [~] 20 Video + 4 Lab + 4 Quiz [Applying Machine Learning to your Data with Google Cloud](https://www.cloudskillsboost.google/course_templates/23)
@@ -31,10 +31,10 @@ Link: https://events.withgoogle.com/gcpboleh-s6/
 ## Infrastructure & Security:
 ### Skill Badges
 - [ ] 5 + Challenge [Create and Manage AlloyDB Databases](https://www.cloudskillsboost.google/course_templates/642)
-- [~] 4 + Challenge [Manage PostgreSQL Databases on Cloud SQL](https://www.cloudskillsboost.google/course_templates/652)
-- [~] 3 + Challenge [Monitor and Manage Google Cloud Resources](https://www.cloudskillsboost.google/course_templates/653)
-- [~] 3 + Challenge [Manage Kubernetes in Google Cloud](https://www.cloudskillsboost.google/course_templates/783)
-- [x] [Build Infrastructure with Terraform on Google Cloud](https://www.cloudskillsboost.google/course_templates/636)
+- [ ] 3 + Challenge [Manage PostgreSQL Databases on Cloud SQL](https://www.cloudskillsboost.google/course_templates/652)
+- [x] 3 + Challenge [Monitor and Manage Google Cloud Resources](https://www.cloudskillsboost.google/course_templates/653)
+- [x] 2 + Challenge [Manage Kubernetes in Google Cloud](https://www.cloudskillsboost.google/course_templates/783)
+- [ ] ~~[Build Infrastructure with Terraform on Google Cloud](https://www.cloudskillsboost.google/course_templates/636)~~
  
 ### Regular Badges
 - [~] 10 Lab [Baseline: Infrastructure](https://www.cloudskillsboost.google/course_templates/620)
@@ -46,11 +46,12 @@ Link: https://events.withgoogle.com/gcpboleh-s6/
   
 Note: If you already have the badge for `QUEST A` but the quest is updated with new labs, doing it will not update the quest completion date, hence no quest is completed.
 
-0 / 14 Quests completed
-0 / 6 Skill badges completed
+7 / 14 Total quests completed
+6 / 6 Skill badges completed
+1 / 8 Regular badges completed
 Conclusion: 6 Skills + 8 Regular
 
 Legend:
-x - Completed before this season
-/ - Completed in this sesason
+x - Completed in this season
 ~ - Choosing
+~~a~~ - Completed before this season
