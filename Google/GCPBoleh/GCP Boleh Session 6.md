@@ -20,13 +20,13 @@ Link: https://events.withgoogle.com/gcpboleh-s6/
 - [ ] ~~[Intro to ML: Language Processing](https://www.cloudskillsboost.google/course_templates/740)~~
 - [ ] ~~[Intro to ML: Image Processing](https://www.cloudskillsboost.google/course_templates/739)~~
 - [ ] ~~[Generative AI Explorer - Vertex AI](https://www.cloudskillsboost.google/course_templates/723)~~
-- [ ] 37 Video + 4 Lab + 4 Quiz [Introduction to AI and Machine Learning on Google Cloud](https://www.cloudskillsboost.google/course_templates/593)
-- [ ] 47 Video + 4 Lab + 5 Quiz [Google Cloud Big Data and Machine Learning Fundamentals](https://www.cloudskillsboost.google/course_templates/3)
-- [~] 20 Video + 4 Lab + 4 Quiz [Applying Machine Learning to your Data with Google Cloud](https://www.cloudskillsboost.google/course_templates/23)
-- [ ] 47 Video + 7 Lab + 4 Quiz [Production Machine Learning Systems](https://www.cloudskillsboost.google/course_templates/17)
-- [ ] 37 Video + 5 Lab + 6 Quiz [Smart Analytics, Machine Learning, and AI on Google Cloud](https://www.cloudskillsboost.google/course_templates/55)
-- [ ] 40 Video + 6 Lab [ML Pipelines on Google Cloud](https://www.cloudskillsboost.google/course_templates/191)
-- [~] 3 Video + 2 Lab + 1 Quiz [Gemini for Data Scientists and Analysts](https://www.cloudskillsboost.google/paths/236/course_templates/879)
+- [x] 2 Lab + 4 Quiz [Introduction to AI and Machine Learning on Google Cloud](https://www.cloudskillsboost.google/course_templates/593)
+- [ ] 4 Lab + 5 Quiz [Google Cloud Big Data and Machine Learning Fundamentals](https://www.cloudskillsboost.google/course_templates/3)
+- [x] 4 Lab + 4 Quiz [Applying Machine Learning to your Data with Google Cloud](https://www.cloudskillsboost.google/course_templates/23)
+- [ ] 7 Lab + 4 Quiz [Production Machine Learning Systems](https://www.cloudskillsboost.google/course_templates/17)
+- [ ] 5 Lab + 6 Quiz [Smart Analytics, Machine Learning, and AI on Google Cloud](https://www.cloudskillsboost.google/course_templates/55)
+- [ ] 6 Lab [ML Pipelines on Google Cloud](https://www.cloudskillsboost.google/course_templates/191)
+- [x] 2 Lab + 1 Quiz [Gemini for Data Scientists and Analysts](https://www.cloudskillsboost.google/paths/236/course_templates/879)
 
 ## Infrastructure & Security:
 ### Skill Badges
@@ -37,18 +37,18 @@ Link: https://events.withgoogle.com/gcpboleh-s6/
 - [ ] ~~[Build Infrastructure with Terraform on Google Cloud](https://www.cloudskillsboost.google/course_templates/636)~~
  
 ### Regular Badges
-- [~] 10 Lab [Baseline: Infrastructure](https://www.cloudskillsboost.google/course_templates/620)
-- [~] 30 Video + 6 Lab + 3 Quiz [Google Cloud Computing Foundations: Infrastructure in Google Cloud - Locales](https://www.cloudskillsboost.google/course_templates/182)
-- [ ] 44 Video + 7 Lab + 4 Quiz [Security Best Practices in Google Cloud](https://www.cloudskillsboost.google/course_templates/87)
-- [~] 5 Lab [Securing your Network with Cloud Armor](https://www.cloudskillsboost.google/course_templates/785)
-- [~] 20 Video + 4 Lab + 2 Quiz [Google Cloud Computing Foundations: Networking & Security in Google Cloud](https://www.cloudskillsboost.google/course_templates/155)
-- [~] 24 Video + 4 Lab + 3 Quiz [Mitigating Security Vulnerabilities on Google Cloud](https://www.cloudskillsboost.google/course_templates/88)
+- [x] 10 Lab [Baseline: Infrastructure](https://www.cloudskillsboost.google/course_templates/620)
+- [x] 6 Lab + 3 Quiz [Google Cloud Computing Foundations: Infrastructure in Google Cloud - Locales](https://www.cloudskillsboost.google/course_templates/182)
+- [ ] 7 Lab + 4 Quiz [Security Best Practices in Google Cloud](https://www.cloudskillsboost.google/course_templates/87)
+- [ ] 5 Lab [Securing your Network with Cloud Armor](https://www.cloudskillsboost.google/course_templates/785)
+- [x] 4 Lab + 2 Quiz [Google Cloud Computing Foundations: Networking & Security in Google Cloud](https://www.cloudskillsboost.google/course_templates/155)
+- [x] 4 Lab + 3 Quiz [Mitigating Security Vulnerabilities on Google Cloud](https://www.cloudskillsboost.google/course_templates/88)
   
 Note: If you already have the badge for `QUEST A` but the quest is updated with new labs, doing it will not update the quest completion date, hence no quest is completed.
 
-7 / 14 Total quests completed
+14 / 14 Total quests completed
 6 / 6 Skill badges completed
-1 / 8 Regular badges completed
+8 / 8 Regular badges completed
 Conclusion: 6 Skills + 8 Regular
 
 Legend:
