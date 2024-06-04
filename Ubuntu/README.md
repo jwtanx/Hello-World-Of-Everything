@@ -85,3 +85,11 @@ sudo chmod +x windows-shutdown.sh
 ```
 gnome-terminal --window-with-profile=Background -x sh -c 'echo -n YOUR_PASSWORD | xclip -sel clip ; sleep 0.1'
 ```
+
+## Adding content into a file without opening it
+```bash
+cat <<EOF >> /path/to/file
+This is a long long passage
+that I can write with my environment variable: ${USER}
+EOF
+```
