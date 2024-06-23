@@ -14,3 +14,4 @@ libenv
 *.exe
 *Test
 diagrams
+.DS_Store

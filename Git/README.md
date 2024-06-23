@@ -177,9 +177,31 @@ alias.ac !git add -A && git commit -m
 # Go to the branch you are working on and pull the latest patch
 git pull https://username@gerrit.domain.com/a/demo/hello_world refs/changes/08/22308/<new-patch-#> --rebase
 
+### GITLAB: Rebasing a patch
+https://docs.gitlab.com/ee/topics/git/git_rebase.html
+```bash
+git fetch origin main  # OR git checkout main && git pull
+git checkout my-branch
+git rebase origin/main # git rebase main
+
+# If merge conflicts exist:
+# Fix the conflicts in your editor.
+# Add the files:
+git add .
+
+# Continue the rebase:
+git rebase --continue
+
+# Force push your changes to the target branch, while protecting others’ commits:
+git push origin my-branch --force-with-lease
+```
+Or you can comment /rebase in the comment of the merge request comment section
+```
+/rebase
+```
+
 # Add new files and commit the new change
 git commit --amend
-
 
 ## Git Fork
 1. Checking the list of branches
