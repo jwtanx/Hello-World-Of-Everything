@@ -15,3 +15,5 @@ libenv
 *Test
 diagrams
 .DS_Store
+downloads/
+env/
