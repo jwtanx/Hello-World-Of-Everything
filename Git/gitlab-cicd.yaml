@@ -1,0 +1,108 @@
+stages:
+  - style
+  - test
+  - sync_dryrun
+  - sync
+
+image: python:3.10
+
+variables:
+  AWS_DEFAULT_REGION: ap-southeast-1
+  FILE_FILTER_REGEX: '\.py$$' # '\.py$$|\.json$$' for multiple file types
+
+before_script:
+  - pip install awscli --no-cache-dir
+
+check_pep8:
+  stage: style
+  before_script:
+    - pip install black==24.4.2 --no-cache-dir
+  script:
+    - black --check -l 79 dags/**/*.py || (echo "Please format your code using 'black -l 79 dags/**/*.py'" && exit 1)
+
+unit_test:
+  stage: test
+  before_script:
+    - pip install pytest==6.2.5 --no-cache-dir
+  script:
+    - pytest -v .
+  dependencies:
+    - check_pep8
+  except:
+    - main
+
+sync_dryrun:
+  stage: sync_dryrun
+  script:
+    - |
+      if [ "$CI_COMMIT_BRANCH" == "main" ]; then
+        LAST_MERGE_COMMIT=$(git log --merges -n 2 --pretty=format:"%H" | tail -n 1)
+      else
+        LAST_MERGE_COMMIT=$(git log --merges -n 1 --pretty=format:"%H")
+      fi
+    - echo $LAST_MERGE_COMMIT
+    # Get the list of modified and added python files and store them in a list
+    - MODIFIED_FILES=$(git diff --name-only --diff-filter=AM $LAST_MERGE_COMMIT | grep -E $FILE_FILTER_REGEX | grep -v "test_" || echo "")
+    - |
+      if [ -z "$MODIFIED_FILES" ]; then
+        echo "No new or modified files found."
+      else
+        for file in $MODIFIED_FILES; do aws s3 cp --dryrun "$file" "s3://project-dev-dags/mwaa/$file"; done
+      fi
+
+    # Get the list of deleted files
+    - DELETED_FILES=$(git diff --name-only --diff-filter=D $LAST_MERGE_COMMIT | grep -E $FILE_FILTER_REGEX | grep -v "test_" || echo "")
+    - |
+      if [ -z "$DELETED_FILES" ]; then
+        echo "No deleted files found."
+      else
+        for file in $DELETED_FILES; do aws s3 rm --dryrun "s3://project-dev-dags/mwaa/$file"; done
+      fi
+
+    dependencies:
+      - style
+      - unittest
+
+.template:sync:
+  script:
+    - LAST_MERGE_COMMIT=$(git log --merges -n 2 --pretty=format:"%H" | tail -n 1)
+    - echo $LAST_MERGE_COMMIT
+
+    # Get the list of modified and added python files and store them in a list
+    - MODIFIED_FILES=$(git diff --name-only --diff-filter=AM $LAST_MERGE_COMMIT | grep -E $FILE_FILTER_REGEX | grep -v "test_" || echo "")
+    - |
+      if [ -z "$MODIFIED_FILES" ]; then
+        echo "No new or modified files found."
+      else
+        for file in $MODIFIED_FILES; do aws s3 cp "$file" "s3://$BUCKET_NAME/mwaa/$file"; done
+      fi
+
+    # Get the list of deleted files
+    - DELETED_FILES=$(git diff --name-only --diff-filter=D $LAST_MERGE_COMMIT | grep -E $FILE_FILTER_REGEX | grep -v "test_" || echo "")
+    - |
+      if [ -z "$DELETED_FILES" ]; then
+        echo "No deleted files found."
+      else
+        for file in $DELETED_FILES; do aws s3 rm "s3://$BUCKET_NAME/mwaa/$file"; done
+      fi
+  stage: sync
+  when: manual
+  dependencies:
+    - sync_dryrun
+  only:
+    - main
+
+sync_stg:
+  # TODO: Add only in main branch because we are checking modified files from the
+  # last merge commit, the adding and removing of a single new files in the same branch
+  # will not be detected.
+  extends: .template:sync
+  variables:
+    BUCKET_NAME: project-dev-dags
+
+sync_prod:
+  extends: .template:sync
+  only:
+    - main
+  variables:
+    BUCKET_NAME: project-prod-dags
