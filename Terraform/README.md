@@ -118,6 +118,83 @@ terraform apply
 |                                                                              | Congifuration file stays clean and small                              |
 |                                                                              | Always know the current setup, because that is always the end results |
 
+## Steps (4 steps)
+1.  
+
+
+## Code Blocks
+### Providers
+- The most important element in Terraform
+- This isn't an resource but it provides you the access to the resources
+- Need to have this setup so that Terraform know where our resources should go 
+- Terraform uses providers to interact with infrastructure APIs
+- Providers are responsible for understanding API interactions and exposing resources
+- Example
+provider "aws" {
+```hcl
+  profile = "default"
+  region  = "us-west-2"
+}
+```
+
+### Resources
+#### AWS
+##### Storage
+- Represents a single piece of infrastructure
+- Each resource block describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components such as DNS records
+- Each resource block has two strings before the block: the resource type and the resource name
+- The resource type is the first argument to the resource block and corresponds to the provider's resource type
+- The resource name is the second argument and is a local name for the resource that must be unique within the module
+- The body of the resource block contains the arguments that are specific to the given resource type
+- The arguments within a resource block must be unique
+- The arguments within a resource block are typically required, optional, or computed
+- Example:
+```hcl
+<!--     resource_type  resource_name -->
+<!--           |            |         -->
+resource "aws_s3_bucket" "tf_course" {
+  bucket = "some-new-bucket-20240506"         }---» Arguments in key and value pairs
+  acl    = "private"                          }---» Arguments in key and value pairs
+}
+```
+- You see in the resource_type there is underscore between the provider and the resource, for example `aws_s3_bucket` and `aws` is the provider while `s3_bucket` is the resource
+NOTE: ACL: [Access Control List](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html)
+- Example 2: Separated configuration so that it can be freely changed without worrying the lost of data stored within the bucket
+```hcl
+resource "aws_s3_bucket" "example" {
+  bucket = "Learning-terraform.example.com"
+  acl = "public-read"
+  policy = file("policy.json")
+}
+
+resource "aws_s3_bucket_website_configuration" "example" {
+  <!-- Pointed to the resource above -->
+  bucket = aws_s3_bucket.example.bucket
+  index_document {
+  suffix = "index.html"
+  }
+}
+```
+
+##### VPC
+- Virtual Private Cloud
+- Network infrastructure that wires servers together
+- Example:
+```hcl
+resource "aws_vpc" "QA" {
+  cidr_block = "10.9.0.0/16"
+}
+
+resource "aws_vpc" "Staging"
+  cidr_block = "10.1.0.0/16"
+}
+
+resource "aws_vpc" "Prod" {
+  cidr_block = "10.2.0.0/16"
+}
+```
+
+
 ## Terraform Commands
 
 | Command                  | Description                                                             |
@@ -143,3 +220,9 @@ terraform apply
 | `terraform version`      | Show the current Terraform version                                      |
 | `terraform providers`    | Show the providers required for this configuration                      |
 
+## Terraform Functions
+- https://developer.hashicorp.com/terraform/language/functions
+
+## Reference
+- [Good foundation for learning Terraform](https://www.youtube.com/watch?v=YcJ9IeukJL8)
+- [Learning Terraform](https://www.linkedin.com/learning/learning-terraform-15575129) - Not recommended
