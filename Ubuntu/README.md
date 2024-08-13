@@ -88,8 +88,30 @@ gnome-terminal --window-with-profile=Background -x sh -c 'echo -n YOUR_PASSWORD 
 
 ## Adding content into a file without opening it
 ```bash
-cat <<EOF >> /path/to/file
+cat <<EOF>> /path/to/file
 This is a long long passage
 that I can write with my environment variable: ${USER}
 EOF
+```
+
+## Overwrite the content of a file
+```bash
+cat <<EOF> /path/to/file
+This is a long long passage
+EOF
+```
+
+## Getting only the filename, removing the path name
+https://stackoverflow.com/questions/9011233/for-files-in-directory-only-echo-filename-no-path
+```bash
+basename /path/to/file
+echo /path/to/file | rev | cut -d'/' -f1 | rev
+echo /path/to/file | awk -F/ '{print $NF}'
+echo /path/to/file | sed 's/.*\///'
+```
+OR
+```bash
+for file in /home/user/*; do
+  echo "${file##*/}"
+done
 ```
