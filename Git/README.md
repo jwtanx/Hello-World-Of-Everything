@@ -245,3 +245,80 @@ git remote set-url origin  $(echo $(git config --get remote.origin.url) | sed 's
 - git fsck: Check the database for errors.
 - git gc: Clean up and optimize the local repository.
 - git reflog: Record when refs were updated in the local repository, useful for recovering lost commits.
+
+## Getting the difference between two commits
+```bash
+# Old method
+# - MAIN_HEAD_COMMIT=$(git rev-parse --short main)
+# - git diff --name-only --diff-filter=AM $MAIN_HEAD_COMMIT | grep '\.py$'
+
+# New method
+git diff --name-only --diff-filter=AM main | grep '\.py$'
+MODIFIED_FILES=$(git diff --name-only --diff-filter=AM main | grep '\.py$')
+echo $MODIFIED_FILES
+echo $MODIFIED_FILES | while IFS= read -r file; do aws s3 cp --dryrun "$file" "s3://bucket/folder/$file"; do
+
+#Get the list of deleted files
+DELETED_FILES=$(git diff --name-only --diff-filter=D main | grep '\.py$')
+echo $DELETED_FILES
+echo $DELETED_FILES | while IFS= read -r file; do aws s3 rm --dryrun "s3://bucket/folder/$file"; done
+```
+
+## Using for loop (Will work most of the time as compared to while IFS=)
+https://ioflood.com/blog/bash-read-file-line-by-line/
+```bash
+for file in $MODIFIED_FILES; do aws s3 cp --dryrun "$file" "s3://bucket/folder/$file"; done
+```
+
+## Getting the name of current branch
+[Reference](https://stackoverflow.com/questions/6245570/how-do-i-get-the-current-branch-name-in-git)
+```bash
+# Old method
+git rev-parse --abbrev-ref HEAD
+
+# New method
+git branch --show-current
+```
+
+## Getting the last merge commit
+https://stackoverflow.com/questions/4898837/how-to-find-last-merge-in-git
+```bash
+git log --merges -n 1 --pretty=format:"%H"
+git log --merges -1 --pretty=format:"%H"
+```
+
+## Gitlab CICD variable escape character
+https://stackoverflow.com/questions/48870664/escape-char-in-gitlab-secret-variables
+```yaml
+variables:
+  APPPOOL_PWD: 'blabla!foo$bar'
+
+script:
+  - echo $APPPOOL_PWD # will be printed as blabla
+```
+
+To fix this:
+```yaml
+variables:
+  APPPOOL_PWD: 'blabla^^!foo$$bar'
+
+script:
+  - echo $APPPOOL_PWD # will be printed as blabla!foo$bar
+```
+
+### Gitlab CICD multiline script
+https://stackoverflow.com/questions/42560083/multiline-yaml-string-for-gitlab-ci-gitlab-ci-yml
+```yaml
+build:
+  stage: build
+  script:
+    - echo "Building the app"
+    - |
+      if [ -z "$MODIFIED_FILES" ]; then
+        echo "No new or modified files found."
+      else
+        echo $MODIFIED_FILES | while IFS= read -r file; do aws s3 cp "$file" "s3://bucket/folder/$file"; done
+      fi
+    - docker ps -a
+  allow_failure: true
+```
