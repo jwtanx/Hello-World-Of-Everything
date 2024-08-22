@@ -20,3 +20,30 @@ print(f"Run ID: {task_instance.run_id}")  # Run ID: scheduled__2023-08-09T00:00:
 print(f"Duration: {task_instance.duration}")  # Duration: 0.972019
 print(f"DAG Run queued at: {dag_run.queued_at}")  # 2023-08-10 00:00:01+02:20
 ```
+
+## Render template as native object
+Param as object and not string
+```py
+with DAG(
+		dag_id='test',
+		description='testing',
+		default_args=DEFAULT_ARGS,
+		params={
+			'grocery_list': [
+				'apple',
+				'banana',
+				'carrot'
+			]
+		},
+		render_template_as_native_obj=True,
+		schedule_interval='0 6 * * 4',
+		start_date=datetime(2024, 8, 21, tzinfo=timezone.utc),
+		max_active_runs=1,
+		catchup=False,
+		on_success_callback=Messager.on_success_callback,
+		on_failure_callback=Messager.on_failure_callback,
+		tags=['test']
+) as dag:
+	...
+```
+`render_template_as_native_obj` need to be set to `True` in order to render the template as native object or else the grocery_list will be rendered as string.
