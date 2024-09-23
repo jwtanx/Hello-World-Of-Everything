@@ -42,6 +42,25 @@ echo -n "cGFzc3dvcmQ=" | base64 -d
 ```
 -n: no new line
 
+## Double pipe to run another command
+```bash
+# If the first command fails, run the second command
+command1 || command2
+```
+
+## Suppressing regular output, error output or both
+```bash
+# Suppressing regular output
+command > /dev/null
+
+# Suppressing error output
+command 2> /dev/null
+
+# Suppressing both
+command &> /dev/null
+```
+
+
 ## Adding startup sound
 https://askubuntu.com/questions/1450618/how-to-enable-startup-sound-in-ubuntu-22-04-1-lts
 1. Search Startup Applications
@@ -114,4 +133,28 @@ OR
 for file in /home/user/*; do
   echo "${file##*/}"
 done
+```
+
+## Connect to a port, can't use ping
+```bash
+nc -zv google.com 443
+telnet google.com 443
+```
+
+## GREP - Global Regular Expression Print
+```bash
+# Find all the files that contain the word "hello"
+grep -r "hello" /path/to/directory
+
+# Find the pattern in any command
+history | grep "pattern"
+```
+
+## EGREP - Extended GREP
+```bash
+# Find all the files that contain the word "hello" or "world"
+egrep -r "hello|world" /path/to/directory
+
+# Multiple patterns
+ls -la | egrep "hello|world|goodbye"
 ```
