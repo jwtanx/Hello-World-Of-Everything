@@ -18,7 +18,7 @@ module.exports.myFunction = function () {
   console.log(a);
 };
 
-/* 
+/*
 How to call this function "myFunction" in the terminal?
 https://stackoverflow.com/questions/30782693/run-function-in-script-from-command-line-node-js/36480927
 
@@ -65,3 +65,70 @@ console.log(fruits.choice());
 // https://stackoverflow.com/questions/4550505/getting-a-random-value-from-a-javascript-array
 const random = Math.floor(Math.random() * months.length);
 console.log(random, months[random]);
+
+
+// Sanitizing exception
+class ExceptionHandler {
+  constructor(exception) {
+      this.exception = exception;
+      this.redactWord = '[REDACTED]';
+      return this.handleException();
+  }
+
+  sanitizeHeaders() {
+      // Define a list of sensitive headers
+      let sensitiveHeaders = ['Authorization', 'Cookie', 'Proxy-Authorization', 'Set-Cookie'];
+
+      // Remove sensitive headers
+      for (let header of sensitiveHeaders) {
+          if (this.exception.error?.config?.headers[header]) {
+              this.exception.error.config.headers.header = this.redactWord;
+          }
+      }
+  }
+
+  removeSensitiveInfo() {
+      // Define a list of sensitive words
+      let sensitiveWords = ['password', 'username', 'secret', 'api_key', 'token', 'bearer'];
+
+      // Get the exception message
+      let exceptionMessage = this.exception.message;
+
+      // Replace sensitive words
+      for (let word of sensitiveWords) {
+          let regex = new RegExp(word, 'gi');
+          exceptionMessage = exceptionMessage.replace(regex, this.redactWord);
+      }
+
+      // If IP addresses are considered sensitive
+      exceptionMessage = exceptionMessage.replace(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/g, this.redactWord);
+
+      // If bearer tokens are considered sensitive
+      exceptionMessage = exceptionMessage.replace(/Bearer \S*/g, this.redactWord);
+
+      // If URLs are considered sensitive
+      exceptionMessage = exceptionMessage.replace(/http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/g, this.redactWord);
+
+      this.exception.message = exceptionMessage;
+  }
+
+  handleException() {
+      this.sanitizeHeaders();
+      this.removeSensitiveInfo();
+      return this.exception;
+  }
+}
+
+module.exports = ExceptionHandler;
+
+// ================== //
+// How to use the class
+const ExceptionHandler = require('./ExceptionHandler');
+
+try {
+  throw new Error('10.123.232.221');
+}
+catch (error) {
+  let sanitizedError = new ExceptionHandler(error);
+  console.log(sanitizedError);
+}
