@@ -47,3 +47,36 @@ with DAG(
 	...
 ```
 `render_template_as_native_obj` need to be set to `True` in order to render the template as native object or else the grocery_list will be rendered as string.
+
+## Task using loops
+https://stackoverflow.com/a/71154920
+```py
+from datetime import datetime
+
+from airflow import DAG
+from airflow.models.baseoperator import chain
+from airflow.operators.python import PythonOperator
+
+# Replace with your function logic
+def hourly_job():
+    return 'hourly'
+
+
+# Replace with your function logic
+def daily_job():
+    return 'daily'
+
+
+with DAG(dag_id='test', start_date=datetime(2022, 2, 16)) as dag:
+    hours = ['01', '02', '03']
+    op_list = [
+        PythonOperator(task_id=f"task_hour_{hour}", python_callable=hourly_job, op_kwargs={"hour": hour})
+        for hour in hours]
+    chain(*op_list)
+    t2 = PythonOperator(
+        task_id="daily",
+        python_callable=daily_job
+    )
+
+    op_list[-1] >> t2
+```
