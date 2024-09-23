@@ -156,3 +156,103 @@ CREATE TABLE public.sortkey_test SORTKEY (name, datetime) AS (
 )
 SELECT * FROM public.sortkey_test;
 ```
+
+https://docs.aws.amazon.com/redshift/latest/dg/JSON_EXTRACT_PATH_TEXT.html
+
+Replace Azure Synapse from JSON_VALUE
+JSON_VALUE(other_relevant_columns, '$.country') AS country,
+to
+JSON_EXTRACT_PATH_TEXT(other_relevant_columns, 'country') AS country,
+
+## GRANT
+### Checking if there is usage of a table on a role
+```sql
+SELECT has_schema_privilege('user_a', 'schema_name', 'USAGE');
+SELECT has_table_privilege('user_a', 'schema_name.table_name', 'SELECT');
+```
+
+### Granting normal DML
+```sql
+GRANT INSERT, UPDATE, DELETE, DROP ON ALL TABLES IN SCHEMA
+    schema_a, schema_b
+TO ROLE role_a -- or TO "user_a"
+
+
+GRANT CREATE ON SCHEMA
+    schema_a, schema_b
+TO ROLE role_a -- or TO "user_a"
+```
+
+### Revoking normal DML
+```sql
+REVOKE INSERT, UPDATE, DELETE, DROP ON ALL TABLES IN SCHEMA
+    schema_a, schema_b
+FROM ROLE role_a
+```
+
+### USAGE must be granted on schema level to access the tables
+```sql
+GRANT USAGE ON SCHEMA
+    schema_a, schema_b
+TO ROLE role_a
+```
+
+### Revoking USAGE
+```sql
+REVOKE USAGE ON SCHEMA
+    schema_a, schema_b
+FROM ROLE role_a
+```
+
+### Granting assumed role
+```sql
+GRANT ASSUMEROLE
+    ON default
+    TO "user_a"
+    FOR COPY, UNLOAD;
+```
+
+### Granting a role to another role
+```sql
+GRANT ROLE "read_all_access_role" TO "user_a"
+GRANT ROLE "read_all_access_role" TO role_a
+```
+
+### Get owner of the table
+```
+SELECT tablename, tableowner FROM pg_tables
+```
+
+## Checking all perms
+```sql
+
+-- Check if the user has the usage / create / alter perm on the schema
+SELECT HAS_SCHEMA_PRIVILEGE('user_a', 'schema', 'USAGE')
+SELECT HAS_SCHEMA_PRIVILEGE('user_a', 'schema', 'CREATE')
+SELECT HAS_SCHEMA_PRIVILEGE('user_a', 'schema', 'ALTER')
+
+-- Check if the user has the select / insert / update / delete / drop perm on the table
+SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'SELECT')
+SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'INSERT')
+SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'UPDATE')
+SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'DELETE')
+SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'DROP')
+
+-- Check user access control for each schema
+SELECT TOP 10 * FROM pg_namespace WHERE nspname LIKE '%schema%'
+
+-- Check who is the owner of the table
+SELECT TOP 10 * FROM pg_tables WHERE schemaname LIKE '%schema%'
+
+-- Check schema privileges
+SELECT TOP 10 * FROM svv_schema_privileges WHERE namespace_name LIKE '%schema%';
+
+-- Check table privileges
+SELECT TOP 10 * FROM svv_relation_privileges WHERE namespace_name LIKE '%schema%'
+
+-- Check if a role is a member of another role
+role_is_member_of('role_name_to_check',  'granted_role_name')
+
+-- Check if a user is a member of a role
+user_is_member_of('user_name',  'granted_role_name')
+```
