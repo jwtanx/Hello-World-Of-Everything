@@ -1,7 +1,48 @@
 REMINDER="\n`date`\n\n==================\nGOOD DAY J.W. TAN!\n==================\n\nWhen in doubt, hard code!\n應 無 所 住 , 而 生 其 心\n"
 
 # Prefix
-PS1="%F{208}%n%F{037}@windows-xp %1 %F{255}λ %F{255}"
+# PS1="%F{208}%n%F{037}@windows-xp %1 %F{255}λ %F{255}"
+# PS1="%F{208}%n%F{037}@windows-xp %1 %F{255}[$(date + '%H:%M:%S')] λ %F{255}"
+
+# update_prompt() {
+#   PS1="%F{208}%n%F{037}@windows-xp %1 %F{255}[$(date + '%H:%M:%S')] λ %F{255}"
+# }
+
+previous_time=$(date +%s)
+unset VIRTUAL_ENV
+
+update_prompt() {
+  local current_time=$(date +%s)
+  local hour=$(date +'%H')
+  local time_color="%F{255}"
+
+  # Calculate the time difference in seconds
+  local time_diff=$((current_time - previous_time))
+
+  # Update the previous time
+  previous_time=$current_time
+
+  # Convert time difference to hours, minutes, and seconds
+  local hours=$((time_diff / 3600))
+  local minutes=$((time_diff % 3600 / 60))
+  local seconds=$((time_diff % 60))
+
+  # Format the time difference as hh:mms:ss
+  local diff_string=$(printf "%02d:%02d:%02d" $hours $minutes $seconds)
+
+  if [ "$hour" -eq 16 ]; then
+    time_color="%F{227}"  # yellow
+  elif [ "$hour" -eq 17 || "$hour" -gt 21 ]; then
+    time_color="%F{196}"  # red
+  else
+    time_color="%F{255}"  # white
+  fi
+  
+  PS1="${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}%F{208}%n%F{037}@windows-xp %1 ${time_color}[$(date +'%H:%M:%S') %F{255}δ ${diff_string}] ⌘ %F{255}"
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd update_prompt
 
 # Bindkey
 # bindkey '^H' backward-kill-word
@@ -89,3 +130,7 @@ function buka() {
 
 echo -e $REMINDER
 complete -C ~/bin/terraform terraform
+
+function kill_port() {
+  kill -9 $(lsof -t -i:$1)
+}
