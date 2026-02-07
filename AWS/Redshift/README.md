@@ -238,6 +238,16 @@ SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'UPDATE')
 SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'DELETE')
 SELECT HAS_TABLE_PRIVILEGE('user_a', 'schema.table', 'DROP')
 
+-- Check if the user has the select / insert / update / delete / drop perm on all tables in the schema
+SELECT usename,
+HAS_TABLE_PRIVILEGE(usename, 'schema.table', 'SELECT') AS can_select,
+HAS_TABLE_PRIVILEGE(usename, 'schema.table', 'INSERT') AS can_insert,
+HAS_TABLE_PRIVILEGE(usename, 'schema.table', 'UPDATE') AS can_update,
+HAS_TABLE_PRIVILEGE(usename, 'schema.table', 'DELETE') AS can_delete,
+HAS_TABLE_PRIVILEGE(usename, 'schema.table', 'DROP') AS can_drop
+FROM pg_user
+ORDER BY usename;
+
 -- Check user access control for each schema
 SELECT TOP 10 * FROM pg_namespace WHERE nspname LIKE '%schema%'
 
@@ -255,4 +265,84 @@ role_is_member_of('role_name_to_check',  'granted_role_name')
 
 -- Check if a user is a member of a role
 user_is_member_of('user_name',  'granted_role_name')
+```
+
+## Validating the datatypes between view and its materialized table
+```sql
+-- Validating the data types and order of columns between a table and a view
+SELECT
+    T.TABLE_NAME AS table_name,
+    V.TABLE_NAME AS view_name,
+    T.COLUMN_NAME AS column_name,
+    T.DATA_TYPE AS table_data_type,
+    V.DATA_TYPE AS view_data_type,
+    T.ORDINAL_POSITION AS table_ordinal_position,
+    V.ORDINAL_POSITION AS view_ordinal_position
+FROM INFORMATION_SCHEMA.COLUMNS AS T
+JOIN INFORMATION_SCHEMA.COLUMNS AS V
+    ON T.COLUMN_NAME = V.COLUMN_NAME
+WHERE T.TABLE_SCHEMA = 'SCHEMA_NAME'
+    AND V.TABLE_SCHEMA = 'SCHEMA_NAME'
+    AND T.TABLE_NAME = 'TABLE_NAME'
+    AND V.TABLE_NAME = 'VIEW_NAME'
+    AND (
+        T.ORDINAL_POSITION != V.ORDINAL_POSITION
+        OR T.DATA_TYPE != V.DATA_TYPE
+    )
+ORDER BY
+    T.ORDINAL_POSITION;
+```
+
+## Stored Procedure
+### Alter schema owner
+If you do not have superuser permission, you cannot change the owner, even if youa re the owner of the schema.
+```sql
+CREATE SCHEMA schema_name;
+ALTER SCHEMA schema_name OWNER TO new_owner;
+-- Permission denied: You must be a superuser to alter the owner of schema
+```
+
+To solve this, we can create a stored procedure and create it using a superuser
+```sql
+CREATE OR REPLACE PROCEDURE admin.sp_alter_schema_owner(
+    schema_name TEXT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    r RECORDS;
+    -- Can add more variables here, eg: new_owner VARCHAR(255);
+BEGIN
+    IF SPLIT(schema_name, '_')[0] IN ('public', 'private') THEN
+        RAISE EXCEPTION 'Schema name must be in the format schema_name';
+    ELSE
+        FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = schema_name) LOOP
+            RAISE NOTICE 'ALTER TABLE %.% OWNER TO "new_owner"', schema_name, r.tablename;
+            EXECUTE 'ALTER TABLE ' || schema_name || '.' || r.tablename || ' OWNER TO "new_owner"';
+        END LOOP;
+        FOR r IN (SELECT viewname FROM pg_views WHERE schemaname = schema_name) LOOP
+            RAISE NOTICE 'ALTER VIEW %.% OWNER TO "new_owner"', schema_name, r.viewname;
+            EXECUTE 'ALTER VIEW ' || schema_name || '.' || r.viewname || ' OWNER TO "new_owner"';
+        END LOOP;
+        RAISE NOTICE 'ALTER SCHEMA % OWNER TO "new_owner"', schema_name;
+        EXECUTE 'ALTER SCHEMA ' || schema_name || ' OWNER TO "new_owner"';
+    END IF;
+END;
+$$ SECURITY DEFINER;
+
+GRANT EXECUTE ON PROCEDURE admin.sp_alter_schema_owner TO ROLE role_name;
+```
+
+NOTE:
+- SECURITY DEFINER allows the procedure to be executed with the privileges of the user who created it (superuser), rather than the user who calls it.
+- SECURITY INVOKER is the default behavior, where the procedure runs with the privileges of the user who calls it.
+- I have tried on setting the EXECUTE 'CALL admin.f_get_scheame_owner('schema_name')' inside the procedure, but it gives error "cannot call a procedure from within a procedure". EXECUTE command can only run SQL statements, not PL/pgSQL calls.
+
+### Get the list of owner of the stored procedures
+```sql
+SELECT p.proname sp_name, n.nspname sp_schema, p.proargnames sp_args, p.proowner owner_id, u.usename owner_name
+FROM pg_catalog.pg_namespace n
+JOIN pg_catalog.pg_proc p ON n.oid = p.pronamespace
+JOIN pg_user pu on p.proowner = pu.usesysid
+WHERE p.proowner > 1;
 ```
