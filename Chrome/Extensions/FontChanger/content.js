@@ -1,11 +1,16 @@
 var root = document.documentElement;
 
 // Jupyter
-var currentFontFamily = getComputedStyle(root).getPropertyValue('--jp-code-font-family-default');
+var fontFamily = '--jp-code-font-family-default';
+var currentFontFamily = getComputedStyle(root).getPropertyValue(fontFamily);
 var newFontFamily = currentFontFamily === 'Jetbrains Mono' ? '' : 'Jetbrains Mono';
-root.style.setProperty('--jp-code-font-family-default', newFontFamily);
+root.style.setProperty(fontFamily, newFontFamily);
 
 // Gerrit
-currentFontFamily = getComputedStyle(root).getPropertyValue('--monospace-font-family');
+fontFamily = '--monospace-font-family';
+currentFontFamily = getComputedStyle(root).getPropertyValue(fontFamily);
 newFontFamily = currentFontFamily === 'Jetbrains Mono' ? '' : 'Jetbrains Mono';
-root.style.setProperty('--monospace-font-family', newFontFamily);
+root.style.setProperty(fontFamily, newFontFamily);
+
+// Redshift Query Editor
+document.querySelector('div.view-lines').style.fontFamily = 'Jetbrains Mono';
