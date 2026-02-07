@@ -1308,6 +1308,13 @@ L6F           FOUR        [val4]           0           1
 U6F    THREE\nFIVE  [val3, val5]           1           0
 """
 
+# Getting count after groupby
+df.groupby(["Class"]).size().reset_index(name="count_of_class")
+  Class  count_of_class
+0   5S1                2
+1   L6F                1
+2   U6F                2
+
 ```
 
 ## JOINING TWO DATAFRAME BASED ON AN INTERSECTING COLUMNS
@@ -1338,6 +1345,33 @@ print(catalogue)
 0  A01   apple   2.99
 1  B01  banana   1.99
 """
+```
+
+## MERGING TWO DATAFRAMES AND SEE THE DIFF
+```py
+import pandas as pd
+
+df1 = pd.DataFrame({
+    'key': ['A', 'B', 'C', 'D']
+    'val': [1, 2, 3, 4],
+})
+
+df2 = pd.DataFrame({
+    'key': ['A', 'B', 'E', 'F'], # Difference here
+    'val': [1, 2, 7, 8], # Difference here
+})
+
+df = pd.merge(df1, df2, on='key', how='outer', suffixes=('_df1', '_df2'), indicator=True)
+
+df_diff = df[df['_merge'] != 'both']
+
+print(df_diff)
+"""
+  key  val_df1  val_df2      _merge 
+2   C      3.0      NaN   left_only
+3   D      4.0      NaN   left_only
+4   E      NaN      7.0  right_only
+5   F      NaN      8.0  right_only
 ```
 
 ## JOINING TWO STRING FROM TWO COLUMNS TOGETHER (ADDING, CONCATENATE STRING)
